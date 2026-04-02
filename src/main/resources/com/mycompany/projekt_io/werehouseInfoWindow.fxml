@@ -1,8 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- WARNING!!! THIS IS A TEMPORARY TEMPLATE, NOT A FINISHED PRODUCT!!! POSSIBILITY OF ADDING SEPERATE INFO WINDOWS IN THE FUTURE!!-->
+<!-- imports -->
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
+<!-- -->
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.mycompany.projekt_io.WerehouseInfoWindowController">
-    
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WerehouseInfoWindowController">
+
+    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- SIDEBAR -->
+        <VBox prefWidth="83.0" style="-fx-background-color: #52658F;">
+
+            <!-- LOGO -->
+            <VBox alignment="CENTER" prefHeight="83.0" spacing="10.0">
+                <Circle fill="#333a56" radius="24.0" />
+            </VBox>
+
+            <!-- Przyciski -->
+            <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="pacButton" maxWidth="60.0" onAction="#handlePacButton" text="PAC" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
+                <Region VBox.vgrow="ALWAYS" />
+            </VBox>
+
+            <!-- TIME AND DATE -->
+            <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
+                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">
+                    <font><Font size="5.0" /></font>
+                </Label>
+                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD">
+                    <font><Font size="5.0" /></font>
+                </Label>
+            </VBox>
+
+        </VBox>
+        <!-- MAIN -->
+        <AnchorPane HBox.hgrow="ALWAYS">
+         <children>
+            <HBox prefHeight="400.0" prefWidth="161.0">
+               <children>
+                  <AnchorPane prefHeight="400.0" prefWidth="162.0">
+                     <children>
+                        <Rectangle fx:id="shelficon" fill="#aec1d1" height="175.0" layoutX="48.0" layoutY="42.0" stroke="#333333" strokeWidth="0" width="67.0" />
+                        <PieChart fx:id="shelfPieChart" layoutX="-18.0" layoutY="235.0" prefHeight="150" prefWidth="180" />
+                        <Label layoutX="63.0" layoutY="14.0" text="NR/ID" />
+                     </children>
+                  </AnchorPane>
+               </children></HBox>
+            
+            <HBox layoutX="166.0" prefHeight="400.0" prefWidth="351.0">
+               <children>
+                  <AnchorPane prefHeight="400.0" prefWidth="330.0">
+                     <children>
+                        <ScrollPane layoutX="7.0" layoutY="190.0" prefHeight="196.0" prefWidth="330.0">
+                           <content>
+                              <TableView fx:id="table1" prefHeight="200.0" prefWidth="314.0">
+                                <columns>
+                                  <TableColumn fx:id="table1Col1" prefWidth="75.0" text="C1" />
+                                  <TableColumn fx:id="table1Col2" prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="164.0" prefWidth="330.0">
+                           <content>
+                              <TableView fx:id="table2" prefHeight="200.0" prefWidth="314.0">
+                                 <columns>
+                                    <TableColumn fx:id="table2Col1" prefWidth="75.0" text="C1" />
+                                    <TableColumn fx:id="table2Col2" prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </children></HBox>
+         </children></AnchorPane>
+
+    </HBox> 
 </AnchorPane>

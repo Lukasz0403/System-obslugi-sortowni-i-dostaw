@@ -42,6 +42,13 @@ public class PackageTableWindowController implements Initializable {
     private Button pacButton;
 
     @FXML
+    private Button userButton;
+    
+    // MAIN BUTTONS
+    @FXML
+    private Button manageButton;
+        
+    @FXML
     private Button addButton;
 
     // TABLE
@@ -55,17 +62,22 @@ public class PackageTableWindowController implements Initializable {
     private TableColumn<PackageItem, String> shelfColumn;
 
     @FXML
-    private TableColumn<PackageItem, String> serialColumn;
-
-    @FXML
     private TableColumn<PackageItem, String> sizeColumn;
+    
+    @FXML
+    private TableColumn<PackageItem, Double> weightColumn;
 
     @FXML
-    private TableColumn<PackageItem, String> regionColumn;
+    private TableColumn<PackageItem, String> senregionColumn;
+    
+    @FXML
+    private TableColumn<PackageItem, String> recregionColumn;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // aktualizacja czasu i daty
+        
+        // TIME AND DATE
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -80,17 +92,18 @@ public class PackageTableWindowController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        // Inicjalizacja kolumn tabeli
+        // TABLE INIT
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         shelfColumn.setCellValueFactory(new PropertyValueFactory<>("shelf"));
-        serialColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
-        regionColumn.setCellValueFactory(new PropertyValueFactory<>("region"));
+        weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
+        senregionColumn.setCellValueFactory(new PropertyValueFactory<>("senRegion"));
+        recregionColumn.setCellValueFactory(new PropertyValueFactory<>("recRegion"));
 
-        // przykładowe dane
+        // TEMP DATA
         packageTable.getItems().addAll(
-            new PackageItem(1, "A1", "123456", "M", "PL"),
-            new PackageItem(2, "B2", "987654", "S", "DE")
+            new PackageItem(1, "A1", "M", 2.0, "Katowice", "Gliwice"),
+            new PackageItem(2, "B2", "S", 0.5, "Gliwice", "Katowice")
         );
     }
 
@@ -106,11 +119,22 @@ public class PackageTableWindowController implements Initializable {
     }
 
     @FXML
+    private void handleUserButton() {
+        loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
+    }
+    
+    // MAIN BUTTONS
+        @FXML
     private void handleAddButton() {
         loadWindow("/com/mycompany/projekt_io/packageAddWindow.fxml");
     }
+    
+        @FXML
+    private void handlePacManButton() {
+        loadWindow("/com/mycompany/projekt_io/packageManageWindow.fxml");
+    }
 
-    // Metoda pomocnicza do ładowania nowego FXML
+    // FXML LOAD METHOD
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -124,26 +148,29 @@ public class PackageTableWindowController implements Initializable {
         }
     }
 
-    // Klasa pomocnicza do reprezentacji wiersza tabeli
+    // TABLE REPRESENTATION CLASS
     public static class PackageItem {
         private final Integer id;
         private final String shelf;
-        private final String serialNumber;
         private final String size;
-        private final String region;
+        private final Double weight;
+        private final String senregion;
+        private final String recregion;
 
-        public PackageItem(Integer id, String shelf, String serialNumber, String size, String region) {
+        public PackageItem(Integer id, String shelf, String size, Double weight, String senregion, String recregion) {
             this.id = id;
             this.shelf = shelf;
-            this.serialNumber = serialNumber;
             this.size = size;
-            this.region = region;
+            this.weight = weight;
+            this.senregion = senregion;
+            this.recregion = recregion;
         }
 
         public Integer getId() { return id; }
         public String getShelf() { return shelf; }
-        public String getSerialNumber() { return serialNumber; }
         public String getSize() { return size; }
-        public String getRegion() { return region; }
+        public Double getWeight() { return weight; }
+        public String getSenRegion() { return senregion; }
+        public String getRecRegion() { return recregion; }
     }
 }

@@ -63,8 +63,8 @@ public class MainWindowController implements Initializable {
     }
 
     @FXML
-    private void handleAddButton() {
-        loadWindow("/com/mycompany/projekt_io/packageAddWindow.fxml");
+    private void handleUserButton() {
+        loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
 
     // Metoda pomocnicza do ładowania nowego FXML

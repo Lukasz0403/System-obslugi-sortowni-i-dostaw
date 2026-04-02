@@ -18,42 +18,35 @@
 
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-        <!-- SIDEBAR  -->
-        <VBox prefHeight="400.0" prefWidth="83.0" style="-fx-background-color: #52658F;">
-            
-           <!-- LOGO PLACEHOLDER -->
-           <VBox alignment="CENTER" prefHeight="83.0" prefWidth="83.0" spacing="10.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <Circle fill="#333a56" radius="24.0" />
-           </VBox>
-           
-           <!-- BUTTONS -->
-            <VBox prefHeight="270.0" prefWidth="83.0" alignment="CENTER">
-                <children>
-                    <Region VBox.vgrow="ALWAYS"/>
-                    <Button fx:id="magButton" text="MAG" maxWidth="60.0" onAction="#handleMagButton"/>
-                    <Region VBox.vgrow="ALWAYS"/>
-                    <Button fx:id="pacButton" text="PAC" maxWidth="60.0" onAction="#handlePacButton"/>
-                    <Region VBox.vgrow="ALWAYS"/>
-                    <Button fx:id="addButton" text="ADD" maxWidth="60.0" onAction="#handleAddButton"/>
-                    <Region VBox.vgrow="ALWAYS"/>
-                </children>
-            </VBox>
-           
-           <!-- TIME AND DATE -->
-            <VBox alignment="CENTER" prefHeight="40.0" spacing="2.0" style="-fx-background-color: #52658F; -fx-padding: 0 15 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <!-- SIDEBAR -->
+        <VBox style="-fx-background-color: #52658F;" prefWidth="83.0">
 
-                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">
-               <font>
-                  <Font size="5.0" />
-               </font></Label>
-                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD">
-                    <font>
-                       <Font size="5.0" />
-                    </font>
+            <!-- LOGO -->
+            <VBox alignment="CENTER" prefHeight="83.0" spacing="10.0">
+                <Circle fill="#333a56" radius="24.0" />
+            </VBox>
+
+            <!-- Przyciski -->
+            <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="magButton" text="MAG" maxWidth="60.0" onAction="#handleMagButton"/>
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="pacButton" text="PAC" maxWidth="60.0" onAction="#handlePacButton"/>
+                <Region VBox.vgrow="ALWAYS"/>
+                <Button fx:id="addButton" text="USER" maxWidth="60.0" onAction="#handleUserButton"/>
+                <Region VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <!-- TIME AND DATE -->
+            <VBox alignment="CENTER" spacing="2.0" style="-fx-padding: 0 15 5 15;" maxWidth="Infinity">
+                <Label fx:id="timeLabel" text="HH:mm" style="-fx-text-fill: white; -fx-font-size: 10px;">
+                    <font><Font size="5.0"/></font>
                 </Label>
-
+                <Label fx:id="dateLabel" text="YYYY-MM-DD" style="-fx-text-fill: white; -fx-font-size: 10px;">
+                    <font><Font size="5.0"/></font>
+                </Label>
             </VBox>
-            
+
         </VBox>
 
         <!-- MAIN -->

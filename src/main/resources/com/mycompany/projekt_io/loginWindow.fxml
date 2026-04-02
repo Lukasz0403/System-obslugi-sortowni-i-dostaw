@@ -26,8 +26,11 @@
         </VBox>
         
         <!-- LOGO PLACEHOLDER -->
-         <VBox alignment="CENTER" prefHeight="262.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <Circle fill="#333a56" radius="59.0" />
+         <VBox alignment="CENTER" prefHeight="262.0" prefWidth="600.0" spacing="10.0" 
+            AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" 
+            AnchorPane.topAnchor="0.0"
+            mouseTransparent="true">
+                <Circle fill="#333a56" radius="59.0" />
         </VBox>
         
         <!-- TASKBAR -->
