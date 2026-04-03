@@ -4,10 +4,14 @@
  */
 package com.mycompany.projekt_io.core.database;
 
+import com.mycompany.projekt_io.datamodel.User;
+import java.util.List;
+
 /**
  *
- * @author mateu
+ * @author Radosław
  */
-public class ConnectDatabaseSingle {
-    
+public interface UserDAOInterface {
+    User getUser(String login);
+    List<User> getUsers();
 }
