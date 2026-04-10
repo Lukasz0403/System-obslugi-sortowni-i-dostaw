@@ -4,6 +4,7 @@ import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.User;
+import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,6 +44,10 @@ public class App extends Application {
         Package u = p1.getPackage(3);
         
         System.out.println(u);
+        
+//        **Dodane do testów sortowania.**
+//        SortingService sortowanko = new SortingService();
+//        sortowanko.Sorting();
         
         launch();
         
