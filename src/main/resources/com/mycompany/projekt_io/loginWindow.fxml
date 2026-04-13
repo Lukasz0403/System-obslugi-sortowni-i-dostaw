@@ -21,15 +21,13 @@
         <VBox alignment="CENTER" layoutY="138.4" prefHeight="262.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="138.0">
             <TextField fx:id="usernameField" maxWidth="200" promptText="Username" />
             <PasswordField fx:id="passwordField" maxWidth="200" promptText="Password" />
-         <Button mnemonicParsing="false" text="LOG IN" />
-         <Button fx:id="devButton" mnemonicParsing="false" text="DEV" onAction="#handleDevButton" />
+         <Label fx:id="errorLabel" text="Wpisz login i hasło" />
+         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#loginAction" text="LOG IN" />
+         <Button fx:id="devButton" mnemonicParsing="false" onAction="#handleDevButton" text="DEV" />
         </VBox>
         
-        <!-- LOGO PLACEHOLDER -->
-         <VBox alignment="CENTER" prefHeight="262.0" prefWidth="600.0" spacing="10.0" 
-            AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" 
-            AnchorPane.topAnchor="0.0"
-            mouseTransparent="true">
+           <!-- LOGO PLACEHOLDER -->
+         <VBox alignment="CENTER" mouseTransparent="true" prefHeight="262.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <Circle fill="#333a56" radius="59.0" />
         </VBox>
         
