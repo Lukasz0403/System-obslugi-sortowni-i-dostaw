@@ -1,5 +1,6 @@
 package com.mycompany.projekt_io;
 
+import com.mycompany.projekt_io.core.database.PackageDAO;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -19,6 +20,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.mycompany.projekt_io.feature.package_.PackageTableService;
+import java.util.List;
+import com.mycompany.projekt_io.datamodel.Package;
+import java.util.stream.Collectors;
 
 /**
  * FXML Controller class
@@ -53,25 +58,25 @@ public class PackageTableWindowController implements Initializable {
 
     // TABLE
     @FXML
-    private TableView<PackageItem> packageTable;
+    private TableView<PackageTableService> packageTable;
 
     @FXML
-    private TableColumn<PackageItem, Integer> idColumn;
+    private TableColumn<PackageTableService, Integer> idColumn;
 
     @FXML
-    private TableColumn<PackageItem, String> shelfColumn;
+    private TableColumn<PackageTableService, String> shelfColumn;
 
     @FXML
-    private TableColumn<PackageItem, String> sizeColumn;
+    private TableColumn<PackageTableService, String> sizeColumn;
+
+    @FXML
+    private TableColumn<PackageTableService, String> senregionColumn;
     
     @FXML
-    private TableColumn<PackageItem, Double> weightColumn;
-
-    @FXML
-    private TableColumn<PackageItem, String> senregionColumn;
+    private TableColumn<PackageTableService, String> recregionColumn;
     
     @FXML
-    private TableColumn<PackageItem, String> recregionColumn;
+    private TableColumn<PackageTableService, Double> weightColumn;
     
 
     @Override
@@ -96,15 +101,20 @@ public class PackageTableWindowController implements Initializable {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         shelfColumn.setCellValueFactory(new PropertyValueFactory<>("shelf"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        senregionColumn.setCellValueFactory(new PropertyValueFactory<>("senderRegion"));
+        recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
-        senregionColumn.setCellValueFactory(new PropertyValueFactory<>("senRegion"));
-        recregionColumn.setCellValueFactory(new PropertyValueFactory<>("recRegion"));
 
-        // TEMP DATA
-        packageTable.getItems().addAll(
-            new PackageItem(1, "A1", "M", 2.0, "Katowice", "Gliwice"),
-            new PackageItem(2, "B2", "S", 0.5, "Gliwice", "Katowice")
-        );
+        PackageDAO dao = new PackageDAO();
+
+        List<Package> packages = dao.getPackages();
+
+        
+        List<PackageTableService> tableData = packages.stream()
+                .map(PackageTableService::new)
+                .collect(Collectors.toList());
+
+        packageTable.getItems().setAll(tableData);
     }
 
     // SIDEBAR BUTTON HANDLERS
@@ -148,29 +158,5 @@ public class PackageTableWindowController implements Initializable {
         }
     }
 
-    // TABLE REPRESENTATION CLASS
-    public static class PackageItem {
-        private final Integer id;
-        private final String shelf;
-        private final String size;
-        private final Double weight;
-        private final String senregion;
-        private final String recregion;
-
-        public PackageItem(Integer id, String shelf, String size, Double weight, String senregion, String recregion) {
-            this.id = id;
-            this.shelf = shelf;
-            this.size = size;
-            this.weight = weight;
-            this.senregion = senregion;
-            this.recregion = recregion;
-        }
-
-        public Integer getId() { return id; }
-        public String getShelf() { return shelf; }
-        public String getSize() { return size; }
-        public Double getWeight() { return weight; }
-        public String getSenRegion() { return senregion; }
-        public String getRecRegion() { return recregion; }
-    }
+    
 }

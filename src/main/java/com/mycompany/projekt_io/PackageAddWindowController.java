@@ -110,7 +110,7 @@ public class PackageAddWindowController implements Initializable {
     // CHOICEBOXES INIT -------------------------------------------------------
 
         // SIZE
-        sizeChoiceBox.getItems().addAll("--SIZE--","XS", "S", "M", "L", "XL");
+        sizeChoiceBox.getItems().addAll("--SIZE--","A", "B", "C");
         sizeChoiceBox.setValue("--SIZE--");
 
         // CITY LIST
