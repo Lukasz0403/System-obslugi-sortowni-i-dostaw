@@ -4,8 +4,14 @@
  */
 package com.mycompany.projekt_io.core.database;
 
+import com.mycompany.projekt_io.datamodel.Format;
 import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.datamodel.Recipient;
+import com.mycompany.projekt_io.datamodel.Region;
+import com.mycompany.projekt_io.datamodel.Sender;
+import com.mycompany.projekt_io.datamodel.Shelf;
+import com.mycompany.projekt_io.datamodel.Zone;
 
 /**
  *
@@ -15,9 +21,14 @@ public interface PackageDAOInterface {
     
     List<Package> getPackages();
     Package getPackage(int id);
-    
-    
-    
+    Boolean addPackage(Package p);
+    Boolean changePackage(Package p);
+    List<Format> getFormats();
+    List<Sender> getSenders();
+    List<Recipient> getRecipient();
+    List<Region> getRegions();
+    List<Shelf> getShelves();
+    List<Zone> getZones();
 }
 
 
