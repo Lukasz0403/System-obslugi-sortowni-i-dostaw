@@ -2,6 +2,13 @@ package com.mycompany.projekt_io;
 
 //IMPORTS
 
+import com.mycompany.projekt_io.datamodel.Format;
+import com.mycompany.projekt_io.datamodel.Recipient;
+import com.mycompany.projekt_io.datamodel.Region;
+import com.mycompany.projekt_io.datamodel.Sender;
+import com.mycompany.projekt_io.datamodel.Shelf;
+import com.mycompany.projekt_io.feature.package_.PackageService;
+import com.mycompany.projekt_io.datamodel.Package;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -23,6 +30,7 @@ import java.util.List;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import java.util.function.UnaryOperator;
+import javafx.event.ActionEvent;
 import javafx.scene.control.TextFormatter.Change;
 
 //-------
@@ -247,6 +255,44 @@ public class PackageAddWindowController implements Initializable {
     private void handleRetButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
+    
+    //Dodawanie nowej paczki
+    @FXML
+    private void handleAddPackage() {
+
+           PackageService service = new PackageService();
+
+           boolean success = service.addPackageFull(
+                   sizeChoiceBox.getValue(),
+                   sendRegionChoiceBox.getValue(),
+                   receiveRegionChoiceBox.getValue(),
+                   Double.parseDouble(weightField.getText()),
+                   Double.parseDouble(widthField.getText()),
+                   Double.parseDouble(heightField.getText()),
+                   Double.parseDouble(depthField.getText()),
+                   senderNameField.getText(),
+                   "", 
+                   senderStreetField.getText(),
+                   senderPostcodeField.getText(),
+                   senderEmailField.getText(),
+                   senderNumberField.getText(),
+                   recipientNameField.getText(),
+                   "",
+                   recipientStreetField.getText(),
+                   recipientPostcodeField.getText(),
+                   recipientEmailField.getText(),
+                   recipientNumberField.getText()
+           );
+
+           if (success) {
+               System.out.println("Dodano!");
+               handleDeleteButton();
+           } else {
+               System.out.println("Błąd!");
+           }
+    }
+    
+  
 
     // FXML LOAD METHOD
     private void loadWindow(String fxmlPath) {
@@ -259,6 +305,6 @@ public class PackageAddWindowController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }  
-}
+          }
+        }  
+    }

@@ -21,7 +21,7 @@
     
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- SIDEBAR -->
-        <VBox style="-fx-background-color: #52658F;" prefWidth="83.0">
+        <VBox prefWidth="83.0" style="-fx-background-color: #52658F;">
 
             <!-- LOGO -->
             <VBox alignment="CENTER" prefHeight="83.0" spacing="10.0">
@@ -30,22 +30,22 @@
 
             <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
-                <Region VBox.vgrow="ALWAYS"/>
-                <Button fx:id="magButton" text="MAG" maxWidth="60.0" onAction="#handleMagButton"/>
-                <Region VBox.vgrow="ALWAYS"/>
-                <Button fx:id="pacButton" text="PAC" maxWidth="60.0" onAction="#handlePacButton"/>
-                <Region VBox.vgrow="ALWAYS"/>
-                <Button fx:id="addButton" text="USER" maxWidth="60.0" onAction="#handleUserButton"/>
-                <Region VBox.vgrow="ALWAYS"/>
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="pacButton" maxWidth="60.0" onAction="#handlePacButton" text="PAC" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
             <!-- TIME AND DATE -->
-            <VBox alignment="CENTER" spacing="2.0" style="-fx-padding: 0 15 5 15;" maxWidth="Infinity">
-                <Label fx:id="timeLabel" text="HH:mm" style="-fx-text-fill: white; -fx-font-size: 10px;">
-                    <font><Font size="5.0"/></font>
+            <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
+                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">
+                    <font><Font size="5.0" /></font>
                 </Label>
-                <Label fx:id="dateLabel" text="YYYY-MM-DD" style="-fx-text-fill: white; -fx-font-size: 10px;">
-                    <font><Font size="5.0"/></font>
+                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD">
+                    <font><Font size="5.0" /></font>
                 </Label>
             </VBox>
 
@@ -55,11 +55,11 @@
         <AnchorPane HBox.hgrow="ALWAYS">
          <children>
             <Button fx:id="returnButton" layoutX="410.0" layoutY="344.0" maxWidth="66.0" onAction="#handleRetButton" prefHeight="26.0" prefWidth="66.0" text="RETURN" />
-            <Button fx:id="addPacButton" layoutX="348.0" layoutY="241.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="ADD PACKAGE" />
+            <Button fx:id="addPacButton" layoutX="348.0" layoutY="241.0" mnemonicParsing="false" onAction="#handleAddPackage" prefHeight="26.0" prefWidth="134.0" text="ADD PACKAGE" />
             <Button fx:id="saveTempButton" layoutX="348.0" layoutY="268.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="SAVE TEMPLATE" />
             
             <!-- WARNING! CLEAR BUTTON IS NAMED "DELETE" IN THE CONTROLLER. TOO LAZY TO CHANGE IT :3 -->
-            <Button fx:id="deleteButton" layoutX="348.0" layoutY="294.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="CLEAR" onAction="#handleDeleteButton"/>
+            <Button fx:id="deleteButton" layoutX="348.0" layoutY="294.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="26.0" prefWidth="134.0" text="CLEAR" />
             
             <!-- FORM -->
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#333a56" height="200.0" layoutX="336.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="158.0" />

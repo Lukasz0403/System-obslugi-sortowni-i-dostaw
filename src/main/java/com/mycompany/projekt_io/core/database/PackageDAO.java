@@ -25,6 +25,18 @@ import java.util.List;
  */
 public class PackageDAO implements PackageDAOInterface {
 
+    
+    /**
+     * Zmieniono INNER JOIN na LEFT JOIN dla tabel shelves oraz zones.
+     *
+     * W bazie danych kolumna package_rack może mieć wartość NULL. W
+     * przypadku użycia INNER JOIN rekordy z NULL w package_rack nie były
+     * zwracane w wyniku zapytania, co powodowało brak wyświetlania nowo
+     * dodanych paczek w tabeli.
+     *
+     * LEFT JOIN pozwala na pobranie rekordów nawet jeśli nie istnieje powiązana
+     * półka (shelf), co jest zgodne z modelem danych.
+     */
     @Override
     public List<Package> getPackages() {
         
@@ -40,8 +52,8 @@ public class PackageDAO implements PackageDAOInterface {
                     + "JOIN courier_regions r1 ON package_region = r1.region_id "
                     + "JOIN courier_regions r2 ON package_dest_region = r2.region_id "
                     + "JOIN package_formats ON package_format = format_id "
-                    + "JOIN shelves ON package_rack = shelf_id "
-                    + "JOIN zones ON zone = zone_id";
+                    + "LEFT JOIN shelves ON package_rack = shelf_id "
+                    + "LEFT JOIN zones ON zone = zone_id";
             
             Statement s = conn.createStatement();
             
@@ -364,37 +376,47 @@ public class PackageDAO implements PackageDAOInterface {
         return zones;
     }
 
+
+    
+    /**
+     * Dodano obsługę wartości NULL dla package_rack i zmieniłem metode excuateQuery.
+     *
+     * Nowo dodawane paczki mogą nie mieć przypisanej półki (shelf), co
+     * skutkowało NullPointerException przy próbie wywołania getShelf_id() na
+     * null. Metoda executeQuery() służy wyłącznie do zapytań SELECT.
+     * Użycie jej przy INSERT powodowało błędy wykonania.
+     *
+     * W przypadku braku półki do zapytania SQL przekazywana jest wartość NULL
+     * zamiast identyfikatora.
+     */
     @Override
     public Boolean addPackage(Package p) {
-        
         try {
-            
             Connection conn = ConnectDatabasePackage.getConnection();
-            
+
             String sql = "INSERT INTO packages(package_sender, package_recipient, package_region, package_dest_region, package_format, package_rack) VALUES(?, ?, ?, ?, ?, ?)";
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            
+
             ps.setInt(1, p.getPackage_sender().getSender_id());
-            
             ps.setInt(2, p.getPackage_recipient().getRecipient_id());
-            
             ps.setString(3, p.getPackage_region().getRegion());
-            
             ps.setString(4, p.getPackage_dest_region().getRegion());
-            
             ps.setString(5, p.getPackage_format().getFormat_id());
-            
-            ps.setInt(6, p.getPackage_rack().getShelf_id());
-            
-            ResultSet rs = ps.executeQuery();
-            
+            if (p.getPackage_rack() != null) {
+                ps.setInt(6, p.getPackage_rack().getShelf_id());
+            } else {
+                ps.setNull(6, java.sql.Types.INTEGER);
+            }
+
+            ps.executeUpdate(); 
+
             return true;
-            
+
         } catch (SQLException ex) {
-        } finally {
-            return false;  
-        }  
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -430,6 +452,78 @@ public class PackageDAO implements PackageDAOInterface {
         } finally {
             return false;  
         }     
+    }
+    
+    /**
+     * Dodano metodę zapisu nadawcy (Sender) do bazy danych.
+     *
+     * Model bazy danych wymaga istnienia rekordu w tabeli senders przed
+     * dodaniem paczki. Metoda zwraca wygenerowany identyfikator (sender_id), który jest
+     * następnie używany przy tworzeniu paczki.
+     */
+    public int addSender(Sender s) {
+        try {
+            Connection conn = ConnectDatabasePackage.getConnection();
+
+            String sql = "INSERT INTO senders(sender_name, sender_city, sender_street, sender_postcode, sender_email, sender_phone) VALUES (?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setString(1, s.getSender_name());
+            ps.setString(2, s.getSender_city());
+            ps.setString(3, s.getSender_street());
+            ps.setString(4, s.getSender_postcode());
+            ps.setString(5, s.getSender_email());
+            ps.setString(6, s.getSender_phone());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); // 🔥 ID
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+    
+    /**
+     * Dodano metodę zapisu odbiorcy (Recipient) do bazy danych.
+     *
+     * Analogicznie do nadawcy, paczka wymaga istniejącego rekordu w
+     * tabeli recipients .
+     *
+     */
+    public int addRecipient(Recipient r) {
+        try {
+            Connection conn = ConnectDatabasePackage.getConnection();
+
+            String sql = "INSERT INTO recipients(recipient_name, recipient_city, recipient_street, recipient_postcode, recipient_email, recipient_phone) VALUES (?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setString(1, r.getRecipient_name());
+            ps.setString(2, r.getRecipient_city());
+            ps.setString(3, r.getRecipient_street());
+            ps.setString(4, r.getRecipient_postcode());
+            ps.setString(5, r.getRecipient_email());
+            ps.setString(6, r.getRecipient_phone());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
     
     
