@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.projekt_io;
 
 import java.net.URL;
@@ -20,6 +16,7 @@ import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
+import javafx.application.Platform;
 
 /**
  * FXML Controller class
@@ -59,6 +56,12 @@ public class PackageManageWindowController implements Initializable {
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        
+        //rozmiar min okna
+        Platform.runLater(() -> {
+        Stage stage = (Stage) magButton.getScene().getWindow();
+        WindowConstraints.applyMinSize(stage);
+    });
     }
 
     @FXML

@@ -11,6 +11,7 @@ import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.datamodel.Package;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -115,6 +116,12 @@ public class PackageAddWindowController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
+    // WINDOW CONSTRAINTS ---------------------------------------------------
+        Platform.runLater(() -> {
+            Stage stage = (Stage) timeLabel.getScene().getWindow();
+            WindowConstraints.applyMinSize(stage);
+        });
+
     // CHOICEBOXES INIT -------------------------------------------------------
 
         // SIZE
@@ -160,23 +167,18 @@ public class PackageAddWindowController implements Initializable {
         UnaryOperator<Change> postcodeFilterAutoDash = change -> {
             String text = change.getControlNewText();
 
-            // DELETE ALL ASIDE FROM NUMBERS
             String digitsOnly = text.replaceAll("[^\\d]", "");
 
-            if (digitsOnly.length() > 5) return null; // MAX 5 NUMBERS
+            if (digitsOnly.length() > 5) return null;
 
-            // BUILT TEXT
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < digitsOnly.length(); i++) {
-                if (i == 2) result.append('-'); // DASH AFTER 2 NUMBERS
+                if (i == 2) result.append('-');
                 result.append(digitsOnly.charAt(i));
             }
 
-            int oldCaret = change.getCaretPosition();
             change.setText(result.toString());
             change.setRange(0, change.getControlText().length());
-
-            // CURSOR RESET
             change.selectRange(result.length(), result.length());
 
             return change;
@@ -187,7 +189,7 @@ public class PackageAddWindowController implements Initializable {
         // PHONE NUMBER FILTER
         UnaryOperator<Change> numberFilter = change -> {
             String text = change.getControlNewText();
-            if (text.matches("\\d{0,9}")) { // MAX 9 NUMBERS
+            if (text.matches("\\d{0,9}")) {
                 return change;
             }
             return null;
@@ -233,7 +235,6 @@ public class PackageAddWindowController implements Initializable {
         recipientEmailField.clear();
         recipientNumberField.clear();
 
-        // RESET CHOICEBOX
         sizeChoiceBox.setValue("--SIZE--");
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
@@ -256,45 +257,41 @@ public class PackageAddWindowController implements Initializable {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
     
-    //Dodawanie nowej paczki
     @FXML
     private void handleAddPackage() {
 
-           PackageService service = new PackageService();
+        PackageService service = new PackageService();
 
-           boolean success = service.addPackageFull(
-                   sizeChoiceBox.getValue(),
-                   sendRegionChoiceBox.getValue(),
-                   receiveRegionChoiceBox.getValue(),
-                   Double.parseDouble(weightField.getText()),
-                   Double.parseDouble(widthField.getText()),
-                   Double.parseDouble(heightField.getText()),
-                   Double.parseDouble(depthField.getText()),
-                   senderNameField.getText(),
-                   "", 
-                   senderStreetField.getText(),
-                   senderPostcodeField.getText(),
-                   senderEmailField.getText(),
-                   senderNumberField.getText(),
-                   recipientNameField.getText(),
-                   "",
-                   recipientStreetField.getText(),
-                   recipientPostcodeField.getText(),
-                   recipientEmailField.getText(),
-                   recipientNumberField.getText()
-           );
+        boolean success = service.addPackageFull(
+                sizeChoiceBox.getValue(),
+                sendRegionChoiceBox.getValue(),
+                receiveRegionChoiceBox.getValue(),
+                Double.parseDouble(weightField.getText()),
+                Double.parseDouble(widthField.getText()),
+                Double.parseDouble(heightField.getText()),
+                Double.parseDouble(depthField.getText()),
+                senderNameField.getText(),
+                "", 
+                senderStreetField.getText(),
+                senderPostcodeField.getText(),
+                senderEmailField.getText(),
+                senderNumberField.getText(),
+                recipientNameField.getText(),
+                "",
+                recipientStreetField.getText(),
+                recipientPostcodeField.getText(),
+                recipientEmailField.getText(),
+                recipientNumberField.getText()
+        );
 
-           if (success) {
-               System.out.println("Dodano!");
-               handleDeleteButton();
-           } else {
-               System.out.println("Błąd!");
-           }
+        if (success) {
+            System.out.println("Dodano!");
+            handleDeleteButton();
+        } else {
+            System.out.println("Błąd!");
+        }
     }
-    
-  
 
-    // FXML LOAD METHOD
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -305,6 +302,6 @@ public class PackageAddWindowController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-          }
-        }  
+        }
     }
+}

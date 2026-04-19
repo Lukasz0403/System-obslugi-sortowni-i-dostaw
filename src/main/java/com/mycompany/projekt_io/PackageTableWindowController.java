@@ -24,6 +24,7 @@ import com.mycompany.projekt_io.feature.package_.PackageTableService;
 import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
 import java.util.stream.Collectors;
+import javafx.application.Platform;
 
 /**
  * FXML Controller class
@@ -115,6 +116,12 @@ public class PackageTableWindowController implements Initializable {
                 .collect(Collectors.toList());
 
         packageTable.getItems().setAll(tableData);
+        
+        //rozmiar min okna
+        Platform.runLater(() -> {
+        Stage stage = (Stage) magButton.getScene().getWindow();
+        WindowConstraints.applyMinSize(stage);
+        });
     }
 
     // SIDEBAR BUTTON HANDLERS

@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
+import javafx.application.Platform;
 
 public class WerehouseInfoWindowController implements Initializable {
 
@@ -92,6 +93,12 @@ public class WerehouseInfoWindowController implements Initializable {
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));
+        
+        //rozmiar min okna
+        Platform.runLater(() -> {
+        Stage stage = (Stage) magButton.getScene().getWindow();
+        WindowConstraints.applyMinSize(stage);
+        });
     }
 
     // -------------------------
