@@ -526,6 +526,92 @@ public class PackageDAO implements PackageDAOInterface {
         return -1;
     }
     
-    
-    
+// EXPERIMENTAL, REMOVE IF NESSESARY - IDA
+    public int getPackageCountForShelf(int shelfId) {
+        int count = 0;
+        Connection conn = ConnectDatabasePackage.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) FROM packages WHERE package_rack = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, shelfId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return count;
+    }
+
+    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
+    public int getLastPackageIdForShelf(int shelfId) {
+        int id = -1;
+        Connection conn = ConnectDatabasePackage.getConnection();
+        try {
+            String sql = "SELECT MAX(package_id) FROM packages WHERE package_rack = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, shelfId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) id = rs.getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return id;
+    }
+
+    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
+    public int getTotalPackageCount() {
+        int count = 0;
+        Connection conn = ConnectDatabasePackage.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) FROM packages";
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+            if (rs.next()) count = rs.getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return count;
+    }
+
+    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
+    public int getPackageCountForZone(int zoneId) {
+        int count = 0;
+        Connection conn = ConnectDatabasePackage.getConnection();
+        try {
+            String sql = "SELECT COUNT(*) FROM packages JOIN shelves ON package_rack = shelf_id WHERE zone = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, zoneId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) count = rs.getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return count;
+    }
+
+    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
+    public int getMostLoadedShelfId() {
+        int shelfId = -1;
+        Connection conn = ConnectDatabasePackage.getConnection();
+        try {
+            String sql = "SELECT package_rack, COUNT(*) as cnt FROM packages WHERE package_rack IS NOT NULL GROUP BY package_rack ORDER BY cnt DESC LIMIT 1";
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+            if (rs.next()) shelfId = rs.getInt("package_rack");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return shelfId;
+    }
+
 }
