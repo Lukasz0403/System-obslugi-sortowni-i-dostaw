@@ -34,5 +34,7 @@ public class PackageTableService {
     public String getReceiverRegion() { return receiverRegion; }
     public double getWeight() { return weight; }
     
+    
+    
         
 }

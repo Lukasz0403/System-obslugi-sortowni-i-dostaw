@@ -25,6 +25,7 @@ import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 /**
  * FXML Controller class
@@ -122,6 +123,8 @@ public class PackageTableWindowController implements Initializable {
         Stage stage = (Stage) magButton.getScene().getWindow();
         WindowConstraints.applyMinSize(stage);
         });
+        
+        
     }
 
     // SIDEBAR BUTTON HANDLERS
@@ -146,9 +149,43 @@ public class PackageTableWindowController implements Initializable {
         loadWindow("/com/mycompany/projekt_io/packageAddWindow.fxml");
     }
     
-        @FXML
+    @FXML
     private void handlePacManButton() {
-        loadWindow("/com/mycompany/projekt_io/packageManageWindow.fxml");
+
+        PackageTableService selected = packageTable.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            showAlert("Błąd", "Nie wybrano żadnej paczki");
+            return;
+        }
+
+        if (selected.getShelf().equals("0")) {
+            showAlert(
+                    "Brak regału",
+                    "Nie można edytować paczki.\n\nPaczka nie została jeszcze przypisana do strefy magazynowej."
+            );
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/packageManageWindow.fxml"));
+            Parent root = loader.load();
+
+            
+            
+            PackageDAO dao = new PackageDAO();
+            Package fullPackage = dao.getPackage(selected.getId());
+
+            
+            PackageManageWindowController controller = loader.getController();
+            controller.setPackage(fullPackage);
+
+            Stage stage = (Stage) timeLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // FXML LOAD METHOD
@@ -164,6 +201,17 @@ public class PackageTableWindowController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    private void showAlert(String title, String content) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(content);
+    alert.initOwner(timeLabel.getScene().getWindow());
+    alert.showAndWait();
+}
+    
+    
 
     
 }

@@ -421,37 +421,36 @@ public class PackageDAO implements PackageDAOInterface {
 
     @Override
     public Boolean changePackage(Package p) {
-        
         try {
-            
             Connection conn = ConnectDatabasePackage.getConnection();
-            
+
             String sql = "UPDATE packages SET package_sender = ?, package_recipient = ?, package_region = ?, package_dest_region = ?, package_format = ?, package_rack = ? WHERE package_id = ?";
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            
+
             ps.setInt(1, p.getPackage_sender().getSender_id());
-            
             ps.setInt(2, p.getPackage_recipient().getRecipient_id());
-            
             ps.setString(3, p.getPackage_region().getRegion());
-            
             ps.setString(4, p.getPackage_dest_region().getRegion());
-            
             ps.setString(5, p.getPackage_format().getFormat_id());
-            
-            ps.setInt(6, p.getPackage_rack().getShelf_id());
-            
+
+            // 
+            if (p.getPackage_rack() != null) {
+                ps.setInt(6, p.getPackage_rack().getShelf_id());
+            } else {
+                ps.setNull(6, java.sql.Types.INTEGER);
+            }
+
             ps.setInt(7, p.getPackage_id());
-            
-            ps.executeUpdate(sql);
-            
-            return true;
-            
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0; 
+
         } catch (SQLException ex) {
-        } finally {
-            return false;  
-        }     
+            ex.printStackTrace();
+            return false;
+        }
     }
     
     /**
@@ -612,6 +611,76 @@ public class PackageDAO implements PackageDAOInterface {
             if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
         return shelfId;
+    }
+    
+    public boolean updateSender(Sender s) {
+        try {
+            Connection conn = ConnectDatabasePackage.getConnection();
+
+            String sql = "UPDATE senders SET sender_name=?, sender_city=?, sender_street=?, sender_postcode=?, sender_email=?, sender_phone=? WHERE sender_id=?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, s.getSender_name());
+            ps.setString(2, s.getSender_city());
+            ps.setString(3, s.getSender_street());
+            ps.setString(4, s.getSender_postcode());
+            ps.setString(5, s.getSender_email());
+            ps.setString(6, s.getSender_phone());
+            ps.setInt(7, s.getSender_id());
+
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean updateRecipient(Recipient r) {
+        try {
+            Connection conn = ConnectDatabasePackage.getConnection();
+
+            String sql = "UPDATE recipients SET recipient_name=?, recipient_city=?, recipient_street=?, recipient_postcode=?, recipient_email=?, recipient_phone=? WHERE recipient_id=?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, r.getRecipient_name());
+            ps.setString(2, r.getRecipient_city());
+            ps.setString(3, r.getRecipient_street());
+            ps.setString(4, r.getRecipient_postcode());
+            ps.setString(5, r.getRecipient_email());
+            ps.setString(6, r.getRecipient_phone());
+            ps.setInt(7, r.getRecipient_id());
+
+            ps.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    
+    public boolean deletePackage(int packageId) {
+        try {
+            Connection conn = ConnectDatabasePackage.getConnection();
+
+            String sql = "DELETE FROM packages WHERE package_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, packageId);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

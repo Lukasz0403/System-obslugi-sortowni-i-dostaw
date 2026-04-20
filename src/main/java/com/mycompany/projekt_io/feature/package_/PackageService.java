@@ -137,4 +137,96 @@ public class PackageService {
 
         return dao.addPackage(pack);
     }
+    
+    
+    public boolean updatePackageFull(
+            int packageId,
+            String size,
+            String sendRegion,
+            String receiveRegion,
+            double weight,
+            double width,
+            double height,
+            double depth,
+            // sender
+            int senderId,
+            String senderName,
+            String senderCity,
+            String senderStreet,
+            String senderPostcode,
+            String senderEmail,
+            String senderPhone,
+            // recipient
+            int recipientId,
+            String recipientName,
+            String recipientCity,
+            String recipientStreet,
+            String recipientPostcode,
+            String recipientEmail,
+            String recipientPhone,
+            Shelf shelf
+            
+    ) {
+
+        PackageDAO dao = new PackageDAO();
+
+        // 🔹 update sender
+        Sender sender = new Sender(
+                senderId,
+                senderName,
+                senderCity,
+                senderStreet,
+                senderPostcode,
+                senderEmail,
+                senderPhone
+        );
+
+        // 🔹 update recipient
+        Recipient recipient = new Recipient(
+                recipientId,
+                recipientName,
+                recipientCity,
+                recipientStreet,
+                recipientPostcode,
+                recipientEmail,
+                recipientPhone
+        );
+
+        // 🔹 regiony
+        Region region = new Region(mapRegionToCode(sendRegion));
+        Region destRegion = new Region(mapRegionToCode(receiveRegion));
+        
+
+        // 🔹 format
+        Format format = new Format(
+                size,
+                (int) width,
+                (int) height,
+                (int) depth,
+                (int) weight
+        );
+
+        // 🔹 package
+        Package pack = new Package(
+                packageId,
+                sender,
+                recipient,
+                region,
+                destRegion,
+                format,
+                shelf
+        );
+
+        // 🔥 WYWOŁANIA DAO
+        boolean senderUpdated = dao.updateSender(sender);
+        boolean recipientUpdated = dao.updateRecipient(recipient);
+        boolean packageUpdated = dao.changePackage(pack);
+
+        return senderUpdated && recipientUpdated && packageUpdated;
+    }
+    
+    
+    public boolean deletePackage(int packageId) {
+        return dao.deletePackage(packageId);
+    }
 }

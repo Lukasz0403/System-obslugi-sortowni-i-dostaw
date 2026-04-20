@@ -123,7 +123,7 @@ public class LoginWindowController implements Initializable {
     }
 
     private void loadMainWindow() {
-        try {
+        try { 
             Stage stage = (Stage) devButton.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/MainWindow.fxml"));
             Parent root = loader.load();
