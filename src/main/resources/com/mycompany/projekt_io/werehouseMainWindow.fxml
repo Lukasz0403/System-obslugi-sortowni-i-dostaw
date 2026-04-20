@@ -56,23 +56,31 @@
             <Rectangle fx:id="shelf4" fill="#aec1d1" width="77" height="209" layoutX="139" layoutY="28" stroke="#333333" strokeWidth="0"/>
             <Rectangle fx:id="shelfex" fill="#cfaeb9" width="77" height="209" layoutX="33" layoutY="28" stroke="#333333" strokeWidth="0"/>
 
-            <!-- PANEL INFORMACYJNY -->
-            <VBox fx:id="infoPanel" layoutX="0" layoutY="0" visible="false" spacing="2"
-                  style="-fx-background-color: white; -fx-border-color: black; -fx-padding: 5; -fx-effect: dropshadow(gaussian, gray, 5, 0.5, 2, 2);">
-                <Label fx:id="info1" text="aaa"/>
-                <Label fx:id="info2" text="bbb"/>
-                <Label fx:id="info3" text="ccc"/>
+            <!-- INFO PANEL - SHOWS ON SHELF HOVER -->
+            <VBox fx:id="infoPanel" layoutX="0" layoutY="0" visible="false" spacing="4"
+                  style="-fx-background-color: white; -fx-border-color: #52658F; -fx-padding: 8; -fx-effect: dropshadow(gaussian, gray, 5, 0.5, 2, 2);">
+                <Label fx:id="infoShelfId" text="Shelf: " style="-fx-font-weight: bold;"/>
+                <Label fx:id="infoPackageCount" text="Packages: "/>
+                <Label fx:id="infoLastPackage" text="Last Package ID: "/>
+                <Label fx:id="infoLastDate" text="Added: 00:00  0000-00-00"/>
+                <Label fx:id="infoLastSender" text="By: "/>
             </VBox>
 
             <!-- TABLE -->
             <AnchorPane layoutX="16.0" layoutY="254.0" prefHeight="130.0" prefWidth="482.0">
                 <children>
-                    <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <ScrollPane fitToWidth="true" fitToHeight="true"
+                                AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                         <content>
                             <TableView fx:id="warehouseTable" prefHeight="130.0" prefWidth="482.0">
                                 <columns>
-                                    <TableColumn fx:id="col1" prefWidth="75.0" text="NIE WIEM"/>
-                                    <TableColumn fx:id="col2" prefWidth="75.0" text="CO TU WSTAWIC"/>
+                                    <TableColumn fx:id="colTotalPackages" prefWidth="120.0" text="Total Packages"/>
+                                    <TableColumn fx:id="colZone1" prefWidth="90.0" text="Zone 1"/>
+                                    <TableColumn fx:id="colZone2" prefWidth="90.0" text="Zone 2"/>
+                                    <TableColumn fx:id="colZone3" prefWidth="90.0" text="Zone 3"/>
+                                    <TableColumn fx:id="colEmptyShelves" prefWidth="100.0" text="Empty Shelves"/>
+                                    <TableColumn fx:id="colBusiestShelf" prefWidth="110.0" text="Busiest Shelf"/>
                                 </columns>
                             </TableView>
                         </content>

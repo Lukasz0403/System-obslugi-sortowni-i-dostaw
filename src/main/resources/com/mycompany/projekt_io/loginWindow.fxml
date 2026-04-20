@@ -22,19 +22,19 @@
             <TextField fx:id="usernameField" maxWidth="200" promptText="Username" />
             <PasswordField fx:id="passwordField" maxWidth="200" promptText="Password" />
          <Label fx:id="errorLabel" text="Wpisz login i hasło" />
-         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#loginAction" text="LOG IN" />
-         <Button fx:id="devButton" mnemonicParsing="false" onAction="#handleDevButton" text="DEV" />
+         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#loginAction" prefHeight="26.0" prefWidth="77.0" text="LOG IN" />
+         <Button fx:id="devButton" mnemonicParsing="false" onAction="#handleDevButton" prefHeight="26.0" prefWidth="74.0" text="DEV" />
         </VBox>
         
            <!-- LOGO PLACEHOLDER -->
-         <VBox alignment="CENTER" mouseTransparent="true" prefHeight="262.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="138.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <VBox alignment="CENTER" mouseTransparent="true" prefHeight="232.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="168.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <Circle fill="#333a56" radius="59.0" />
         </VBox>
         
         <!-- TASKBAR -->
         <HBox alignment="CENTER_LEFT" prefHeight="40" style="-fx-background-color: #52658F; -fx-padding: 0 15 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <Label style="-fx-text-fill: white;" text="V.0-prototype" />
+                <Label style="-fx-text-fill: white;" text="V 0.1" />
                 <HBox HBox.hgrow="ALWAYS" />
                 <Label fx:id="dateTimeLabel" style="-fx-text-fill: white;" />
             </children>
