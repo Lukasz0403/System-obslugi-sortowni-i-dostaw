@@ -14,15 +14,15 @@ public final class ConnectDatabasePackage {
 
     // COMMENTED OUT - static single connection causes "connection closed" errors when reused.
     // Replaced with per-call connection below. - IDA
-    /*
+ /*   
     private static Connection conn = null;
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
-//          conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","1234");
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
@@ -36,7 +36,7 @@ public final class ConnectDatabasePackage {
     private static final String URL = "jdbc:mysql://localhost/package_storage";
     // private static final String URL = "jdbc:mysql://192.168.0.73/package_storage"; // REMOTE BACKUP
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "1234";
 
     public static Connection getConnection() {
         try {

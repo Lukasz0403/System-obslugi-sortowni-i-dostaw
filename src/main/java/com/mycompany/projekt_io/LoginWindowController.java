@@ -25,7 +25,6 @@ import javafx.animation.Timeline;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
-import org.mindrot.jbcrypt.BCrypt;
 
 
 public class LoginWindowController implements Initializable {
@@ -61,7 +60,9 @@ public class LoginWindowController implements Initializable {
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
+        
+        logInButton.setDefaultButton(true);
+        
         Platform.runLater(() -> {
             Stage stage = (Stage) logInButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
@@ -81,47 +82,38 @@ public class LoginWindowController implements Initializable {
         }
     }
     
+    private final LoginService loginService = new LoginService();
+    
+//  Logika przycisku logowania - Łukasz
     @FXML
     void loginAction(ActionEvent event) {
         String login = usernameField.getText();
         String plainPassword = passwordField.getText();
 
         if (login.isEmpty() || plainPassword.isEmpty()) {
-            errorLabel.setText("Wprowadź login i hasło.");
-            errorLabel.setVisible(true);
+            showError("Wprowadź login i hasło.");
             return;
         }
 
-        errorLabel.setVisible(false);
+        User user = loginService.authenticate(login, plainPassword);
 
-        User user = userDAO.getUser(login);
-
-        if (user == null) {
-            errorLabel.setText("Nieprawidłowy login lub hasło.");
-            errorLabel.setVisible(true);
-            return;
-        }
-
-        boolean passwordMatches = false;
-        try {
-            passwordMatches = BCrypt.checkpw(plainPassword, user.getPassword());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Blad: Haslo w bazie nie jest hashem Bcrypt!");
-            errorLabel.setText("Błąd krytyczny logowania.");
-            errorLabel.setVisible(true);
-            return;
-        }
-
-        if (passwordMatches) {
-            System.out.println("Zalogowano pomyslnie uzytkownika: " + user.getLogin());
+        if (user != null) {
+            System.out.println("Zalogowano: " + user.getLogin());
+            errorLabel.setVisible(false);
             loadMainWindow();
         } else {
-            errorLabel.setText("Nieprawidłowy login lub hasło.");
-            errorLabel.setVisible(true);
+            showError("Nieprawidłowy login lub hasło.");
             passwordField.clear();
         }
     }
 
+//  obsługa labela showError - Łukasz
+    private void showError(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+    }
+    
+//  Przełącza widok aplikacji z okna logowania do oknagłównego - Łukasz
     private void loadMainWindow() {
         try { 
             Stage stage = (Stage) devButton.getScene().getWindow();
