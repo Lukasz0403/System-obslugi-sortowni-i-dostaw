@@ -6,7 +6,7 @@ import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
-import com.mycompany.projekt_io.datamodel.Shelf;
+import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.datamodel.Package;
 import java.net.URL;
@@ -131,28 +131,50 @@ public class PackageAddWindowController implements Initializable {
         // CITY LIST
         List<String> cities = List.of(
             "--SENDERS REGION--",
-            "Katowice",
-            "Gliwice",
-            "Zabrze",
-            "Bytom",
-            "Chorzów",
-            "Ruda Śląska",
-            "Tychy",
-            "Dąbrowa Górnicza",
-            "Sosnowiec"
+                "Białystok",
+                "Bydgoszcz",
+                "Częstochowa",
+                "Gdańsk",
+                "Gdynia",
+                "Katowice",
+                "Kielce",
+                "Kraków",
+                "Łódź",
+                "Lublin",
+                "Olsztyn",
+                "Opole",
+                "Poznań",
+                "Rzeszów",
+                "Sopot",
+                "Szczecin",
+                "Toruń",
+                "Warszawa",
+                "Wrocław",
+                "Zielona Góra"
         );
         
         List<String> cities2 = List.of(
             "--RECIPIENTS REGION--",
-            "Katowice",
-            "Gliwice",
-            "Zabrze",
-            "Bytom",
-            "Chorzów",
-            "Ruda Śląska",
-            "Tychy",
-            "Dąbrowa Górnicza",
-            "Sosnowiec"
+                "Białystok",
+                "Bydgoszcz",
+                "Częstochowa",
+                "Gdańsk",
+                "Gdynia",
+                "Katowice",
+                "Kielce",
+                "Kraków",
+                "Łódź",
+                "Lublin",
+                "Olsztyn",
+                "Opole",
+                "Poznań",
+                "Rzeszów",
+                "Sopot",
+                "Szczecin",
+                "Toruń",
+                "Warszawa",
+                "Wrocław",
+                "Zielona Góra"
         );
 
         sendRegionChoiceBox.getItems().addAll(cities);
@@ -259,6 +281,23 @@ public class PackageAddWindowController implements Initializable {
     
     @FXML
     private void handleAddPackage() {
+        
+        if (sizeChoiceBox.getValue().equals("--SIZE--")
+                || sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
+                || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
+
+            System.out.println("Wybierz poprawne wartości!");
+            return;
+        }
+        
+        if (weightField.getText().isEmpty()
+                || widthField.getText().isEmpty()
+                || heightField.getText().isEmpty()
+                || depthField.getText().isEmpty()) {
+
+            System.out.println("Uzupełnij dane liczbowe!");
+            return;
+        }
 
         PackageService service = new PackageService();
 
@@ -270,6 +309,9 @@ public class PackageAddWindowController implements Initializable {
                 Double.parseDouble(widthField.getText()),
                 Double.parseDouble(heightField.getText()),
                 Double.parseDouble(depthField.getText()),
+                
+                
+                
                 senderNameField.getText(),
                 "", 
                 senderStreetField.getText(),

@@ -20,10 +20,14 @@ public class PackageTableService {
 
     public PackageTableService(Package p) {
         this.id = p.getPackage_id();
-        this.shelf = String.valueOf(p.getPackage_rack().getShelf_id());
+        if (p.getPackage_rack() != null) {
+            this.shelf = String.valueOf(p.getPackage_rack().getRack_id());
+        } else {
+            this.shelf = "0";
+        }
         this.size = p.getPackage_format().getFormat_id();
-        this.senderRegion = p.getPackage_region().getRegion();
-        this.receiverRegion = p.getPackage_dest_region().getRegion();
+        this.senderRegion = p.getPackage_region().getRegion_name();
+        this.receiverRegion = p.getPackage_dest_region().getRegion_name();
         this.weight = p.getPackage_format().getMax_wage();
     }
     

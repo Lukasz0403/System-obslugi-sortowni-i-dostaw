@@ -53,7 +53,8 @@ public class PackageDAO implements PackageDAOInterface {
                     + "JOIN courier_regions r2 ON package_dest_region = r2.region_id "
                     + "JOIN package_formats ON package_format = format_id "
                     + "LEFT JOIN racks ON package_rack = rack_id "
-                    + "LEFT JOIN zones ON zone = zone_id ";
+                    + "LEFT JOIN zones ON racks.zone = zones.zone_id ";
+                    
             
             Statement s = conn.createStatement();
             
@@ -90,7 +91,15 @@ public class PackageDAO implements PackageDAOInterface {
                                             rs.getInt("max_weight"),
                                             rs.getInt("slot_coverage"));
 
-                Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   
+                //Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   
+                
+                Rack rack = null;
+
+                int rackId = rs.getInt("rack_id");
+                if (!rs.wasNull()) {
+                    int zoneId = rs.getInt("zone_id");
+                    rack = new Rack(rackId, new Zone(zoneId));
+                }
                 
                 Package pack = new Package(rs.getInt("package_id"), sender, recipient, region, destRegion, format, rack);
                  
@@ -104,6 +113,8 @@ public class PackageDAO implements PackageDAOInterface {
         return packages;
     }
 
+    
+    
     @Override
     public Package getPackage(int id) {
         
@@ -121,7 +132,8 @@ public class PackageDAO implements PackageDAOInterface {
                     + "JOIN courier_regions r2 ON package_dest_region = r2.region_id "
                     + "JOIN package_formats ON package_format = format_id "
                     + "LEFT JOIN racks ON package_rack = rack_id "
-                    + "LEFT JOIN zones ON zone = zone_id ";
+                    + "LEFT JOIN zones ON zone = zone_id "
+                    + "WHERE package_id = ?";
             
             PreparedStatement ps = conn.prepareStatement(sql);
             
@@ -381,46 +393,53 @@ public class PackageDAO implements PackageDAOInterface {
 
 
     
-    /**
-     * Dodano obsługę wartości NULL dla package_rack i zmieniłem metode excuateQuery.
-     *
-     * Nowo dodawane paczki mogą nie mieć przypisanej półki (shelf), co
-     * skutkowało NullPointerException przy próbie wywołania getShelf_id() na
-     * null. Metoda executeQuery() służy wyłącznie do zapytań SELECT.
-     * Użycie jej przy INSERT powodowało błędy wykonania.
-     *
-     * W przypadku braku półki do zapytania SQL przekazywana jest wartość NULL
-     * zamiast identyfikatora.
-     */
     @Override
-    public Boolean addPackage(Package p) {
-        try {
-            Connection conn = ConnectDatabasePackage.getConnection();
+public Boolean addPackage(Package p) {
+    String sql = "INSERT INTO packages("
+            + "package_sender, "
+            + "package_recipient, "
+            + "package_region, "
+            + "package_dest_region, "
+            + "package_format, "
+            + "package_rack, "
+            + "width, "
+            + "height, "
+            + "depth, "
+            + "weight"
+            + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            String sql = "INSERT INTO packages(package_sender, package_recipient, package_region, package_dest_region, package_format, package_rack) VALUES(?, ?, ?, ?, ?, ?)";
+    try (Connection conn = ConnectDatabasePackage.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+       
+        ps.setInt(1, p.getPackage_sender().getSender_id());
+        ps.setInt(2, p.getPackage_recipient().getRecipient_id());
+        ps.setInt(3, p.getPackage_region().getRegion_id());
+        ps.setInt(4, p.getPackage_dest_region().getRegion_id());
+        ps.setString(5, p.getPackage_format().getFormat_id());
 
-            ps.setInt(1, p.getPackage_sender().getSender_id());
-            ps.setInt(2, p.getPackage_recipient().getRecipient_id());
-            ps.setInt(3, p.getPackage_region().getRegion_id());
-            ps.setInt(4, p.getPackage_dest_region().getRegion_id());
-            ps.setString(5, p.getPackage_format().getFormat_id());
-            if (p.getPackage_rack() != null) {
-                ps.setInt(6, p.getPackage_rack().getRack_id());
-            } else {
-                ps.setNull(6, java.sql.Types.INTEGER);
-            }
-
-            ps.executeUpdate(); 
-
-            return true;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return false;
+       
+        if (p.getPackage_rack() != null) {
+            ps.setInt(6, p.getPackage_rack().getRack_id());
+        } else {
+            ps.setNull(6, java.sql.Types.INTEGER);
         }
+
+        
+        ps.setInt(7, p.getPackage_format().getMax_format_width());
+        ps.setInt(8, p.getPackage_format().getMax_format_height());
+        ps.setInt(9, p.getPackage_format().getMax_format_depth());
+        ps.setInt(10, p.getPackage_format().getMax_wage());
+
+        int rows = ps.executeUpdate();
+
+        return rows > 0;
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
     }
+}
 
     @Override
     public Boolean changePackage(Package p) {
@@ -483,7 +502,7 @@ public class PackageDAO implements PackageDAOInterface {
 
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                return rs.getInt(1); // 🔥 ID
+                return rs.getInt(1); 
             }
 
         } catch (SQLException e) {

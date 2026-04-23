@@ -12,20 +12,50 @@ import java.sql.SQLException;
  */
 public final class ConnectDatabasePackage {
 
+//    private static Connection conn = null;
+//
+//    static {
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
+//            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
+//            //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+//
+//    public static Connection getConnection() {
+//        return conn;
+//    }
+    
     private static Connection conn = null;
 
     static {
+        connect();
+    }
+
+    private static void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","1234");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "");
             //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
+            conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
     }
 
     public static Connection getConnection() {
+        try {
+            if (conn == null || conn.isClosed() || !conn.isValid(2)) {
+                connect();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            connect();
+        }
         return conn;
     }
 }

@@ -28,7 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.Region;
-import com.mycompany.projekt_io.datamodel.Shelf;
+import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -157,28 +157,50 @@ public class PackageManageWindowController implements Initializable {
         // CITY LIST
         List<String> cities = List.of(
             "--SENDERS REGION--",
-            "Katowice",
-            "Gliwice",
-            "Zabrze",
-            "Bytom",
-            "Chorzów",
-            "Ruda Śląska",
-            "Tychy",
-            "Dąbrowa Górnicza",
-            "Sosnowiec"
+                "Białystok",
+                "Bydgoszcz",
+                "Częstochowa",
+                "Gdańsk",
+                "Gdynia",
+                "Katowice",
+                "Kielce",
+                "Kraków",
+                "Łódź",
+                "Lublin",
+                "Olsztyn",
+                "Opole",
+                "Poznań",
+                "Rzeszów",
+                "Sopot",
+                "Szczecin",
+                "Toruń",
+                "Warszawa",
+                "Wrocław",
+                "Zielona Góra"
         );
         
         List<String> cities2 = List.of(
             "--RECIPIENTS REGION--",
-            "Katowice",
-            "Gliwice",
-            "Zabrze",
-            "Bytom",
-            "Chorzów",
-            "Ruda Śląska",
-            "Tychy",
-            "Dąbrowa Górnicza",
-            "Sosnowiec"
+                "Białystok",
+                "Bydgoszcz",
+                "Częstochowa",
+                "Gdańsk",
+                "Gdynia",
+                "Katowice",
+                "Kielce",
+                "Kraków",
+                "Łódź",
+                "Lublin",
+                "Olsztyn",
+                "Opole",
+                "Poznań",
+                "Rzeszów",
+                "Sopot",
+                "Szczecin",
+                "Toruń",
+                "Warszawa",
+                "Wrocław",
+                "Zielona Góra"
         );
 
         sendRegionChoiceBox.getItems().addAll(cities);
@@ -297,7 +319,7 @@ public class PackageManageWindowController implements Initializable {
     @FXML
     void saveChanges(ActionEvent event) {
         
-        Shelf shelf = currentPackage.getPackage_rack();
+        Rack shelf = currentPackage.getPackage_rack();
 
         boolean success = service.updatePackageFull(
                 currentPackage.getPackage_id(),
@@ -396,8 +418,8 @@ public class PackageManageWindowController implements Initializable {
         recipientEmailField.setText(currentPackage.getPackage_recipient().getRecipient_email());
         recipientNumberField.setText(currentPackage.getPackage_recipient().getRecipient_phone());
 
-        String sendRegion = mapCodeToRegion(currentPackage.getPackage_region().getRegion());
-        String receiveRegion = mapCodeToRegion(currentPackage.getPackage_dest_region().getRegion());
+        String sendRegion = mapRegionNameToCode(currentPackage.getPackage_region().getRegion_name());
+        String receiveRegion = mapRegionNameToCode(currentPackage.getPackage_dest_region().getRegion_name());
         
         
         
@@ -413,19 +435,52 @@ public class PackageManageWindowController implements Initializable {
     }
     
     
-    private String mapCodeToRegion(String code) {
-    switch (code) {
-        case "CZ1": return "Katowice";
-        case "DE1": return "Gliwice";
-        case "GA2": return "Zabrze";
-        case "PL1": return "Bytom";
-        case "PL2": return "Chorzów";
-        case "PL3": return "Ruda Śląska";
-        case "RB4": return "Tychy";
-        case "WA8": return "Dąbrowa Górnicza";
-        default: return "--SENDERS REGION--";
+    private String mapRegionNameToCode(String name) {
+        switch (name) {
+            case "Białystok":
+                return "BIA";
+            case "Bydgoszcz":
+                return "BYD";
+            case "Częstochowa":
+                return "CZE";
+            case "Gdańsk":
+                return "GDA";
+            case "Gdynia":
+                return "GDY";
+            case "Katowice":
+                return "KAT";
+            case "Kielce":
+                return "KIE";
+            case "Kraków":
+                return "KRK";
+            case "Łódź":
+                return "LOD";
+            case "Lublin":
+                return "LUB";
+            case "Olsztyn":
+                return "OLS";
+            case "Opole":
+                return "OPL";
+            case "Poznań":
+                return "POZ";
+            case "Rzeszów":
+                return "RZE";
+            case "Sopot":
+                return "SOP";
+            case "Szczecin":
+                return "SZC";
+            case "Toruń":
+                return "TOR";
+            case "Warszawa":
+                return "WAW";
+            case "Wrocław":
+                return "WRO";
+            case "Zielona Góra":
+                return "ZIE";
+            default:
+                return "WAW";
+        }
     }
-}
     
     
   

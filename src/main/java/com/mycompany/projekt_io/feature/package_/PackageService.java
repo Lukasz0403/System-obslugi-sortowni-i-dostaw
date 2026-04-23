@@ -9,36 +9,13 @@ import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
-import com.mycompany.projekt_io.datamodel.Shelf;
+import com.mycompany.projekt_io.datamodel.Rack;
 
 public class PackageService {
 
     private final PackageDAO dao = new PackageDAO();
 
-    private String mapRegionToCode(String region) {
-        switch (region) {
-            case "Katowice":
-                return "CZ1";
-            case "Gliwice":
-                return "DE1";
-            case "Zabrze":
-                return "GA2";
-            case "Bytom":
-                return "PL1";
-            case "Chorzów":
-                return "PL2";
-            case "Ruda Śląska":
-                return "PL3";
-            case "Tychy":
-                return "RB4";
-            case "Dąbrowa Górnicza":
-                return "WA8";
-            case "Sosnowiec":
-                return "CZ1";
-            default:
-                return "CZ1";
-        }
-    }
+
 
     public boolean addPackage(
             String size,
@@ -60,19 +37,34 @@ public class PackageService {
             String recipientPhone
     ) {
 
-        String sendRegionCode = mapRegionToCode(sendRegionName);
-        String receiveRegionCode = mapRegionToCode(receiveRegionName);
+        int sendRegionId = findRegionIdByName(sendRegionName);
+        int receiveRegionId = findRegionIdByName(receiveRegionName);
 
         Sender sender = new Sender(1, senderName, "", senderStreet, senderPostcode, senderEmail, senderPhone);
         Recipient recipient = new Recipient(1, recipientName, "", recipientStreet, recipientPostcode, recipientEmail, recipientPhone);
 
-        Region region = new Region(sendRegionCode);
-        Region destRegion = new Region(receiveRegionCode);
+        Region region = new Region(sendRegionId, sendRegionName);
+        Region destRegion = new Region(receiveRegionId, receiveRegionName);
 
-        Format format = new Format(size, (int) width, (int) height, (int) depth, (int) weight);
-        Shelf shelf = new Shelf(1, null);
+        Format format = new Format(
+                size,
+                (int) width,
+                (int) height,
+                (int) depth,
+                (int) weight,
+                mapSizeToSlot(size)
+        );
+        Rack rack = null;
 
-        Package pack = new Package(0, sender, recipient, region, destRegion, format, shelf);
+        Package pack = new Package(
+                0,
+                sender,
+                recipient,
+                region,
+                destRegion,
+                format,
+                rack
+        );
 
         return dao.addPackage(pack);
     }
@@ -100,31 +92,30 @@ public class PackageService {
             String recipientPhone
     ) {
 
-        PackageDAO dao = new PackageDAO();
-
-        
-        Sender sender = new Sender(0, senderName, senderCity, senderStreet, senderPostcode, senderEmail, senderPhone);
+        Sender sender = new Sender(0, senderName, senderCity,
+                senderStreet, senderPostcode, senderEmail, senderPhone);
         int senderId = dao.addSender(sender);
 
-        
-        Recipient recipient = new Recipient(0, recipientName, recipientCity, recipientStreet, recipientPostcode, recipientEmail, recipientPhone);
+        Recipient recipient = new Recipient(0, recipientName, recipientCity,
+                recipientStreet, recipientPostcode, recipientEmail, recipientPhone);
         int recipientId = dao.addRecipient(recipient);
 
         if (senderId == -1 || recipientId == -1) {
             return false;
         }
 
-        
-        Region region = new Region(mapRegionToCode(sendRegion));
-        Region destRegion = new Region(mapRegionToCode(receiveRegion));
+        Region region = new Region(findRegionIdByName(sendRegion), sendRegion);
+        Region destRegion = new Region(findRegionIdByName(receiveRegion), receiveRegion);
 
-        
-        Format format = new Format(size, (int) width, (int) height, (int) depth, (int) weight);
+        Format format = new Format(
+                size,
+                (int) width,
+                (int) height,
+                (int) depth,
+                (int) weight,
+                mapSizeToSlot(size)
+        );
 
-        
-        Shelf shelf = null;
-
-        
         Package pack = new Package(
                 0,
                 new Sender(senderId, null, null, null, null, null, null),
@@ -132,7 +123,7 @@ public class PackageService {
                 region,
                 destRegion,
                 format,
-                shelf
+                null
         );
 
         return dao.addPackage(pack);
@@ -148,7 +139,6 @@ public class PackageService {
             double width,
             double height,
             double depth,
-            // sender
             int senderId,
             String senderName,
             String senderCity,
@@ -156,7 +146,6 @@ public class PackageService {
             String senderPostcode,
             String senderEmail,
             String senderPhone,
-            // recipient
             int recipientId,
             String recipientName,
             String recipientCity,
@@ -164,49 +153,31 @@ public class PackageService {
             String recipientPostcode,
             String recipientEmail,
             String recipientPhone,
-            Shelf shelf
-            
+            Rack rack
     ) {
 
-        PackageDAO dao = new PackageDAO();
-
-        // 🔹 update sender
         Sender sender = new Sender(
-                senderId,
-                senderName,
-                senderCity,
-                senderStreet,
-                senderPostcode,
-                senderEmail,
-                senderPhone
+                senderId, senderName, senderCity,
+                senderStreet, senderPostcode, senderEmail, senderPhone
         );
 
-        // 🔹 update recipient
         Recipient recipient = new Recipient(
-                recipientId,
-                recipientName,
-                recipientCity,
-                recipientStreet,
-                recipientPostcode,
-                recipientEmail,
-                recipientPhone
+                recipientId, recipientName, recipientCity,
+                recipientStreet, recipientPostcode, recipientEmail, recipientPhone
         );
 
-        // 🔹 regiony
-        Region region = new Region(mapRegionToCode(sendRegion));
-        Region destRegion = new Region(mapRegionToCode(receiveRegion));
-        
+        Region region = new Region(findRegionIdByName(sendRegion), sendRegion);
+        Region destRegion = new Region(findRegionIdByName(receiveRegion), receiveRegion);
 
-        // 🔹 format
         Format format = new Format(
                 size,
                 (int) width,
                 (int) height,
                 (int) depth,
-                (int) weight
+                (int) weight,
+                mapSizeToSlot(size)
         );
 
-        // 🔹 package
         Package pack = new Package(
                 packageId,
                 sender,
@@ -214,10 +185,9 @@ public class PackageService {
                 region,
                 destRegion,
                 format,
-                shelf
+                rack
         );
 
-        // 🔥 WYWOŁANIA DAO
         boolean senderUpdated = dao.updateSender(sender);
         boolean recipientUpdated = dao.updateRecipient(recipient);
         boolean packageUpdated = dao.changePackage(pack);
@@ -228,5 +198,75 @@ public class PackageService {
     
     public boolean deletePackage(int packageId) {
         return dao.deletePackage(packageId);
+    }
+    
+    private int findRegionIdByName(String name) {
+        String code = mapRegionNameToCode(name);
+
+        return dao.getRegions().stream()
+                .filter(r -> r.getRegion_name().equals(code))
+                .map(Region::getRegion_id)
+                .findFirst()
+                .orElse(1);
+    }
+    
+    private int mapSizeToSlot(String size) {
+        switch (size) {
+            case "A":
+                return 1;
+            case "B":
+                return 2;
+            case "C":
+                return 4;
+            default:
+                return 1;
+        }
+    }
+    
+    private String mapRegionNameToCode(String name) {
+        switch (name) {
+            case "Białystok":
+                return "BIA";
+            case "Bydgoszcz":
+                return "BYD";
+            case "Częstochowa":
+                return "CZE";
+            case "Gdańsk":
+                return "GDA";
+            case "Gdynia":
+                return "GDY";
+            case "Katowice":
+                return "KAT";
+            case "Kielce":
+                return "KIE";
+            case "Kraków":
+                return "KRK";
+            case "Łódź":
+                return "LOD";
+            case "Lublin":
+                return "LUB";
+            case "Olsztyn":
+                return "OLS";
+            case "Opole":
+                return "OPL";
+            case "Poznań":
+                return "POZ";
+            case "Rzeszów":
+                return "RZE";
+            case "Sopot":
+                return "SOP";
+            case "Szczecin":
+                return "SZC";
+            case "Toruń":
+                return "TOR";
+            case "Warszawa":
+                return "WAW";
+            case "Wrocław":
+                return "WRO";
+            case "Zielona Góra":
+                return "ZIE";
+            default:
+                return "WAW";
+        }
     }
 }

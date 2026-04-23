@@ -125,6 +125,7 @@ public class PackageTableWindowController implements Initializable {
         });
         
         
+        
     }
 
     // SIDEBAR BUTTON HANDLERS
