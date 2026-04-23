@@ -9,24 +9,32 @@ package com.mycompany.projekt_io.datamodel;
  * @author mateu
  */
 public class Region {
-    String region;
+    int region_id;
+    String region_name;
 
-    public String getRegion() {
-        return region;
+    public int getRegion_id() {
+        return region_id;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public String getRegion_name() {
+        return region_name;
     }
 
-    public Region(String region) {
-        this.region = region;
+    public void setRegion_id(int region_id) {
+        this.region_id = region_id;
+    }
+
+    public void setRegion_name(String region_name) {
+        this.region_name = region_name;
+    }
+
+    public Region(int region_id, String region_name) {
+        this.region_id = region_id;
+        this.region_name = region_name;
     }
 
     @Override
     public String toString() {
-        return "Region{" + "region=" + region + '}';
-    }
-    
-    
+        return "Region{" + "region_id=" + region_id + ", region_name=" + region_name + '}';
+    } 
 }

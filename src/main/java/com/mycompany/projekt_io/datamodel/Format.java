@@ -11,7 +11,7 @@ package com.mycompany.projekt_io.datamodel;
 public class Format {
     
     String format_id;
-    int max_format_width, max_format_height, max_format_depth, max_wage;
+    int max_format_width, max_format_height, max_format_depth, max_wage, slot_coverage;
 
     public String getFormat_id() {
         return format_id;
@@ -33,6 +33,16 @@ public class Format {
         return max_wage;
     }
 
+    public int getSlot_coverage() {
+        return slot_coverage;
+    }
+
+    public void setSlot_coverage(int slot_coverage) {
+        this.slot_coverage = slot_coverage;
+    }
+    
+    
+
     public void setFormat_id(String format_id) {
         this.format_id = format_id;
     }
@@ -53,13 +63,16 @@ public class Format {
         this.max_wage = max_wage;
     }
 
-    public Format(String format_id, int max_format_width, int max_format_height, int max_format_depth, int max_wage) {
+    public Format(String format_id, int max_format_width, int max_format_height, int max_format_depth, int max_wage, int slot_coverage) {
         this.format_id = format_id;
         this.max_format_width = max_format_width;
         this.max_format_height = max_format_height;
         this.max_format_depth = max_format_depth;
         this.max_wage = max_wage;
+        this.slot_coverage = slot_coverage;
     }
+
+    
 
     @Override
     public String toString() {

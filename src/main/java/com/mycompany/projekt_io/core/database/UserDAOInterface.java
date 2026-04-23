@@ -7,9 +7,6 @@ import java.util.List;
 public interface UserDAOInterface {
     User getUser(String login);
     List<User> getUsers();
-    
-    // EXPERIMENTAL, REMOVE IF ALREADY EXISTS
     List<Permission> getPermissions();
-    // EXPERIMENTAL, REMOVE IF ALREADY EXISTS
     boolean addUser(String login, String hashedPassword, int permissionId);
 }

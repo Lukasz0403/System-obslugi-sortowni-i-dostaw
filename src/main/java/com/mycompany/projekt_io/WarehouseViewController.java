@@ -1,6 +1,6 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.datamodel.Warehouse;
+import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.werehouse.SortingService;
 
 //HUH? - Ida
@@ -11,12 +11,12 @@ import com.mycompany.projekt_io.feature.werehouse.SortingService;
  */
 public class WarehouseViewController {
 
-    private Warehouse warehouse;
+    private Rack warehouse;
     private SortingService sortingService;
 
     
 
-    public WarehouseViewController(Warehouse warehouse, SortingService sortingService) {
+    public WarehouseViewController(Rack warehouse, SortingService sortingService) {
         this.warehouse = warehouse;
         this.sortingService = sortingService;
     }

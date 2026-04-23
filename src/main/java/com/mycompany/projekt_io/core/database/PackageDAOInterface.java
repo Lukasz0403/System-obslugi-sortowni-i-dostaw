@@ -7,10 +7,10 @@ package com.mycompany.projekt_io.core.database;
 import com.mycompany.projekt_io.datamodel.Format;
 import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
-import com.mycompany.projekt_io.datamodel.Shelf;
 import com.mycompany.projekt_io.datamodel.Zone;
 
 /**
@@ -27,8 +27,18 @@ public interface PackageDAOInterface {
     List<Sender> getSenders();
     List<Recipient> getRecipient();
     List<Region> getRegions();
-    List<Shelf> getShelves();
+    List<Rack> getRacks();
     List<Zone> getZones();
+    int addSender(Sender s);
+    int addRecipient(Recipient r);
+    int getPackageCountForShelf(int shelfId);
+    int getLastPackageIdForShelf(int shelfId);
+    int getTotalPackageCount();
+    int getPackageCountForZone(int zoneId);
+    int getMostLoadedShelfId();
+    boolean updateSender(Sender s);
+    boolean updateRecipient(Recipient r);
+    boolean deletePackage(int packageId);
 }
 
 

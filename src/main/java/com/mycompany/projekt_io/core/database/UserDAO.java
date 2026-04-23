@@ -26,16 +26,12 @@ public class UserDAO implements UserDAOInterface {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally {
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
+        
         return user;
     }
 
-    //WYWALIŁAM CON CLOSE JAKO TESTY. PONIŻEJ POPRZEDNI KOD JEST TO ZAKOMENTOWANY JAKO BACKUP. 
-    //Z CON CLOSE NIE DZIAŁA MI DODAWANIE - IDA
-    
-    /* @Override
+    @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
         try {
@@ -50,28 +46,8 @@ public class UserDAO implements UserDAOInterface {
         } catch (SQLException ex) {
         }
         return users;
-    } */
-
-    @Override
-    public List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-        Connection conn = ConnectDatabaseUser.getConnection();
-        try {
-            String sql = "SELECT * FROM users JOIN permissions ON permission = permission_id";
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery(sql);
-            while (rs.next()) {
-                users.add(new User(rs.getString("login"), rs.getString("password"), new Permission(rs.getInt("permission_id"), rs.getString("name"))));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
-        return users;
     }
 
-    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
     @Override
     public List<Permission> getPermissions() {
         List<Permission> permissions = new ArrayList<>();
@@ -84,15 +60,11 @@ public class UserDAO implements UserDAOInterface {
                 permissions.add(new Permission(rs.getInt("permission_id"), rs.getString("name")));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-        }
+        } 
         return permissions;
     }
 
 
-    // EXPERIMENTAL, REMOVE IF NESSESARY - IDA
     @Override
     public boolean addUser(String login, String hashedPassword, int permissionId) {
         Connection conn = ConnectDatabaseUser.getConnection();
@@ -107,9 +79,6 @@ public class UserDAO implements UserDAOInterface {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
-        } finally {
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
     }
-
 }

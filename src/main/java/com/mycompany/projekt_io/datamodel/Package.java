@@ -15,7 +15,7 @@ public class Package {
     Recipient package_recipient;
     Region package_region, package_dest_region;
     Format package_format;
-    Shelf package_rack;
+    Rack package_rack;
 
     public int getPackage_id() {
         return package_id;
@@ -41,9 +41,14 @@ public class Package {
         return package_format;
     }
 
-    public Shelf getPackage_rack() {
+    public Rack getPackage_rack() {
         return package_rack;
     }
+
+    public void setPackage_rack(Rack package_rack) {
+        this.package_rack = package_rack;
+    }
+    
 
     public void setPackage_id(int package_id) {
         this.package_id = package_id;
@@ -69,11 +74,7 @@ public class Package {
         this.package_format = package_format;
     }
 
-    public void setPackage_rack(Shelf package_rack) {
-        this.package_rack = package_rack;
-    }
-
-    public Package(int package_id, Sender package_sender, Recipient package_recipient, Region package_region, Region package_dest_region, Format package_format, Shelf package_rack) {
+    public Package(int package_id, Sender package_sender, Recipient package_recipient, Region package_region, Region package_dest_region, Format package_format, Rack package_rack) {
         this.package_id = package_id;
         this.package_sender = package_sender;
         this.package_recipient = package_recipient;
@@ -87,6 +88,4 @@ public class Package {
     public String toString() {
         return "Package{" + "package_id=" + package_id + ", package_sender=" + package_sender + ", package_recipient=" + package_recipient + ", package_region=" + package_region + ", package_dest_region=" + package_dest_region + ", package_format=" + package_format + ", package_rack=" + package_rack + '}';
     }
-    
-    
 }
