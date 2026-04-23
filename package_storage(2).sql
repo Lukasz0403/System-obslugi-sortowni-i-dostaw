@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 23, 2026 at 06:40 PM
+-- Generation Time: Apr 23, 2026 at 07:49 PM
 -- Wersja serwera: 9.6.0
 -- Wersja PHP: 8.3.30
 
@@ -75,9 +75,18 @@ CREATE TABLE `packages` (
   `package_region` int NOT NULL,
   `package_dest_region` int NOT NULL,
   `package_format` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `package_shelf` int DEFAULT NULL,
+  `package_rack` int DEFAULT NULL,
   `label` longblob
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Zrzut danych tabeli `packages`
+--
+
+INSERT INTO `packages` (`package_id`, `package_sender`, `package_recipient`, `width`, `height`, `depth`, `weight`, `package_region`, `package_dest_region`, `package_format`, `package_rack`, `label`) VALUES
+(1, 3, 3, 10, 40, 60, 2, 3, 17, 'A', NULL, NULL),
+(2, 4, 4, 20, 40, 60, 5, 2, 16, 'B', NULL, NULL),
+(3, 2, 5, 20, 40, 60, 5, 8, 17, 'C', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -99,9 +108,9 @@ CREATE TABLE `package_formats` (
 --
 
 INSERT INTO `package_formats` (`format_id`, `max_format_width`, `max_format_height`, `max_format_depth`, `max_weight`, `slot_coverage`) VALUES
-('L', 42, 40, 65, 20, 4),
-('M', 20, 40, 65, 20, 2),
-('S', 9, 40, 65, 20, 1);
+('A', 10, 40, 60, 20, 1),
+('B', 20, 40, 60, 20, 2),
+('C', 40, 40, 60, 20, 4);
 
 -- --------------------------------------------------------
 
@@ -201,223 +210,6 @@ INSERT INTO `senders` (`sender_id`, `sender_name`, `sender_city`, `sender_street
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `shelves`
---
-
-CREATE TABLE `shelves` (
-  `shelf_id` int NOT NULL,
-  `rack` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Zrzut danych tabeli `shelves`
---
-
-INSERT INTO `shelves` (`shelf_id`, `rack`) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(6, 1),
-(7, 1),
-(8, 1),
-(9, 1),
-(10, 1),
-(11, 2),
-(12, 2),
-(13, 2),
-(14, 2),
-(15, 2),
-(16, 2),
-(17, 2),
-(18, 2),
-(19, 2),
-(20, 2),
-(21, 3),
-(22, 3),
-(23, 3),
-(24, 3),
-(25, 3),
-(26, 3),
-(27, 3),
-(28, 3),
-(29, 3),
-(30, 3),
-(31, 4),
-(32, 4),
-(33, 4),
-(34, 4),
-(35, 4),
-(36, 4),
-(37, 4),
-(38, 4),
-(39, 4),
-(40, 4),
-(41, 5),
-(42, 5),
-(43, 5),
-(44, 5),
-(45, 5),
-(46, 5),
-(47, 5),
-(48, 5),
-(49, 5),
-(50, 5),
-(51, 6),
-(52, 6),
-(53, 6),
-(54, 6),
-(55, 6),
-(56, 6),
-(57, 6),
-(58, 6),
-(59, 6),
-(60, 6),
-(61, 7),
-(62, 7),
-(63, 7),
-(64, 7),
-(65, 7),
-(66, 7),
-(67, 7),
-(68, 7),
-(69, 7),
-(70, 7),
-(71, 8),
-(72, 8),
-(73, 8),
-(74, 8),
-(75, 8),
-(76, 8),
-(77, 8),
-(78, 8),
-(79, 8),
-(80, 8),
-(81, 9),
-(82, 9),
-(83, 9),
-(84, 9),
-(85, 9),
-(86, 9),
-(87, 9),
-(88, 9),
-(89, 9),
-(90, 9),
-(91, 10),
-(92, 10),
-(93, 10),
-(94, 10),
-(95, 10),
-(96, 10),
-(97, 10),
-(98, 10),
-(99, 10),
-(100, 10),
-(101, 11),
-(102, 11),
-(103, 11),
-(104, 11),
-(105, 11),
-(106, 11),
-(107, 11),
-(108, 11),
-(109, 11),
-(110, 11),
-(111, 12),
-(112, 12),
-(113, 12),
-(114, 12),
-(115, 12),
-(116, 12),
-(117, 12),
-(118, 12),
-(119, 12),
-(120, 12),
-(121, 13),
-(122, 13),
-(123, 13),
-(124, 13),
-(125, 13),
-(126, 13),
-(127, 13),
-(128, 13),
-(129, 13),
-(130, 13),
-(131, 14),
-(132, 14),
-(133, 14),
-(134, 14),
-(135, 14),
-(136, 14),
-(137, 14),
-(138, 14),
-(139, 14),
-(140, 14),
-(141, 15),
-(142, 15),
-(143, 15),
-(144, 15),
-(145, 15),
-(146, 15),
-(147, 15),
-(148, 15),
-(149, 15),
-(150, 15),
-(151, 16),
-(152, 16),
-(153, 16),
-(154, 16),
-(155, 16),
-(156, 16),
-(157, 16),
-(158, 16),
-(159, 16),
-(160, 16),
-(161, 17),
-(162, 17),
-(163, 17),
-(164, 17),
-(165, 17),
-(166, 17),
-(167, 17),
-(168, 17),
-(169, 17),
-(170, 17),
-(171, 18),
-(172, 18),
-(173, 18),
-(174, 18),
-(175, 18),
-(176, 18),
-(177, 18),
-(178, 18),
-(179, 18),
-(180, 18),
-(181, 19),
-(182, 19),
-(183, 19),
-(184, 19),
-(185, 19),
-(186, 19),
-(187, 19),
-(188, 19),
-(189, 19),
-(190, 19),
-(191, 20),
-(192, 20),
-(193, 20),
-(194, 20),
-(195, 20),
-(196, 20),
-(197, 20),
-(198, 20),
-(199, 20),
-(200, 20);
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `zones`
 --
 
@@ -454,7 +246,7 @@ ALTER TABLE `packages`
   ADD KEY `FK_SENDER` (`package_sender`),
   ADD KEY `FK_RECIPIENT` (`package_recipient`),
   ADD KEY `FK_FROMAT` (`package_format`),
-  ADD KEY `packages_ibfk_6` (`package_shelf`),
+  ADD KEY `packages_ibfk_6` (`package_rack`),
   ADD KEY `packages_ibfk_5` (`package_region`),
   ADD KEY `packages_ibfk_7` (`package_dest_region`);
 
@@ -484,13 +276,6 @@ ALTER TABLE `senders`
   ADD PRIMARY KEY (`sender_id`);
 
 --
--- Indeksy dla tabeli `shelves`
---
-ALTER TABLE `shelves`
-  ADD PRIMARY KEY (`shelf_id`),
-  ADD KEY `RACK_FK` (`rack`);
-
---
 -- Indeksy dla tabeli `zones`
 --
 ALTER TABLE `zones`
@@ -510,7 +295,7 @@ ALTER TABLE `courier_regions`
 -- AUTO_INCREMENT dla tabeli `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `package_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `package_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT dla tabeli `racks`
@@ -531,12 +316,6 @@ ALTER TABLE `senders`
   MODIFY `sender_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT dla tabeli `shelves`
---
-ALTER TABLE `shelves`
-  MODIFY `shelf_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
-
---
 -- AUTO_INCREMENT dla tabeli `zones`
 --
 ALTER TABLE `zones`
@@ -553,8 +332,8 @@ ALTER TABLE `packages`
   ADD CONSTRAINT `packages_ibfk_1` FOREIGN KEY (`package_sender`) REFERENCES `senders` (`sender_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_2` FOREIGN KEY (`package_recipient`) REFERENCES `recipients` (`recipient_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_3` FOREIGN KEY (`package_format`) REFERENCES `package_formats` (`format_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `packages_ibfk_4` FOREIGN KEY (`package_shelf`) REFERENCES `shelves` (`shelf_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_5` FOREIGN KEY (`package_region`) REFERENCES `courier_regions` (`region_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `packages_ibfk_6` FOREIGN KEY (`package_rack`) REFERENCES `racks` (`rack_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_7` FOREIGN KEY (`package_dest_region`) REFERENCES `courier_regions` (`region_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
@@ -562,12 +341,6 @@ ALTER TABLE `packages`
 --
 ALTER TABLE `racks`
   ADD CONSTRAINT `racks_ibfk_1` FOREIGN KEY (`zone`) REFERENCES `zones` (`zone_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
---
--- Ograniczenia dla tabeli `shelves`
---
-ALTER TABLE `shelves`
-  ADD CONSTRAINT `shelves_ibfk_1` FOREIGN KEY (`rack`) REFERENCES `racks` (`rack_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
