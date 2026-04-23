@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 23, 2026 at 05:55 PM
+-- Generation Time: Apr 23, 2026 at 06:40 PM
 -- Wersja serwera: 9.6.0
 -- Wersja PHP: 8.3.30
 
@@ -28,34 +28,35 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `courier_regions` (
-  `region_id` char(3) COLLATE utf8mb4_general_ci NOT NULL
+  `region_id` int NOT NULL,
+  `region_name` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Zrzut danych tabeli `courier_regions`
 --
 
-INSERT INTO `courier_regions` (`region_id`) VALUES
-('BIA'),
-('BYD'),
-('CZE'),
-('GDA'),
-('GDY'),
-('KAT'),
-('KIE'),
-('KRK'),
-('LOD'),
-('LUB'),
-('OLS'),
-('OPL'),
-('POZ'),
-('RZE'),
-('SOP'),
-('SZC'),
-('TOR'),
-('WAW'),
-('WRO'),
-('ZIE');
+INSERT INTO `courier_regions` (`region_id`, `region_name`) VALUES
+(1, 'BIA'),
+(2, 'BYD'),
+(3, 'CZE'),
+(4, 'GDA'),
+(5, 'GDY'),
+(6, 'KAT'),
+(7, 'KIE'),
+(8, 'KRK'),
+(9, 'LOD'),
+(10, 'LUB'),
+(11, 'OLS'),
+(12, 'OPL'),
+(13, 'POZ'),
+(14, 'RZE'),
+(15, 'SOP'),
+(16, 'SZC'),
+(17, 'TOR'),
+(18, 'WAW'),
+(19, 'WRO'),
+(20, 'ZIE');
 
 -- --------------------------------------------------------
 
@@ -71,20 +72,12 @@ CREATE TABLE `packages` (
   `height` int UNSIGNED NOT NULL,
   `depth` int UNSIGNED NOT NULL,
   `weight` int UNSIGNED NOT NULL,
-  `package_region` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `package_dest_region` char(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `package_region` int NOT NULL,
+  `package_dest_region` int NOT NULL,
   `package_format` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `package_shelf` int DEFAULT NULL,
   `label` longblob
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Zrzut danych tabeli `packages`
---
-
-INSERT INTO `packages` (`package_id`, `package_sender`, `package_recipient`, `width`, `height`, `depth`, `weight`, `package_region`, `package_dest_region`, `package_format`, `package_shelf`, `label`) VALUES
-(1, 3, 3, 15, 30, 25, 2, 'BIA', 'SZC', 'M', NULL, NULL),
-(2, 2, 7, 5, 40, 40, 5, 'GDA', 'TOR', 'S', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -460,10 +453,10 @@ ALTER TABLE `packages`
   ADD PRIMARY KEY (`package_id`),
   ADD KEY `FK_SENDER` (`package_sender`),
   ADD KEY `FK_RECIPIENT` (`package_recipient`),
-  ADD KEY `FK_REGION` (`package_region`),
   ADD KEY `FK_FROMAT` (`package_format`),
   ADD KEY `packages_ibfk_6` (`package_shelf`),
-  ADD KEY `packages_ibfk_4` (`package_dest_region`);
+  ADD KEY `packages_ibfk_5` (`package_region`),
+  ADD KEY `packages_ibfk_7` (`package_dest_region`);
 
 --
 -- Indeksy dla tabeli `package_formats`
@@ -506,6 +499,12 @@ ALTER TABLE `zones`
 --
 -- AUTO_INCREMENT dla zrzuconych tabel
 --
+
+--
+-- AUTO_INCREMENT dla tabeli `courier_regions`
+--
+ALTER TABLE `courier_regions`
+  MODIFY `region_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT dla tabeli `packages`
@@ -556,7 +555,7 @@ ALTER TABLE `packages`
   ADD CONSTRAINT `packages_ibfk_3` FOREIGN KEY (`package_format`) REFERENCES `package_formats` (`format_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_4` FOREIGN KEY (`package_shelf`) REFERENCES `shelves` (`shelf_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `packages_ibfk_5` FOREIGN KEY (`package_region`) REFERENCES `courier_regions` (`region_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `packages_ibfk_6` FOREIGN KEY (`package_dest_region`) REFERENCES `courier_regions` (`region_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `packages_ibfk_7` FOREIGN KEY (`package_dest_region`) REFERENCES `courier_regions` (`region_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ograniczenia dla tabeli `racks`
