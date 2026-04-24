@@ -63,7 +63,11 @@ public class PackageService {
                 region,
                 destRegion,
                 format,
-                rack
+                rack,
+                (int) width, 
+                (int) height, 
+                (int) depth, 
+                (int) weight
         );
 
         return dao.addPackage(pack);
@@ -91,6 +95,18 @@ public class PackageService {
             String recipientEmail,
             String recipientPhone
     ) {
+        
+        if (width < 2 || height < 10 || depth < 10) {
+            System.out.println("Paczka zbyt mała! Minimum: 2x10x10 cm");
+            return false;
+        }
+
+        // AUTOMATYCZNE PRZYPISANIE GABARYTU
+         size = assignFormat(width, height, depth);
+        if (size == null) {
+            System.out.println("Paczka zbyt duża! Maksymalny gabaryt to C (40x40x60 cm)");
+            return false;
+        }
 
         Sender sender = new Sender(0, senderName, senderCity,
                 senderStreet, senderPostcode, senderEmail, senderPhone);
@@ -123,7 +139,11 @@ public class PackageService {
                 region,
                 destRegion,
                 format,
-                null
+                null,
+                (int) width, 
+                (int) height, 
+                (int) depth, 
+                (int) weight
         );
 
         return dao.addPackage(pack);
@@ -185,7 +205,11 @@ public class PackageService {
                 region,
                 destRegion,
                 format,
-                rack
+                rack,
+                (int) width, // ← NOWE
+                (int) height, // ← NOWE
+                (int) depth, // ← NOWE
+                (int) weight
         );
 
         boolean senderUpdated = dao.updateSender(sender);
@@ -268,5 +292,21 @@ public class PackageService {
             default:
                 return "WAW";
         }
+    }
+    
+    private String assignFormat(double width, double height, double depth) {
+       
+
+        if (width <= 10 && height <= 40 && depth <= 60) {
+            return "A";
+        }
+        if (width <= 20 && height <= 40 && depth <= 60) {
+            return "B";
+        }
+        if (width <= 40 && height <= 40 && depth <= 60) {
+            return "C";
+        }
+
+        return null; // za duża
     }
 }

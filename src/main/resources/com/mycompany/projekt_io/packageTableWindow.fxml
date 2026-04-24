@@ -58,10 +58,13 @@
                 <content>
                     <TableView fx:id="packageTable" style="-fx-background-color: #E8E8E8; -fx-table-header-border-color: #F7F5E6;">
                         <columns>
-                            <TableColumn fx:id="idColumn" text="ID" />
-                            <TableColumn fx:id="shelfColumn" text="Regał" />
+                            <TableColumn fx:id="idColumn" text="ID"  />
+                            <TableColumn fx:id="shelfColumn" text="Regał/Strefa" />
                             <TableColumn fx:id="sizeColumn" text="Gabaryt" />
-                            <TableColumn fx:id="weightColumn" text="Waga" />
+                            <TableColumn fx:id="widthColumn" text="Szerokość [cm]" />
+                            <TableColumn fx:id="heightColumn" text="Wysokość [cm]" />
+                            <TableColumn fx:id="depthColumn" text="Głębokość [cm]" />
+                            <TableColumn fx:id="weightColumn" text="Waga [kg]" />
                             <TableColumn fx:id="senregionColumn" text="Region Nadawcy" />
                             <TableColumn fx:id="recregionColumn" text="Region Odbiorcy" />
                         </columns>

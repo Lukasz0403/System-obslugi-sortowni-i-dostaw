@@ -70,6 +70,15 @@ public class PackageTableWindowController implements Initializable {
 
     @FXML
     private TableColumn<PackageTableService, String> sizeColumn;
+    
+    @FXML
+    private TableColumn<PackageTableService, Integer> widthColumn;
+
+    @FXML
+    private TableColumn<PackageTableService, Integer> heightColumn;
+
+    @FXML
+    private TableColumn<PackageTableService, Integer> depthColumn;
 
     @FXML
     private TableColumn<PackageTableService, String> senregionColumn;
@@ -103,6 +112,9 @@ public class PackageTableWindowController implements Initializable {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         shelfColumn.setCellValueFactory(new PropertyValueFactory<>("shelf"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
+        widthColumn.setCellValueFactory(new PropertyValueFactory<>("width"));
+        heightColumn.setCellValueFactory(new PropertyValueFactory<>("height"));
+        depthColumn.setCellValueFactory(new PropertyValueFactory<>("depth"));
         senregionColumn.setCellValueFactory(new PropertyValueFactory<>("senderRegion"));
         recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
@@ -210,7 +222,7 @@ public class PackageTableWindowController implements Initializable {
     alert.setContentText(content);
     alert.initOwner(timeLabel.getScene().getWindow());
     alert.showAndWait();
-}
+    }
     
     
 

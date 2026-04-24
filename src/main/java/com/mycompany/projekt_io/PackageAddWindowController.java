@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextFormatter.Change;
 
 //-------
@@ -91,8 +92,7 @@ public class PackageAddWindowController implements Initializable {
     private TextField recipientNumberField;
 
     // COMBOBOXES---------------------------------------------------------------
-    @FXML
-    private ChoiceBox<String> sizeChoiceBox;
+    
     @FXML
     private ChoiceBox<String> sendRegionChoiceBox;
     @FXML
@@ -124,9 +124,7 @@ public class PackageAddWindowController implements Initializable {
 
     // CHOICEBOXES INIT -------------------------------------------------------
 
-        // SIZE
-        sizeChoiceBox.getItems().addAll("--SIZE--","A", "B", "C");
-        sizeChoiceBox.setValue("--SIZE--");
+        
 
         // CITY LIST
         List<String> cities = List.of(
@@ -257,7 +255,7 @@ public class PackageAddWindowController implements Initializable {
         recipientEmailField.clear();
         recipientNumberField.clear();
 
-        sizeChoiceBox.setValue("--SIZE--");
+        
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
     }
@@ -281,39 +279,46 @@ public class PackageAddWindowController implements Initializable {
     
     @FXML
     private void handleAddPackage() {
-        
-        if (sizeChoiceBox.getValue().equals("--SIZE--")
-                || sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
-                || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
 
-            System.out.println("Wybierz poprawne wartości!");
+        if (sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
+                || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Wybierz region nadania i odbioru.");
             return;
         }
-        
+
         if (weightField.getText().isEmpty()
                 || widthField.getText().isEmpty()
                 || heightField.getText().isEmpty()
-                || depthField.getText().isEmpty()) {
-
-            System.out.println("Uzupełnij dane liczbowe!");
+                || depthField.getText().isEmpty()
+                || senderNameField.getText().isEmpty()
+                || senderStreetField.getText().isEmpty()
+                || senderPostcodeField.getText().isEmpty()
+                || senderEmailField.getText().isEmpty()
+                || senderNumberField.getText().isEmpty()
+                || recipientNameField.getText().isEmpty()
+                || recipientStreetField.getText().isEmpty()
+                || recipientPostcodeField.getText().isEmpty()
+                || recipientEmailField.getText().isEmpty()
+                || recipientNumberField.getText().isEmpty()) {
+                 
+                
+                
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Uzupełnij wszystkie dane.");
             return;
         }
 
         PackageService service = new PackageService();
 
         boolean success = service.addPackageFull(
-                sizeChoiceBox.getValue(),
+                "",
                 sendRegionChoiceBox.getValue(),
                 receiveRegionChoiceBox.getValue(),
                 Double.parseDouble(weightField.getText()),
                 Double.parseDouble(widthField.getText()),
                 Double.parseDouble(heightField.getText()),
                 Double.parseDouble(depthField.getText()),
-                
-                
-                
                 senderNameField.getText(),
-                "", 
+                "",
                 senderStreetField.getText(),
                 senderPostcodeField.getText(),
                 senderEmailField.getText(),
@@ -327,10 +332,10 @@ public class PackageAddWindowController implements Initializable {
         );
 
         if (success) {
-            System.out.println("Dodano!");
+            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Paczka została dodana.");
             handleDeleteButton();
         } else {
-            System.out.println("Błąd!");
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się dodać paczki. Sprawdź wymiary lub połączenie z bazą.");
         }
     }
 
@@ -345,5 +350,14 @@ public class PackageAddWindowController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.initOwner(timeLabel.getScene().getWindow());
+        alert.showAndWait();
     }
 }

@@ -294,23 +294,23 @@ public class PackageManageWindowController implements Initializable {
     void removePackage(ActionEvent event) {
 
         if (currentPackage == null) {
-            System.out.println("Brak paczki do usunięcia");
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Brak paczki do usunięcia.");
             return;
         }
-
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Usuń paczkę");
         confirm.setHeaderText("Czy na pewno chcesz usunąć paczkę?");
         confirm.setContentText("Operacja jest nieodwracalna.");
+        confirm.initOwner(timeLabel.getScene().getWindow());
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-
                 boolean success = service.deletePackage(currentPackage.getPackage_id());
-
                 if (success) {
                     loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się usunąć paczki.");
                 }
             }
         });
@@ -318,7 +318,14 @@ public class PackageManageWindowController implements Initializable {
     
     @FXML
     void saveChanges(ActionEvent event) {
-        
+
+        if (sizeChoiceBox.getValue().equals("--SIZE--")
+                || sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
+                || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Wybierz gabaryt oraz regiony nadania i odbioru.");
+            return;
+        }
+
         Rack shelf = currentPackage.getPackage_rack();
 
         boolean success = service.updatePackageFull(
@@ -330,7 +337,6 @@ public class PackageManageWindowController implements Initializable {
                 Double.parseDouble(widthField.getText()),
                 Double.parseDouble(heightField.getText()),
                 Double.parseDouble(depthField.getText()),
-                // sender
                 currentPackage.getPackage_sender().getSender_id(),
                 senderNameField.getText(),
                 currentPackage.getPackage_sender().getSender_city(),
@@ -338,7 +344,6 @@ public class PackageManageWindowController implements Initializable {
                 senderPostcodeField.getText(),
                 senderEmailField.getText(),
                 senderNumberField.getText(),
-                // recipient
                 currentPackage.getPackage_recipient().getRecipient_id(),
                 recipientNameField.getText(),
                 currentPackage.getPackage_recipient().getRecipient_city(),
@@ -350,10 +355,10 @@ public class PackageManageWindowController implements Initializable {
         );
 
         if (success) {
-            System.out.println("Zaktualizowano!");
+            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Zmiany zostały zapisane.");
             loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
         } else {
-            System.out.println("Błąd aktualizacji!");
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się zapisać zmian.");
         }
     }
     
@@ -418,8 +423,8 @@ public class PackageManageWindowController implements Initializable {
         recipientEmailField.setText(currentPackage.getPackage_recipient().getRecipient_email());
         recipientNumberField.setText(currentPackage.getPackage_recipient().getRecipient_phone());
 
-        String sendRegion = mapRegionNameToCode(currentPackage.getPackage_region().getRegion_name());
-        String receiveRegion = mapRegionNameToCode(currentPackage.getPackage_dest_region().getRegion_name());
+        String sendRegion = mapCodeToRegionName(currentPackage.getPackage_region().getRegion_name());
+        String receiveRegion = mapCodeToRegionName(currentPackage.getPackage_dest_region().getRegion_name());
         
         
         
@@ -428,61 +433,68 @@ public class PackageManageWindowController implements Initializable {
         sendRegionChoiceBox.setValue(sendRegion);
         receiveRegionChoiceBox.setValue(receiveRegion);
 
-        weightField.setText(String.valueOf(currentPackage.getPackage_format().getMax_wage()));
-        widthField.setText(String.valueOf(currentPackage.getPackage_format().getMax_format_width()));
-        heightField.setText(String.valueOf(currentPackage.getPackage_format().getMax_format_height()));
-        depthField.setText(String.valueOf(currentPackage.getPackage_format().getMax_format_depth()));
+        weightField.setText(String.valueOf(currentPackage.getWeight()));
+        widthField.setText(String.valueOf(currentPackage.getWidth()));
+        heightField.setText(String.valueOf(currentPackage.getHeight()));
+        depthField.setText(String.valueOf(currentPackage.getDepth()));
     }
     
     
-    private String mapRegionNameToCode(String name) {
-        switch (name) {
-            case "Białystok":
-                return "BIA";
-            case "Bydgoszcz":
-                return "BYD";
-            case "Częstochowa":
-                return "CZE";
-            case "Gdańsk":
-                return "GDA";
-            case "Gdynia":
-                return "GDY";
-            case "Katowice":
-                return "KAT";
-            case "Kielce":
-                return "KIE";
-            case "Kraków":
-                return "KRK";
-            case "Łódź":
-                return "LOD";
-            case "Lublin":
-                return "LUB";
-            case "Olsztyn":
-                return "OLS";
-            case "Opole":
-                return "OPL";
-            case "Poznań":
-                return "POZ";
-            case "Rzeszów":
-                return "RZE";
-            case "Sopot":
-                return "SOP";
-            case "Szczecin":
-                return "SZC";
-            case "Toruń":
-                return "TOR";
-            case "Warszawa":
-                return "WAW";
-            case "Wrocław":
-                return "WRO";
-            case "Zielona Góra":
-                return "ZIE";
+    private String mapCodeToRegionName(String code) {
+        switch (code) {
+            case "BIA":
+                return "Białystok";
+            case "BYD":
+                return "Bydgoszcz";
+            case "CZE":
+                return "Częstochowa";
+            case "GDA":
+                return "Gdańsk";
+            case "GDY":
+                return "Gdynia";
+            case "KAT":
+                return "Katowice";
+            case "KIE":
+                return "Kielce";
+            case "KRK":
+                return "Kraków";
+            case "LOD":
+                return "Łódź";
+            case "LUB":
+                return "Lublin";
+            case "OLS":
+                return "Olsztyn";
+            case "OPL":
+                return "Opole";
+            case "POZ":
+                return "Poznań";
+            case "RZE":
+                return "Rzeszów";
+            case "SOP":
+                return "Sopot";
+            case "SZC":
+                return "Szczecin";
+            case "TOR":
+                return "Toruń";
+            case "WAW":
+                return "Warszawa";
+            case "WRO":
+                return "Wrocław";
+            case "ZIE":
+                return "Zielona Góra";
             default:
-                return "WAW";
+                return "--SENDERS REGION--";
         }
     }
     
-    
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.initOwner(timeLabel.getScene().getWindow());
+        alert.showAndWait();
+    }
   
     
     

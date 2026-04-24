@@ -101,7 +101,13 @@ public class PackageDAO implements PackageDAOInterface {
                     rack = new Rack(rackId, new Zone(zoneId));
                 }
                 
-                Package pack = new Package(rs.getInt("package_id"), sender, recipient, region, destRegion, format, rack);
+                Package pack = new Package(rs.getInt("package_id"), sender, recipient, region, destRegion, format, rack,
+                rs.getInt("width"),   
+                rs.getInt("height"),  
+                rs.getInt("depth"),   
+                rs.getInt("weight") );
+                
+                
                  
                  
                 packages.add(pack);              
@@ -172,7 +178,11 @@ public class PackageDAO implements PackageDAOInterface {
 
                 Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   
 
-                pack = new Package(rs.getInt("package_id"), sender, recipient, region, destRegion, format, rack);   
+                pack = new Package(rs.getInt("package_id"), sender, recipient, region, destRegion, format, rack,
+                        rs.getInt("width"), 
+                        rs.getInt("height"), 
+                        rs.getInt("depth"), 
+                        rs.getInt("weight"));   
             }     
         
             
@@ -426,10 +436,10 @@ public Boolean addPackage(Package p) {
         }
 
         
-        ps.setInt(7, p.getPackage_format().getMax_format_width());
-        ps.setInt(8, p.getPackage_format().getMax_format_height());
-        ps.setInt(9, p.getPackage_format().getMax_format_depth());
-        ps.setInt(10, p.getPackage_format().getMax_wage());
+        ps.setInt(7, p.getWidth());
+        ps.setInt(8, p.getHeight());
+        ps.setInt(9, p.getDepth());
+        ps.setInt(10, p.getWeight());
 
         int rows = ps.executeUpdate();
 
@@ -550,33 +560,35 @@ public Boolean addPackage(Package p) {
     }
 
     @Override
-    public int getPackageCountForShelf(int shelfId) {
+    public int getPackageCountForShelf(int rackId) {
         int count = 0;
-        Connection conn = ConnectDatabasePackage.getConnection();
-        try {
-            String sql = "SELECT COUNT(*) FROM packages WHERE package_shelf = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, shelfId);
+        try (Connection conn = ConnectDatabasePackage.getConnection(); PreparedStatement ps = conn.prepareStatement(
+                "SELECT COUNT(*) FROM packages WHERE package_rack = ?")) {
+            ps.setInt(1, rackId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) count = rs.getInt(1);
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return count;
     }
 
 
     @Override
-    public int getLastPackageIdForShelf(int shelfId) {
+    public int getLastPackageIdForShelf(int rackId) {
         int id = -1;
-        Connection conn = ConnectDatabasePackage.getConnection();
-        try {
-            String sql = "SELECT MAX(package_id) FROM packages WHERE package_shelf = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, shelfId);
+        try (Connection conn = ConnectDatabasePackage.getConnection(); PreparedStatement ps = conn.prepareStatement(
+                "SELECT MAX(package_id) FROM packages WHERE package_rack = ?")) {
+            ps.setInt(1, rackId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) id = rs.getInt(1);
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException ex) {
-        } 
+            ex.printStackTrace();
+        }
         return id;
     }
 
@@ -599,31 +611,37 @@ public Boolean addPackage(Package p) {
     @Override
     public int getPackageCountForZone(int zoneId) {
         int count = 0;
-        Connection conn = ConnectDatabasePackage.getConnection();
-        try {
-            String sql = "SELECT COUNT(*) FROM packages JOIN shelves ON package_shelf = shelf_id JOIN racks ON rack= rack_id JOIN zones ON zone = zone_id WHERE zone = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (Connection conn = ConnectDatabasePackage.getConnection(); PreparedStatement ps = conn.prepareStatement(
+                "SELECT COUNT(*) FROM packages "
+                + "JOIN racks ON package_rack = rack_id "
+                + "WHERE racks.zone = ?")) {
             ps.setInt(1, zoneId);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) count = rs.getInt(1);
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
         } catch (SQLException ex) {
-        } 
+            ex.printStackTrace();
+        }
         return count;
     }
 
 
     @Override
     public int getMostLoadedShelfId() {
-        int shelfId = -1;
-        Connection conn = ConnectDatabasePackage.getConnection();
-        try {
-            String sql = "SELECT package_rack, COUNT(*) as cnt FROM packages WHERE package_shelf IS NOT NULL GROUP BY package_shelf ORDER BY cnt DESC LIMIT 1";
-            Statement s = conn.createStatement();
+        int rackId = -1;
+        try (Connection conn = ConnectDatabasePackage.getConnection(); Statement s = conn.createStatement()) {
+            String sql = "SELECT package_rack, COUNT(*) as cnt FROM packages "
+                    + "WHERE package_rack IS NOT NULL "
+                    + "GROUP BY package_rack ORDER BY cnt DESC LIMIT 1";
             ResultSet rs = s.executeQuery(sql);
-            if (rs.next()) shelfId = rs.getInt("package_rack");
+            if (rs.next()) {
+                rackId = rs.getInt("package_rack");
+            }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        return shelfId;
+        return rackId;
     }
     
     @Override

@@ -16,6 +16,40 @@ public class Package {
     Region package_region, package_dest_region;
     Format package_format;
     Rack package_rack;
+    int width, height, depth, weight;
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+    
 
     public int getPackage_id() {
         return package_id;
@@ -74,7 +108,7 @@ public class Package {
         this.package_format = package_format;
     }
 
-    public Package(int package_id, Sender package_sender, Recipient package_recipient, Region package_region, Region package_dest_region, Format package_format, Rack package_rack) {
+    public Package(int package_id, Sender package_sender, Recipient package_recipient, Region package_region, Region package_dest_region, Format package_format, Rack package_rack, int width, int height, int depth, int weight) {
         this.package_id = package_id;
         this.package_sender = package_sender;
         this.package_recipient = package_recipient;
@@ -82,10 +116,18 @@ public class Package {
         this.package_dest_region = package_dest_region;
         this.package_format = package_format;
         this.package_rack = package_rack;
+        this.width = width;
+        this.height = height;
+        this.depth = depth;
+        this.weight = weight;
     }
 
     @Override
     public String toString() {
-        return "Package{" + "package_id=" + package_id + ", package_sender=" + package_sender + ", package_recipient=" + package_recipient + ", package_region=" + package_region + ", package_dest_region=" + package_dest_region + ", package_format=" + package_format + ", package_rack=" + package_rack + '}';
+        return "Package{" + "package_id=" + package_id + ", package_sender=" + package_sender + ", package_recipient=" + package_recipient + ", package_region=" + package_region + ", package_dest_region=" + package_dest_region + ", package_format=" + package_format + ", package_rack=" + package_rack + ", width=" + width + ", height=" + height + ", depth=" + depth + ", weight=" + weight + '}';
     }
+
+    
+
+    
 }
