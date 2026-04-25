@@ -40,7 +40,6 @@ public final class ConnectDatabasePackage {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "");
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();

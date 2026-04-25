@@ -29,6 +29,7 @@ import javafx.scene.control.TextFormatter;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Rack;
+import com.mycompany.projekt_io.feature.package_.LabelFactory;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -285,9 +286,14 @@ public class PackageManageWindowController implements Initializable {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
     
-        @FXML
+    @FXML
     void generateLabel(ActionEvent event) {
-
+        LabelFactory l = new LabelFactory(currentPackage);
+        if(!l.printLabel()) {
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało sie wygenerować etykiety.");
+        } else {
+            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Pomyślnie wydrukwoano etykietę.");
+        }
     }
     
     @FXML

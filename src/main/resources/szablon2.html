@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        main {
+            width: 400px;
+            margin: 5px;
+            display: grid;
+            grid-template-areas:
+                "region logo region2"
+                "main main main"
+                "uwagi uwagi uwagi";
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 120px 250px 100px;
+        }
+
+        div {
+            border: 1px solid black;
+        }
+
+        div#region1 {
+            grid-area: region;
+        }
+        div#logo1 {
+            grid-area: logo;
+        }
+
+        div#region2 {
+            grid-area: region2;
+        }
+        div#main {
+            grid-area: main;
+        }
+        div#uwagi {
+            grid-area: uwagi;
+        }
+
+        img#logo {
+            width: 130px;
+            height: 130px;
+        }
+
+        img#qr {
+            width: 200px;
+            height: 200px;
+            float: left;
+            margin-left: 10px;
+        }
+
+        p.kurier {
+            font-weight: bold;
+            font-size: smaller;
+            margin-top: 2px;
+            margin-left: 2px;
+        }
+
+        p.uwagi {
+            font-size: small;
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        sub {
+            font-weight: normal;
+            font-size: small;
+        }
+
+        p.adresy {
+            font-size: small;
+            margin: 15px;
+            text-align: left;
+        }
+
+        p#id {
+            transform: rotate(90deg);
+            position: absolute;
+            top: 200px;
+            left: -50px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <div id="region1">
+            <p class="kurier">Rejon kurierski:</p>
+            <h1 id="region">G70</h1>
+        </div>
+        <div id="logo1">
+            <img id="logo" src="logo.png"></td>
+        </div>
+        <div id="region2">
+            <p class="kurier">Destynacja:</p>
+            <h1 id="regionDest"><sub>PL/</sub>WA2</h1>
+        </div>
+        <div id="main">
+            <p id="id"><sup>12345678911111666644</sup>5558</p>
+            <img id="qr" src="qrcode.png">
+            <p class="adresy" id="nadawca">INPOST<br>tel. 888000000<br>email: test@inpost.pl<br>PANA TADEUSZA 4<br>30-722 KRAKÓW</p>
+            <p class="adresy" id="odbiorca">NAZWA FIRMY<br>tel. 123473456<br>email: test@onet.pl<br>CZERNIAKOWSKA 87A<br>00-728 WARSZAWA</p>
+        </div>
+        <div id="uwagi">
+            <p class="uwagi">Uwagi nadawcy: </p>
+        </div>
+    </main>
+</body>
+</html>
