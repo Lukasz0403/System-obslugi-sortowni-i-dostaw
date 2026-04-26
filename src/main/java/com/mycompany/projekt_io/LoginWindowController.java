@@ -26,33 +26,52 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
-
+/**
+ * Kontroler okna logowania do systemu magazynowego.
+ * <p>
+ * Obsługuje formularz logowania użytkownika: pobiera login i hasło,
+ * przekazuje je do {@link LoginService} w celu uwierzytelnienia,
+ * a po pomyślnym logowaniu przełącza widok na główne okno aplikacji.
+ * Kontroler odpowiada również za wyświetlanie aktualnej godziny i daty
+ * oraz ustawianie minimalnych wymiarów okna.
+ * </p>
+ *
+ * @author Łukasz
+ */
 public class LoginWindowController implements Initializable {
 
     @FXML
     private Label dateTimeLabel;
-
     @FXML
     private Button devButton;
-    
     @FXML
     private PasswordField passwordField;
-
     @FXML
     private TextField usernameField;
-    
     @FXML
     private Label errorLabel;
-
     @FXML
     private Button logInButton;
 
     private UserDAOInterface userDAO = new UserDAO();
-    
+    private final LoginService loginService = new LoginService();
+
+    /**
+     * Inicjalizuje kontroler po załadowaniu widoku FXML.
+     * <p>
+     * Uruchamia animację zegara aktualizującą etykietę daty i czasu co sekundę,
+     * ustawia przycisk logowania jako domyślny (reagujący na klawisz Enter)
+     * oraz stosuje minimalne wymiary okna za pomocą {@link WindowConstraints}.
+     * </p>
+     *
+     * @param url lokalizacja używana do rozwiązywania względnych ścieżek
+     *            do obiektu głównego lub {@code null} jeśli nieznana
+     * @param rb  zasoby używane do lokalizacji obiektu głównego
+     *            lub {@code null} jeśli nieznane
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm    yyyy-MM-dd");
-
         Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(1), event -> {
                 dateTimeLabel.setText(LocalDateTime.now().format(formatter));
@@ -60,15 +79,25 @@ public class LoginWindowController implements Initializable {
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        
+
         logInButton.setDefaultButton(true);
-        
+
         Platform.runLater(() -> {
             Stage stage = (Stage) logInButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
     }
 
+    /**
+     * Obsługuje przycisk developerski umożliwiający pominięcie logowania.
+     * <p>
+     * Ładuje bezpośrednio główne okno aplikacji ({@code MainWindow.fxml})
+     * bez weryfikacji danych uwierzytelniających. Przeznaczony wyłącznie
+     * do użytku podczas prac developerskich.
+     * </p>
+     *
+     * @param event zdarzenie akcji wywołane kliknięciem przycisku
+     */
     @FXML
     private void handleDevButton(ActionEvent event) {
         try {
@@ -81,22 +110,30 @@ public class LoginWindowController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private final LoginService loginService = new LoginService();
-    
-//  Logika przycisku logowania - Łukasz
+
+    /**
+     * Obsługuje zdarzenie kliknięcia przycisku logowania.
+     * <p>
+     * Pobiera login i hasło z pól formularza, a następnie:
+     * </p>
+     * <ol>
+     *   <li>Sprawdza, czy oba pola są wypełnione — jeśli nie, wyświetla komunikat błędu</li>
+     *   <li>Przekazuje dane do {@link LoginService#authenticate(String, String)}</li>
+     *   <li>Przy pomyślnym uwierzytelnieniu ukrywa etykietę błędu i wywołuje {@link #loadMainWindow()}</li>
+     *   <li>Przy niepowodzeniu wyświetla komunikat błędu i czyści pole hasła</li>
+     * </ol>
+     *
+     * @param event zdarzenie akcji wywołane kliknięciem przycisku lub naciśnięciem Enter
+     */
     @FXML
     void loginAction(ActionEvent event) {
         String login = usernameField.getText();
         String plainPassword = passwordField.getText();
-
         if (login.isEmpty() || plainPassword.isEmpty()) {
             showError("Wprowadź login i hasło.");
             return;
         }
-
         User user = loginService.authenticate(login, plainPassword);
-
         if (user != null) {
             System.out.println("Zalogowano: " + user.getLogin());
             errorLabel.setVisible(false);
@@ -107,15 +144,25 @@ public class LoginWindowController implements Initializable {
         }
     }
 
-//  obsługa labela showError - Łukasz
+    /**
+     * Wyświetla komunikat błędu w etykiecie formularza logowania.
+     *
+     * @param message treść komunikatu błędu do wyświetlenia użytkownikowi
+     */
     private void showError(String message) {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
     }
-    
-//  Przełącza widok aplikacji z okna logowania do oknagłównego - Łukasz
+
+    /**
+     * Przełącza widok aplikacji z okna logowania na okno główne.
+     * <p>
+     * Ładuje plik {@code MainWindow.fxml} i zastępuje nim bieżącą scenę
+     * w tym samym oknie aplikacji.
+     * </p>
+     */
     private void loadMainWindow() {
-        try { 
+        try {
             Stage stage = (Stage) devButton.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/MainWindow.fxml"));
             Parent root = loader.load();

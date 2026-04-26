@@ -37,6 +37,21 @@ import javafx.scene.control.TextFormatter.Change;
 
 //-------
 
+/**
+ * Kontroler okna dodawania nowej paczki do systemu magazynowego.
+ * <p>
+ * Obsługuje formularz wprowadzania danych paczki: wymiarów, danych nadawcy
+ * i odbiorcy oraz regionów nadania i odbioru. Kontroler odpowiada za:
+ * </p>
+ * <ul>
+ *   <li>Inicjalizację i walidację pól formularza (filtry tekstowe, wybór regionów)</li>
+ *   <li>Wyświetlanie aktualnej godziny i daty w pasku bocznym</li>
+ *   <li>Nawigację pomiędzy widokami aplikacji</li>
+ *   <li>Przekazanie zebranych danych do {@link PackageService} i zapis w bazie</li>
+ * </ul>
+ *
+ * @author Mateusz Gojny
+ */
 public class PackageAddWindowController implements Initializable {
 
     //SIDEBAR-------------------------------------------------------------------
@@ -92,12 +107,30 @@ public class PackageAddWindowController implements Initializable {
     private TextField recipientNumberField;
 
     // COMBOBOXES---------------------------------------------------------------
-    
     @FXML
     private ChoiceBox<String> sendRegionChoiceBox;
     @FXML
     private ChoiceBox<String> receiveRegionChoiceBox;
 
+    /**
+     * Inicjalizuje kontroler po załadowaniu widoku FXML.
+     * <p>
+     * Wykonywane operacje:
+     * </p>
+     * <ul>
+     *   <li>Uruchomienie animacji zegara aktualizującego etykiety czasu i daty co sekundę</li>
+     *   <li>Ustawienie minimalnych wymiarów okna za pomocą {@link WindowConstraints}</li>
+     *   <li>Wypełnienie list rozwijanych regionów nadania i odbioru</li>
+     *   <li>Ustawienie filtrów tekstowych na polach kodu pocztowego (format XX-XXX
+     *       z automatycznym wstawianiem myślnika), numeru telefonu (max 9 cyfr)
+     *       oraz wymiarów paczki (liczby dziesiętne)</li>
+     * </ul>
+     *
+     * @param url            lokalizacja używana do rozwiązywania względnych ścieżek
+     *                       do obiektu głównego lub {@code null} jeśli nieznana
+     * @param rb             zasoby używane do lokalizacji obiektu głównego
+     *                       lub {@code null} jeśli nieznane
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -123,8 +156,6 @@ public class PackageAddWindowController implements Initializable {
         });
 
     // CHOICEBOXES INIT -------------------------------------------------------
-
-        
 
         // CITY LIST
         List<String> cities = List.of(
@@ -235,6 +266,14 @@ public class PackageAddWindowController implements Initializable {
         //---------------------------------------------------------------------
     }
 
+    /**
+     * Czyści wszystkie pola formularza i przywraca domyślne wartości list rozwijanych.
+     * <p>
+     * Wywoływana przez przycisk „Usuń" lub automatycznie po pomyślnym dodaniu
+     * paczki. Resetuje pola wymiarów, dane nadawcy, dane odbiorcy oraz wybrane
+     * regiony do stanu początkowego.
+     * </p>
+     */
     @FXML
     private void handleDeleteButton() {
 
@@ -255,28 +294,60 @@ public class PackageAddWindowController implements Initializable {
         recipientEmailField.clear();
         recipientNumberField.clear();
 
-        
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
     }
     
+    /**
+     * Przechodzi do widoku głównego magazynu ({@code werehouseMainWindow.fxml}).
+     */
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
+
+    /**
+     * Przechodzi do widoku tabeli paczek ({@code packageTableWindow.fxml}).
+     */
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
+
+    /**
+     * Przechodzi do widoku zarządzania użytkownikami ({@code userManageWindow.fxml}).
+     */
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
+
+    /**
+     * Przechodzi do widoku tabeli paczek ({@code packageTableWindow.fxml}).
+     * Działa identycznie jak {@link #handlePacButton()}.
+     */
     @FXML
     private void handleRetButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
     
+    /**
+     * Obsługuje zdarzenie dodania nowej paczki do systemu.
+     * <p>
+     * Metoda wykonuje kolejno:
+     * </p>
+     * <ol>
+     *   <li>Walidację wyboru regionów nadania i odbioru</li>
+     *   <li>Walidację kompletności wszystkich pól formularza</li>
+     *   <li>Wywołanie {@link PackageService#addPackageFull} z zebranymi danymi</li>
+     *   <li>Wyświetlenie komunikatu o powodzeniu lub błędzie operacji</li>
+     *   <li>Wyczyszczenie formularza po pomyślnym dodaniu paczki</li>
+     * </ol>
+     * <p>
+     * W przypadku niepoprawnych danych wyświetlane jest ostrzeżenie i operacja
+     * jest przerywana bez zapisu do bazy.
+     * </p>
+     */
     @FXML
     private void handleAddPackage() {
 
@@ -300,9 +371,6 @@ public class PackageAddWindowController implements Initializable {
                 || recipientPostcodeField.getText().isEmpty()
                 || recipientEmailField.getText().isEmpty()
                 || recipientNumberField.getText().isEmpty()) {
-                 
-                
-                
             showAlert(Alert.AlertType.WARNING, "Błąd", "Uzupełnij wszystkie dane.");
             return;
         }
@@ -339,6 +407,16 @@ public class PackageAddWindowController implements Initializable {
         }
     }
 
+    /**
+     * Ładuje i wyświetla nowy widok JavaFX w tym samym oknie aplikacji.
+     * <p>
+     * Pobiera plik FXML z podanej ścieżki zasobów, tworzy nową scenę
+     * i zastępuje nią bieżącą zawartość okna.
+     * </p>
+     *
+     * @param fxmlPath ścieżka do pliku FXML względem classpath aplikacji
+     *                 (np. {@code "/com/mycompany/projekt_io/packageTableWindow.fxml"})
+     */
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -352,6 +430,14 @@ public class PackageAddWindowController implements Initializable {
         }
     }
     
+    /**
+     * Wyświetla modalne okno dialogowe z komunikatem dla użytkownika.
+     *
+     * @param type    typ alertu określający ikonę i styl okna
+     *                (np. {@link Alert.AlertType#WARNING}, {@link Alert.AlertType#INFORMATION})
+     * @param title   tytuł wyświetlany na pasku tytułu okna dialogowego
+     * @param content treść komunikatu wyświetlana użytkownikowi
+     */
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
