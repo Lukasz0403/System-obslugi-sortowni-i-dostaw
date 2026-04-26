@@ -10,8 +10,30 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementacja interfejsu {@link UserDAOInterface} zapewniająca dostęp do
+ * danych użytkowników w bazie danych MySQL.
+ * <p>
+ * Klasa realizuje operacje pobierania użytkowników, pobierania uprawnień oraz
+ * dodawania nowych użytkowników. Połączenie z bazą danych pobierane jest za
+ * pośrednictwem {@link ConnectDatabaseUser}.
+ * </p>
+ */
+
 public class UserDAO implements UserDAOInterface {
 
+    /**
+     * Pobiera użytkownika z bazy danych na podstawie jego loginu.
+     * <p>
+     * Zapytanie łączy tabele {@code users} i {@code permissions}, aby pobrać
+     * jednocześnie dane użytkownika i jego uprawnienia.
+     * </p>
+     *
+     * @param login login użytkownika do wyszukania
+     * @return obiekt {@link User} z danymi użytkownika i jego uprawnieniami lub
+     * {@code null} jeśli użytkownik o podanym loginie nie istnieje bądź
+     * wystąpił błąd bazy danych
+     */
     @Override
     public User getUser(String login) {
         User user = null;
@@ -31,6 +53,16 @@ public class UserDAO implements UserDAOInterface {
         return user;
     }
 
+    /**
+     * Pobiera listę wszystkich użytkowników systemu wraz z ich uprawnieniami.
+     * <p>
+     * Zapytanie łączy tabele {@code users} i {@code permissions}.
+     * </p>
+     *
+     * @return lista obiektów {@link User} reprezentujących wszystkich
+     * użytkowników systemu; pusta lista jeśli brak użytkowników lub wystąpił
+     * błąd bazy danych
+     */
     @Override
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
@@ -48,6 +80,12 @@ public class UserDAO implements UserDAOInterface {
         return users;
     }
 
+    /**
+     * Pobiera listę wszystkich dostępnych uprawnień z bazy danych.
+     *
+     * @return lista obiektów {@link Permission} z tabeli {@code permissions};
+     * pusta lista jeśli brak uprawnień lub wystąpił błąd bazy danych
+     */
     @Override
     public List<Permission> getPermissions() {
         List<Permission> permissions = new ArrayList<>();
@@ -65,6 +103,22 @@ public class UserDAO implements UserDAOInterface {
     }
 
 
+    /**
+     * Dodaje nowego użytkownika do bazy danych.
+     * <p>
+     * Hasło musi być przekazane już w postaci zahashowanej algorytmem BCrypt —
+     * metoda nie wykonuje samego hashowania. Hashowanie realizowane jest w
+     * warstwie serwisowej przed wywołaniem tej metody.
+     * </p>
+     *
+     * @param login login nowego użytkownika; musi być unikalny w tabeli
+     * {@code users}
+     * @param hashedPassword hasło użytkownika zahashowane algorytmem BCrypt
+     * @param permissionId identyfikator uprawnienia z tabeli
+     * {@code permissions}
+     * @return {@code true} jeśli użytkownik został pomyślnie dodany,
+     * {@code false} jeśli wystąpił błąd bazy danych (np. duplikat loginu)
+     */
     @Override
     public boolean addUser(String login, String hashedPassword, int permissionId) {
         Connection conn = ConnectDatabaseUser.getConnection();

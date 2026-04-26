@@ -20,22 +20,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implementacja metod DAO dla bazy danych z paczkami.
+ * <p>
+ * Klasa realizuje operacje CRUD (tworzenie, odczyt, aktualizacja, usuwanie) dla
+ * paczek, nadawców, odbiorców, regałów, stref, regionów kurierskich oraz
+ * formatów paczek. Połączenie z bazą danych pobierane jest za pośrednictwem
+ * {@link ConnectDatabasePackage}.
+ * </p>
  *
- * @author mateu
+ * @author Radosław Kruczek
  */
 public class PackageDAO implements PackageDAOInterface {
 
     
     /**
-     * Zmieniono INNER JOIN na LEFT JOIN dla tabel shelves oraz zones.
+     * Pobiera listę wszystkich paczek z bazy danych wraz z pełnymi danymi
+     * powiązanych obiektów.
+     * <p>
+     * Zapytanie łączy tabele: {@code packages}, {@code senders},
+     * {@code recipients}, {@code courier_regions} (dwukrotnie — dla regionu
+     * nadania i docelowego), {@code package_formats}, {@code racks} oraz
+     * {@code zones}. Użycie {@code LEFT JOIN} dla tabel {@code racks} i
+     * {@code zones} pozwala na pobranie paczek bez przypisanego regału (kolumna
+     * {@code package_rack} może mieć wartość {@code NULL}).
+     * </p>
      *
-     * W bazie danych kolumna package_rack może mieć wartość NULL. W
-     * przypadku użycia INNER JOIN rekordy z NULL w package_rack nie były
-     * zwracane w wyniku zapytania, co powodowało brak wyświetlania nowo
-     * dodanych paczek w tabeli.
-     *
-     * LEFT JOIN pozwala na pobranie rekordów nawet jeśli nie istnieje powiązana
-     * półka (shelf), co jest zgodne z modelem danych.
+     * @return lista obiektów {@link Package} reprezentujących wszystkie paczki
+     * w bazie danych; pusta lista jeśli brak paczek lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Package> getPackages() {
@@ -120,7 +133,20 @@ public class PackageDAO implements PackageDAOInterface {
     }
 
     
-    
+    /**
+     * Pobiera pojedynczą paczkę z bazy danych na podstawie jej identyfikatora.
+     * <p>
+     * Zapytanie jest analogiczne do {@link #getPackages()}, z dodatkowym
+     * warunkiem {@code WHERE package_id = ?}. Jeśli paczka o podanym ID nie
+     * istnieje, metoda zwraca {@code null}.
+     * </p>
+     *
+     * @param id identyfikator paczki do pobrania
+     * @return obiekt {@link Package} z danymi paczki lub {@code null} jeśli
+     * paczka nie istnieje lub wystąpił błąd bazy danych
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public Package getPackage(int id) {
         
@@ -192,6 +218,15 @@ public class PackageDAO implements PackageDAOInterface {
         return pack;
     }
 
+    /**
+     * Pobiera listę wszystkich dostępnych formatów paczek z bazy danych.
+     *
+     * @return lista obiektów {@link Format} reprezentujących wszystkie formaty
+     * zdefiniowane w tabeli {@code package_formats}; pusta lista jeśli brak
+     * formatów lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Format> getFormats() {
         
@@ -229,6 +264,14 @@ public class PackageDAO implements PackageDAOInterface {
         return formats;
     }
 
+    /**
+     * Pobiera listę wszystkich nadawców z bazy danych.
+     *
+     * @return lista obiektów {@link Sender} z tabeli {@code senders}; pusta
+     * lista jeśli brak nadawców lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Sender> getSenders() {
         
@@ -267,6 +310,14 @@ public class PackageDAO implements PackageDAOInterface {
         return senders;
     }
 
+    /**
+     * Pobiera listę wszystkich odbiorców z bazy danych.
+     *
+     * @return lista obiektów {@link Recipient} z tabeli {@code recipients};
+     * pusta lista jeśli brak odbiorców lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Recipient> getRecipient() {
         
@@ -305,6 +356,15 @@ public class PackageDAO implements PackageDAOInterface {
         return recipients;
     }
 
+    
+    /**
+     * Pobiera listę wszystkich regionów kurierskich z bazy danych.
+     *
+     * @return lista obiektów {@link Region} z tabeli {@code courier_regions};
+     *         pusta lista jeśli brak regionów lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Region> getRegions() {
         
@@ -337,6 +397,16 @@ public class PackageDAO implements PackageDAOInterface {
         return regions;
     }
 
+    
+    /**
+     * Pobiera listę wszystkich regałów magazynowych z bazy danych.
+     *
+     * @return lista obiektów {@link Rack} z tabeli {@code racks},
+     *         każdy z przypisaną strefą {@link Zone};
+     *         pusta lista jeśli brak regałów lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Rack> getRacks() {
         
@@ -369,6 +439,15 @@ public class PackageDAO implements PackageDAOInterface {
         return shelves;
     }
 
+    
+    /**
+     * Pobiera listę wszystkich stref magazynowych z bazy danych.
+     *
+     * @return lista obiektów {@link Zone} z tabeli {@code zones};
+     *         pusta lista jeśli brak stref lub wystąpił błąd
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
     public List<Zone> getZones() {
         
@@ -403,6 +482,21 @@ public class PackageDAO implements PackageDAOInterface {
 
 
     
+    /**
+     * Dodaje nową paczkę do bazy danych.
+     * <p>
+     * Jeśli paczka ma przypisany regał ({@code package_rack != null}), jego
+     * identyfikator jest zapisywany w bazie. W przeciwnym razie kolumna
+     * {@code package_rack} przyjmuje wartość {@code NULL}.
+     * </p>
+     *
+     * @param p obiekt {@link Package} zawierający dane nowej paczki; nadawca i
+     * odbiorca muszą już istnieć w bazie danych
+     * @return {@code true} jeśli paczka została pomyślnie dodana, {@code false}
+     * jeśli wystąpił błąd bazy danych
+     * 
+     * @auhtor Radosław Kruczek
+     */
     @Override
 public Boolean addPackage(Package p) {
     String sql = "INSERT INTO packages("
@@ -451,6 +545,21 @@ public Boolean addPackage(Package p) {
     }
 }
 
+    /**
+     * Aktualizuje dane istniejącej paczki w bazie danych.
+     * <p>
+     * Aktualizowane są: nadawca, odbiorca, region nadania, region docelowy,
+     * format oraz przypisany regał. Jeśli paczka nie ma przypisanego regału,
+     * kolumna {@code package_rack} przyjmuje wartość {@code NULL}.
+     * </p>
+     *
+     * @param p obiekt {@link Package} z zaktualizowanymi danymi; musi zawierać
+     * poprawne {@code package_id}
+     * @return {@code true} jeśli aktualizacja powiodła się, {@code false} jeśli
+     * wystąpił błąd bazy danych
+     * 
+     * @author Mateusz Gojny
+     */
     @Override
     public Boolean changePackage(Package p) {
         try {
@@ -486,11 +595,18 @@ public Boolean addPackage(Package p) {
     }
     
     /**
-     * Dodano metodę zapisu nadawcy (Sender) do bazy danych.
+     * Zapisuje nowego nadawcę w bazie danych i zwraca jego wygenerowany identyfikator.
+     * <p>
+     * Model bazy danych wymaga istnienia rekordu w tabeli {@code senders}
+     * przed dodaniem paczki. Zwrócony identyfikator jest następnie używany
+     * przy tworzeniu obiektu paczki w {@link com.mycompany.projekt_io.feature.package_.PackageService}.
+     * </p>
      *
-     * Model bazy danych wymaga istnienia rekordu w tabeli senders przed
-     * dodaniem paczki. Metoda zwraca wygenerowany identyfikator (sender_id), który jest
-     * następnie używany przy tworzeniu paczki.
+     * @param s obiekt {@link Sender} z danymi nowego nadawcy
+     * @return wygenerowany identyfikator nadawcy ({@code sender_id})
+     *         lub {@code -1} jeśli zapis się nie powiódł
+     * 
+     * @author Mateusz Gojny
      */
     @Override
     public int addSender(Sender s) {
@@ -523,11 +639,18 @@ public Boolean addPackage(Package p) {
     }
     
     /**
-     * Dodano metodę zapisu odbiorcy (Recipient) do bazy danych.
+     * Zapisuje nowego odbiorcę w bazie danych i zwraca jego wygenerowany
+     * identyfikator.
+     * <p>
+     * Analogicznie do {@link #addSender(Sender)}, paczka wymaga istniejącego
+     * rekordu w tabeli {@code recipients} przed jej dodaniem do bazy.
+     * </p>
      *
-     * Analogicznie do nadawcy, paczka wymaga istniejącego rekordu w
-     * tabeli recipients .
-     *
+     * @param r obiekt {@link Recipient} z danymi nowego odbiorcy
+     * @return wygenerowany identyfikator odbiorcy ({@code recipient_id}) lub
+     * {@code -1} jeśli zapis się nie powiódł
+     * 
+     * @author Mateusz Gojny
      */
     @Override
     public int addRecipient(Recipient r) {
@@ -559,6 +682,15 @@ public Boolean addPackage(Package p) {
         return -1;
     }
 
+    /**
+     * Zwraca liczbę paczek przypisanych do wskazanego regału.
+     *
+     * @param rackId identyfikator regału
+     * @return liczba paczek przypisanych do regału o podanym ID; {@code 0}
+     * jeśli regał jest pusty lub wystąpił błąd
+     * 
+     * @author Ida Wszoła
+     */
     @Override
     public int getPackageCountForShelf(int rackId) {
         int count = 0;
@@ -576,6 +708,19 @@ public Boolean addPackage(Package p) {
     }
 
 
+    /**
+     * Zwraca identyfikator ostatnio dodanej paczki na wskazanym regale.
+     * <p>
+     * Wyznaczany jest jako maksymalna wartość {@code package_id} spośród paczek
+     * przypisanych do danego regału.
+     * </p>
+     *
+     * @param rackId identyfikator regału
+     * @return identyfikator ostatniej paczki na regale lub {@code -1} jeśli
+     * regał jest pusty lub wystąpił błąd
+     * 
+     * @author Ida Wszoła
+     */
     @Override
     public int getLastPackageIdForShelf(int rackId) {
         int id = -1;
@@ -593,6 +738,14 @@ public Boolean addPackage(Package p) {
     }
 
 
+    /**
+     * Zwraca łączną liczbę wszystkich paczek w systemie magazynowym.
+     *
+     * @return całkowita liczba rekordów w tabeli {@code packages}; {@code 0}
+     * jeśli brak paczek lub wystąpił błąd
+     * 
+     * @author Ida Wszoła
+     */
     @Override
     public int getTotalPackageCount() {
         int count = 0;
@@ -608,6 +761,15 @@ public Boolean addPackage(Package p) {
     }
 
 
+    /**
+     * Zwraca liczbę paczek przypisanych do regałów w danej strefie magazynowej.
+     *
+     * @param zoneId identyfikator strefy magazynowej
+     * @return liczba paczek w strefie o podanym ID; {@code 0} jeśli strefa jest
+     * pusta lub wystąpił błąd
+     * 
+     * @author Ida Wszoła
+     */
     @Override
     public int getPackageCountForZone(int zoneId) {
         int count = 0;
@@ -627,6 +789,18 @@ public Boolean addPackage(Package p) {
     }
 
 
+    /**
+     * Zwraca identyfikator najbardziej obciążonego regału w magazynie.
+     * <p>
+     * Wyznaczany jest regał z największą liczbą przypisanych paczek.
+     * Pod uwagę brane są tylko paczki z niepustą kolumną {@code package_rack}.
+     * </p>
+     *
+     * @return identyfikator najbardzej obciążonego regału lub {@code -1}
+     *         jeśli żadna paczka nie ma przypisanego regału bądź wystąpił błąd
+     * 
+     * @author Ida Wszoła
+     */
     @Override
     public int getMostLoadedShelfId() {
         int rackId = -1;
@@ -644,6 +818,16 @@ public Boolean addPackage(Package p) {
         return rackId;
     }
     
+    /**
+     * Aktualizuje dane istniejącego nadawcy w bazie danych.
+     *
+     * @param s obiekt {@link Sender} z zaktualizowanymi danymi; musi zawierać
+     * poprawne {@code sender_id}
+     * @return {@code true} jeśli aktualizacja powiodła się, {@code false} jeśli
+     * wystąpił błąd bazy 
+     * 
+     * @author Mateusz Gojny
+     */
     @Override
     public boolean updateSender(Sender s) {
         try {
@@ -670,6 +854,16 @@ public Boolean addPackage(Package p) {
         }
     }
     
+    /**
+     * Aktualizuje dane istniejącego odbiorcy w bazie danych.
+     *
+     * @param r obiekt {@link Recipient} z zaktualizowanymi danymi;
+     *          musi zawierać poprawne {@code recipient_id}
+     * @return {@code true} jeśli aktualizacja powiodła się,
+     *         {@code false} jeśli wystąpił błąd bazy danych
+     * 
+     * @author Mateusz Gojny
+     */
     @Override
     public boolean updateRecipient(Recipient r) {
         try {
@@ -696,7 +890,16 @@ public Boolean addPackage(Package p) {
         }
     }
     
-    
+    /**
+     * Usuwa paczkę z bazy danych na podstawie jej identyfikatora.
+     *
+     * @param packageId identyfikator paczki do usunięcia
+     * @return {@code true} jeśli paczka została pomyślnie usunięta,
+     * {@code false} jeśli paczka o podanym ID nie istnieje lub wystąpił błąd
+     * bazy danych
+     * 
+     * @author Mateusz Gojny
+     */
     @Override
     public boolean deletePackage(int packageId) {
         try {

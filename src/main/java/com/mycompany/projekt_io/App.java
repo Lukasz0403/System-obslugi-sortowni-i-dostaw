@@ -44,10 +44,7 @@ public class App extends Application {
         Package u = p1.getPackage(3);
         
         System.out.println(u);
-        
-//        **Dodane do testów sortowania.**
-//        SortingService sortowanko = new SortingService();
-//        sortowanko.Sorting();
+       
         
         launch();
         

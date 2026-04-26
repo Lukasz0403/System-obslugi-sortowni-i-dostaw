@@ -23,7 +23,6 @@ import java.util.function.UnaryOperator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ChoiceBox;
-
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import com.mycompany.projekt_io.datamodel.Package;
@@ -35,100 +34,56 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 /**
- * FXML Controller class
+ * Kontroler okna zarządzania istniejącą paczką.
+ * <p>
+ * Umożliwia edycję danych paczki, nadawcy i odbiorcy, usunięcie paczki
+ * oraz generowanie etykiety wysyłkowej PDF. Formularz jest wstępnie
+ * wypełniany danymi paczki przekazanej przez {@link #setPackage(Package)}.
+ * </p>
  *
- * @author mateu
+ * @author Mateusz Gojny, Ida Wszoła, Radosław Kruczek
  */
 public class PackageManageWindowController implements Initializable {
-    
-    @FXML
-    private Button addButton;
 
-    @FXML
-    private Label dateLabel;
+    @FXML private Button addButton;
+    @FXML private Label dateLabel;
+    @FXML private Button deleteButton;
+    @FXML private TextField depthField;
+    @FXML private TextField heightField;
+    @FXML private Button magButton;
+    @FXML private Button pacButton;
+    @FXML private ChoiceBox<String> receiveRegionChoiceBox;
+    @FXML private TextField recipientEmailField;
+    @FXML private TextField recipientNameField;
+    @FXML private TextField recipientNumberField;
+    @FXML private TextField recipientPostcodeField;
+    @FXML private TextField recipientStreetField;
+    @FXML private Button returnButton;
+    @FXML private Button saveButton;
+    @FXML private ChoiceBox<String> sendRegionChoiceBox;
+    @FXML private TextField senderEmailField;
+    @FXML private TextField senderNameField;
+    @FXML private TextField senderNumberField;
+    @FXML private TextField senderPostcodeField;
+    @FXML private TextField senderStreetField;
+    @FXML private ChoiceBox<String> sizeChoiceBox;
+    @FXML private Label timeLabel;
+    @FXML private TextField weightField;
+    @FXML private TextField widthField;
+    @FXML private Button labelButton;
 
-    @FXML
-    private Button deleteButton;
-
-    @FXML
-    private TextField depthField;
-
-    @FXML
-    private TextField heightField;
-
-    @FXML
-    private Button magButton;
-
-    @FXML
-    private Button pacButton;
-
-    @FXML
-    private ChoiceBox<String> receiveRegionChoiceBox;
-
-    @FXML
-    private TextField recipientEmailField;
-
-    @FXML
-    private TextField recipientNameField;
-
-    @FXML
-    private TextField recipientNumberField;
-
-    @FXML
-    private TextField recipientPostcodeField;
-
-    @FXML
-    private TextField recipientStreetField;
-
-    @FXML
-    private Button returnButton;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private ChoiceBox<String> sendRegionChoiceBox;
-
-    @FXML
-    private TextField senderEmailField;
-
-    @FXML
-    private TextField senderNameField;
-
-    @FXML
-    private TextField senderNumberField;
-
-    @FXML
-    private TextField senderPostcodeField;
-
-    @FXML
-    private TextField senderStreetField;
-
-    @FXML
-    private ChoiceBox<String> sizeChoiceBox;
-
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private TextField weightField;
-
-    @FXML
-    private TextField widthField;
-    
-    @FXML
-    private Button labelButton;
-    
     private Package currentPackage;
-    
     private final PackageService service = new PackageService();
 
-   
-
+    /**
+     * Inicjalizuje kontroler — uruchamia zegar, wypełnia listy wyboru
+     * i ustawia filtry walidacji pól tekstowych.
+     *
+     * @param url ścieżka do pliku FXML (nieużywana bezpośrednio)
+     * @param rb  zasoby lokalizacyjne (nieużywane bezpośrednio)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    // TIME AND DATE--------------------------------------------------------
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -139,166 +94,117 @@ public class PackageManageWindowController implements Initializable {
                 dateLabel.setText(now.format(dateFormatter));
             })
         );
-
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-    // WINDOW CONSTRAINTS ---------------------------------------------------
         Platform.runLater(() -> {
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
 
-    // CHOICEBOXES INIT -------------------------------------------------------
-
-        // SIZE
-        sizeChoiceBox.getItems().addAll("--SIZE--","A", "B", "C");
+        sizeChoiceBox.getItems().addAll("--SIZE--", "A", "B", "C");
         sizeChoiceBox.setValue("--SIZE--");
 
-        // CITY LIST
-        List<String> cities = List.of(
-            "--SENDERS REGION--",
-                "Białystok",
-                "Bydgoszcz",
-                "Częstochowa",
-                "Gdańsk",
-                "Gdynia",
-                "Katowice",
-                "Kielce",
-                "Kraków",
-                "Łódź",
-                "Lublin",
-                "Olsztyn",
-                "Opole",
-                "Poznań",
-                "Rzeszów",
-                "Sopot",
-                "Szczecin",
-                "Toruń",
-                "Warszawa",
-                "Wrocław",
-                "Zielona Góra"
-        );
-        
-        List<String> cities2 = List.of(
-            "--RECIPIENTS REGION--",
-                "Białystok",
-                "Bydgoszcz",
-                "Częstochowa",
-                "Gdańsk",
-                "Gdynia",
-                "Katowice",
-                "Kielce",
-                "Kraków",
-                "Łódź",
-                "Lublin",
-                "Olsztyn",
-                "Opole",
-                "Poznań",
-                "Rzeszów",
-                "Sopot",
-                "Szczecin",
-                "Toruń",
-                "Warszawa",
-                "Wrocław",
-                "Zielona Góra"
-        );
+        List<String> cities = List.of("--SENDERS REGION--",
+                "Białystok", "Bydgoszcz", "Częstochowa", "Gdańsk", "Gdynia",
+                "Katowice", "Kielce", "Kraków", "Łódź", "Lublin", "Olsztyn",
+                "Opole", "Poznań", "Rzeszów", "Sopot", "Szczecin", "Toruń",
+                "Warszawa", "Wrocław", "Zielona Góra");
+
+        List<String> cities2 = List.of("--RECIPIENTS REGION--",
+                "Białystok", "Bydgoszcz", "Częstochowa", "Gdańsk", "Gdynia",
+                "Katowice", "Kielce", "Kraków", "Łódź", "Lublin", "Olsztyn",
+                "Opole", "Poznań", "Rzeszów", "Sopot", "Szczecin", "Toruń",
+                "Warszawa", "Wrocław", "Zielona Góra");
 
         sendRegionChoiceBox.getItems().addAll(cities);
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
-
         receiveRegionChoiceBox.getItems().addAll(cities2);
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
-        
-    // FILTERS ----------------------------------------------------------------
-        
-        // POSTCODE FILTER (XX-XXX) WITH AUTOMATIC DASH
+
         UnaryOperator<TextFormatter.Change> postcodeFilterAutoDash = change -> {
-            String text = change.getControlNewText();
-
-            String digitsOnly = text.replaceAll("[^\\d]", "");
-
+            String digitsOnly = change.getControlNewText().replaceAll("[^\\d]", "");
             if (digitsOnly.length() > 5) return null;
-
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < digitsOnly.length(); i++) {
                 if (i == 2) result.append('-');
                 result.append(digitsOnly.charAt(i));
             }
-
             change.setText(result.toString());
             change.setRange(0, change.getControlText().length());
             change.selectRange(result.length(), result.length());
-
             return change;
         };
         senderPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
         recipientPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
-        
-        // PHONE NUMBER FILTER
+
         UnaryOperator<TextFormatter.Change> numberFilter = change -> {
-            String text = change.getControlNewText();
-            if (text.matches("\\d{0,9}")) {
-                return change;
-            }
+            if (change.getControlNewText().matches("\\d{0,9}")) return change;
             return null;
         };
         senderNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
         recipientNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
 
-        // NUMBER FILTER
         UnaryOperator<TextFormatter.Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
             if (newText.isEmpty()) return change;
-            if (newText.matches("\\d*([\\.]\\d*)?")) {
-                return change;
-            }
+            if (newText.matches("\\d*([\\.]\\d*)?")) return change;
             return null;
         };
-
         weightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         heightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
-        
-        //---------------------------------------------------------------------
-        
-        
     }
 
+    /** Przechodzi do okna głównego magazynu. */
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
 
+    /** Przechodzi do okna tabeli paczek. */
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
 
+    /** Przechodzi do okna zarządzania użytkownikami. */
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
-    
+
+    /** Wraca do okna tabeli paczek. */
     @FXML
     private void handleRetButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
-    
+
+    /**
+     * Generuje etykietę wysyłkową PDF dla bieżącej paczki.
+     * Plik zapisywany jest na pulpicie użytkownika.
+     *
+     * @param event zdarzenie akcji przycisku
+     */
     @FXML
     void generateLabel(ActionEvent event) {
         LabelFactory l = new LabelFactory(currentPackage);
-        if(!l.printLabel()) {
-            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało sie wygenerować etykiety.");
+        if (!l.printLabel()) {
+            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się wygenerować etykiety.");
         } else {
-            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Pomyślnie wydrukwoano etykietę.");
+            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Pomyślnie wydrukowano etykietę.");
         }
     }
-    
+
+    /**
+     * Usuwa bieżącą paczkę z bazy danych po potwierdzeniu przez użytkownika.
+     * Po pomyślnym usunięciu wraca do tabeli paczek.
+     *
+     * @param event zdarzenie akcji przycisku
+     */
     @FXML
     void removePackage(ActionEvent event) {
-
         if (currentPackage == null) {
             showAlert(Alert.AlertType.WARNING, "Błąd", "Brak paczki do usunięcia.");
             return;
@@ -321,10 +227,16 @@ public class PackageManageWindowController implements Initializable {
             }
         });
     }
-    
+
+    /**
+     * Zapisuje zmiany wprowadzone w formularzu do bazy danych.
+     * Aktualizuje dane paczki, nadawcy i odbiorcy.
+     * Po pomyślnym zapisie wraca do tabeli paczek.
+     *
+     * @param event zdarzenie akcji przycisku
+     */
     @FXML
     void saveChanges(ActionEvent event) {
-
         if (sizeChoiceBox.getValue().equals("--SIZE--")
                 || sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
                 || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
@@ -367,61 +279,67 @@ public class PackageManageWindowController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się zapisać zmian.");
         }
     }
-    
+
+    /** Czyści wszystkie pola formularza i przywraca domyślne wartości list wyboru. */
     @FXML
     void handleDeleteButton(ActionEvent event) {
-        
         weightField.clear();
         heightField.clear();
         widthField.clear();
         depthField.clear();
-
         senderNameField.clear();
         senderStreetField.clear();
         senderPostcodeField.clear();
         senderEmailField.clear();
         senderNumberField.clear();
-
         recipientNameField.clear();
         recipientStreetField.clear();
         recipientPostcodeField.clear();
         recipientEmailField.clear();
         recipientNumberField.clear();
-
         sizeChoiceBox.setValue("--SIZE--");
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
-
     }
 
-    // Metoda pomocnicza do ładowania nowego FXML
+    /**
+     * Ładuje wskazane okno FXML i zastępuje nim bieżącą scenę.
+     *
+     * @param fxmlPath ścieżka do pliku FXML okna docelowego
+     */
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
-            // Pobranie aktualnego Stage z jednego z labeli
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }   
-    
-    public void setPackage(Package p) {
-    this.currentPackage = p;
-    fillForm();
     }
-    
-    private void fillForm() {
 
+    /**
+     * Ustawia paczkę do zarządzania i wypełnia formularz jej danymi.
+     *
+     * @param p paczka pobrana z bazy danych, której dane mają być wyświetlone
+     */
+    public void setPackage(Package p) {
+        this.currentPackage = p;
+        fillForm();
+    }
+
+    /**
+     * Wypełnia pola formularza danymi bieżącej paczki ({@link #currentPackage}).
+     * Konwertuje kody regionów na pełne nazwy miast przy użyciu
+     * {@link #mapCodeToRegionName(String)}.
+     */
+    private void fillForm() {
         senderNameField.setText(currentPackage.getPackage_sender().getSender_name());
         senderStreetField.setText(currentPackage.getPackage_sender().getSender_street());
         senderPostcodeField.setText(currentPackage.getPackage_sender().getSender_postcode());
         senderEmailField.setText(currentPackage.getPackage_sender().getSender_email());
         senderNumberField.setText(currentPackage.getPackage_sender().getSender_phone());
-        
 
         recipientNameField.setText(currentPackage.getPackage_recipient().getRecipient_name());
         recipientStreetField.setText(currentPackage.getPackage_recipient().getRecipient_street());
@@ -429,70 +347,57 @@ public class PackageManageWindowController implements Initializable {
         recipientEmailField.setText(currentPackage.getPackage_recipient().getRecipient_email());
         recipientNumberField.setText(currentPackage.getPackage_recipient().getRecipient_phone());
 
-        String sendRegion = mapCodeToRegionName(currentPackage.getPackage_region().getRegion_name());
-        String receiveRegion = mapCodeToRegionName(currentPackage.getPackage_dest_region().getRegion_name());
-        
-        
-        
         sizeChoiceBox.setValue(currentPackage.getPackage_format().getFormat_id());
-
-        sendRegionChoiceBox.setValue(sendRegion);
-        receiveRegionChoiceBox.setValue(receiveRegion);
+        sendRegionChoiceBox.setValue(mapCodeToRegionName(currentPackage.getPackage_region().getRegion_name()));
+        receiveRegionChoiceBox.setValue(mapCodeToRegionName(currentPackage.getPackage_dest_region().getRegion_name()));
 
         weightField.setText(String.valueOf(currentPackage.getWeight()));
         widthField.setText(String.valueOf(currentPackage.getWidth()));
         heightField.setText(String.valueOf(currentPackage.getHeight()));
         depthField.setText(String.valueOf(currentPackage.getDepth()));
     }
-    
-    
+
+    /**
+     * Konwertuje trzyliterowy kod regionu kurierskiego na pełną nazwę miasta.
+     * Używana do wypełnienia list wyboru regionów w formularzu.
+     *
+     * @param code trzyliterowy kod regionu (np. "WAW", "KRK")
+     * @return pełna nazwa miasta (np. "Warszawa", "Kraków")
+     *         lub {@code "--SENDERS REGION--"} jeśli kod nie został rozpoznany
+     */
     private String mapCodeToRegionName(String code) {
         switch (code) {
-            case "BIA":
-                return "Białystok";
-            case "BYD":
-                return "Bydgoszcz";
-            case "CZE":
-                return "Częstochowa";
-            case "GDA":
-                return "Gdańsk";
-            case "GDY":
-                return "Gdynia";
-            case "KAT":
-                return "Katowice";
-            case "KIE":
-                return "Kielce";
-            case "KRK":
-                return "Kraków";
-            case "LOD":
-                return "Łódź";
-            case "LUB":
-                return "Lublin";
-            case "OLS":
-                return "Olsztyn";
-            case "OPL":
-                return "Opole";
-            case "POZ":
-                return "Poznań";
-            case "RZE":
-                return "Rzeszów";
-            case "SOP":
-                return "Sopot";
-            case "SZC":
-                return "Szczecin";
-            case "TOR":
-                return "Toruń";
-            case "WAW":
-                return "Warszawa";
-            case "WRO":
-                return "Wrocław";
-            case "ZIE":
-                return "Zielona Góra";
-            default:
-                return "--SENDERS REGION--";
+            case "BIA": return "Białystok";
+            case "BYD": return "Bydgoszcz";
+            case "CZE": return "Częstochowa";
+            case "GDA": return "Gdańsk";
+            case "GDY": return "Gdynia";
+            case "KAT": return "Katowice";
+            case "KIE": return "Kielce";
+            case "KRK": return "Kraków";
+            case "LOD": return "Łódź";
+            case "LUB": return "Lublin";
+            case "OLS": return "Olsztyn";
+            case "OPL": return "Opole";
+            case "POZ": return "Poznań";
+            case "RZE": return "Rzeszów";
+            case "SOP": return "Sopot";
+            case "SZC": return "Szczecin";
+            case "TOR": return "Toruń";
+            case "WAW": return "Warszawa";
+            case "WRO": return "Wrocław";
+            case "ZIE": return "Zielona Góra";
+            default:    return "--SENDERS REGION--";
         }
     }
-    
+
+    /**
+     * Wyświetla okno dialogowe z komunikatem dla użytkownika.
+     *
+     * @param type    typ alertu (np. {@code WARNING}, {@code ERROR}, {@code INFORMATION})
+     * @param title   tytuł okna dialogowego
+     * @param content treść komunikatu
+     */
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -501,7 +406,4 @@ public class PackageManageWindowController implements Initializable {
         alert.initOwner(timeLabel.getScene().getWindow());
         alert.showAndWait();
     }
-  
-    
-    
 }

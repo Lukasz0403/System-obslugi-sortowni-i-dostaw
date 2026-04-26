@@ -14,6 +14,12 @@ import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Zone;
 
 /**
+ * Interfejs definiujący operacje na danych magazynowych.
+ * <p>
+ * Określa zestaw operacji CRUD oraz zapytań statystycznych dla paczek,
+ * nadawców, odbiorców, regałów, stref, regionów kurierskich i formatów.
+ * Implementowany przez {@link PackageDAO}.
+ * </p>
  *
  * @author Radosław
  */

@@ -28,87 +28,73 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 /**
- * FXML Controller class
+ * Kontroler okna tabeli paczek.
+ * <p>
+ * Odpowiada za wyświetlanie listy wszystkich paczek w tabeli JavaFX, obsługę
+ * nawigacji między oknami oraz przejście do okna zarządzania wybraną paczką.
+ * </p>
  *
- * @author mateu
+ * @author Mateusz Gojny, Ida Wszoła
  */
 public class PackageTableWindowController implements Initializable {
 
-    // TIME / DATE
     @FXML
     private Label timeLabel;
-
     @FXML
     private Label dateLabel;
-
-    // SIDEBAR BUTTONS
     @FXML
     private Button magButton;
-
     @FXML
     private Button pacButton;
-
     @FXML
     private Button userButton;
-    
-    // MAIN BUTTONS
     @FXML
     private Button manageButton;
-        
     @FXML
     private Button addButton;
-
-    // TABLE
     @FXML
     private TableView<PackageTableService> packageTable;
-
     @FXML
     private TableColumn<PackageTableService, Integer> idColumn;
-
     @FXML
     private TableColumn<PackageTableService, String> shelfColumn;
-
     @FXML
     private TableColumn<PackageTableService, String> sizeColumn;
-    
     @FXML
     private TableColumn<PackageTableService, Integer> widthColumn;
-
     @FXML
     private TableColumn<PackageTableService, Integer> heightColumn;
-
     @FXML
     private TableColumn<PackageTableService, Integer> depthColumn;
-
     @FXML
     private TableColumn<PackageTableService, String> senregionColumn;
-    
     @FXML
     private TableColumn<PackageTableService, String> recregionColumn;
-    
     @FXML
     private TableColumn<PackageTableService, Double> weightColumn;
-    
 
+    /**
+     * Inicjalizuje kontroler — uruchamia zegar, konfiguruje kolumny tabeli i
+     * ładuje dane paczek z bazy danych.
+     *
+     * @param url ścieżka do pliku FXML (nieużywana bezpośrednio)
+     * @param rb zasoby lokalizacyjne (nieużywane bezpośrednio)
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        // TIME AND DATE
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(1), event -> {
-                LocalDateTime now = LocalDateTime.now();
-                timeLabel.setText(now.format(timeFormatter));
-                dateLabel.setText(now.format(dateFormatter));
-            })
+                new KeyFrame(Duration.seconds(1), event -> {
+                    LocalDateTime now = LocalDateTime.now();
+                    timeLabel.setText(now.format(timeFormatter));
+                    dateLabel.setText(now.format(dateFormatter));
+                })
         );
-
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        // TABLE INIT
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         shelfColumn.setCellValueFactory(new PropertyValueFactory<>("shelf"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -120,51 +106,61 @@ public class PackageTableWindowController implements Initializable {
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
         PackageDAO dao = new PackageDAO();
-
         List<Package> packages = dao.getPackages();
-
-        
         List<PackageTableService> tableData = packages.stream()
                 .map(PackageTableService::new)
                 .collect(Collectors.toList());
-
         packageTable.getItems().setAll(tableData);
-        
-        //rozmiar min okna
+
         Platform.runLater(() -> {
-        Stage stage = (Stage) magButton.getScene().getWindow();
-        WindowConstraints.applyMinSize(stage);
+            Stage stage = (Stage) magButton.getScene().getWindow();
+            WindowConstraints.applyMinSize(stage);
         });
-        
-        
-        
     }
 
-    // SIDEBAR BUTTON HANDLERS
+    /**
+     * Przechodzi do okna głównego magazynu.
+     */
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
 
+    /**
+     * Odświeża bieżące okno tabeli paczek.
+     */
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
 
+    /**
+     * Przechodzi do okna zarządzania użytkownikami.
+     */
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
-    
-    // MAIN BUTTONS
-        @FXML
+
+    /**
+     * Przechodzi do okna dodawania nowej paczki.
+     */
+    @FXML
     private void handleAddButton() {
         loadWindow("/com/mycompany/projekt_io/packageAddWindow.fxml");
     }
-    
+
+    /**
+     * Obsługuje przejście do okna zarządzania wybraną paczką.
+     * <p>
+     * Sprawdza czy paczka jest zaznaczona i czy ma przypisany regał. Paczki bez
+     * regału nie mogą być edytowane — wymagają wcześniejszego przyjęcia na
+     * magazyn. Pobiera pełne dane paczki z bazy i przekazuje je do kontrolera
+     * okna zarządzania.
+     * </p>
+     */
     @FXML
     private void handlePacManButton() {
-
         PackageTableService selected = packageTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
@@ -173,22 +169,19 @@ public class PackageTableWindowController implements Initializable {
         }
 
         if (selected.getShelf().equals("0")) {
-            showAlert(
-                    "Brak regału",
-                    "Nie można edytować paczki.\n\nPaczka nie została jeszcze przypisana do strefy magazynowej."
-            );
+            showAlert("Brak regału",
+                    "Nie można edytować paczki.\n\nPaczka nie została jeszcze przypisana do strefy magazynowej.");
             return;
         }
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/packageManageWindow.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/mycompany/projekt_io/packageManageWindow.fxml"));
             Parent root = loader.load();
 
-            
-            
             PackageDAO dao = new PackageDAO();
             Package fullPackage = dao.getPackage(selected.getId());
 
-            
             PackageManageWindowController controller = loader.getController();
             controller.setPackage(fullPackage);
 
@@ -201,12 +194,15 @@ public class PackageTableWindowController implements Initializable {
         }
     }
 
-    // FXML LOAD METHOD
+    /**
+     * Ładuje wskazane okno FXML i zastępuje nim bieżącą scenę.
+     *
+     * @param fxmlPath ścieżka do pliku FXML okna docelowego
+     */
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -214,17 +210,20 @@ public class PackageTableWindowController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private void showAlert(String title, String content) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle(title);
-    alert.setHeaderText(null);
-    alert.setContentText(content);
-    alert.initOwner(timeLabel.getScene().getWindow());
-    alert.showAndWait();
-    }
-    
-    
 
-    
+    /**
+     * Wyświetla okno dialogowe z ostrzeżeniem.
+     *
+     * @param title tytuł okna dialogowego
+     * @param content treść komunikatu
+     */
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.initOwner(timeLabel.getScene().getWindow());
+        alert.showAndWait();
+    }
+   
 }

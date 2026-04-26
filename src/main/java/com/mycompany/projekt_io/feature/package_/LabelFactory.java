@@ -17,19 +17,57 @@ import org.jsoup.helper.W3CDom;
 import org.jsoup.nodes.Document;
 
 /**
- *
- * @author mateu
+ * Klasa w formie modelu fabryki etykiet wysyłkowych generowanych w formacie PDF.
+ * <p>
+ * Na podstawie danych paczki ({@link Package}) wypełnia szablon HTML danymi
+ * nadawcy, odbiorcy, regionów oraz kodu QR, a następnie konwertuje go do pliku
+ * PDF zapisywanego na pulpicie użytkownika. Szablon HTML pobierany jest z
+ * zasobów projektu ({@code src/main/resources/szablon.html}). Kod QR generowany
+ * jest przez {@link QRCodeFactory}.
+ * </p>
+ * 
+ * @author Radosław Kruczek
  */
 public class LabelFactory {
     
     Package p;
     QRCodeFactory q;
 
+    /**
+     * Tworzy instancję fabryki etykiet dla wskazanej paczki.
+     *
+     * @param p paczka, dla której zostanie wygenerowana etykieta; nie może być
+     * {@code null}
+     */
     public LabelFactory(Package p) {
         this.p = p;
     }
     
     
+    /**
+     * Generuje etykietę wysyłkową w formacie PDF i zapisuje ją na pulpicie
+     * użytkownika.
+     * <p>
+     * Proces generowania przebiega następująco:
+     * <ol>
+     * <li>Generowany jest kod QR zawierający identyfikator paczki.</li>
+     * <li>Wczytywany jest szablon HTML z zasobów projektu.</li>
+     * <li>Pola szablonu uzupełniane są danymi paczki: regionem nadania,
+     * regionem docelowym, identyfikatorem paczki, danymi nadawcy oraz danymi
+     * odbiorcy.</li>
+     * <li>Wypełniony dokument HTML konwertowany jest do PDF przy użyciu
+     * biblioteki openhtmltopdf.</li>
+     * <li>Plik PDF zapisywany jest pod ścieżką
+     * {@code ~/Desktop/label.pdf}.</li>
+     * </ol>
+     * W przypadku błędu wejścia/wyjścia lub błędu generowania kodu QR metoda
+     * zwraca {@code false}.
+     * </p>
+     *
+     * @return {@code true} jeśli etykieta została pomyślnie wygenerowana i
+     * zapisana, {@code false} jeśli wystąpił błąd {@link IOException} lub
+     * {@link WriterException}
+     */
     public boolean printLabel() {
         
         try {

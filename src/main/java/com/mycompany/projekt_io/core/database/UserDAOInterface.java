@@ -4,6 +4,15 @@ import com.mycompany.projekt_io.datamodel.Permission;
 import com.mycompany.projekt_io.datamodel.User;
 import java.util.List;
 
+/**
+ * Interfejs definiujący kontrakt dla operacji na danych użytkowników systemu.
+ * <p>
+ * Określa operacje pobierania, dodawania użytkowników oraz pobierania
+ * dostępnych uprawnień. Implementowany przez {@link UserDAO}.
+ * </p>
+ * 
+ * @author Radosław Kruczek
+ */
 public interface UserDAOInterface {
     User getUser(String login);
     List<User> getUsers();

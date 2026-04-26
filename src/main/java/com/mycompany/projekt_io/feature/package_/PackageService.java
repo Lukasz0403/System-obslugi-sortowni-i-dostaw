@@ -11,11 +11,51 @@ import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Rack;
 
+
+/**
+ * Serwis odpowiedzialny za zarządzanie paczkami w systemie.
+ * <p>
+ * Udostępnia metody do dodawania, aktualizowania i usuwania paczek, a także
+ * pomocnicze metody do mapowania regionów i automatycznego przypisywania
+ * gabarytów na podstawie wymiarów paczki. 
+ * </p>
+ * 
+ * @author Mateusz Gojny
+ */
+
 public class PackageService {
 
     private final PackageDAO dao = new PackageDAO();
 
 
+    /**
+     * Dodaje nową paczkę do bazy danych 
+     * <p>
+     * Metoda przeznaczona do szybkiego dodawania paczek bez pełnych danych
+     * adresowych. Gabaryt ({@code size}) jest przekazywany jawnie. Paczka nie
+     * ma przypisanego regału ({@code rack = null}).
+     * </p>
+     *
+     * @param size identyfikator gabarytu paczki ("A", "B" lub "C")
+     * @param sendRegionName nazwa miasta regionu nadania (np. "Warszawa")
+     * @param receiveRegionName nazwa miasta regionu docelowego (np. "Kraków")
+     * @param weight waga paczki w kilogramach
+     * @param width szerokość paczki w centymetrach
+     * @param height wysokość paczki w centymetrach
+     * @param depth głębokość paczki w centymetrach
+     * @param senderName imię i nazwisko lub nazwa nadawcy
+     * @param senderStreet ulica nadawcy
+     * @param senderPostcode kod pocztowy nadawcy (format XX-XXX)
+     * @param senderEmail adres e-mail nadawcy
+     * @param senderPhone numer telefonu nadawcy
+     * @param recipientName imię i nazwisko lub nazwa odbiorcy
+     * @param recipientStreet ulica odbiorcy
+     * @param recipientPostcode kod pocztowy odbiorcy (format XX-XXX)
+     * @param recipientEmail adres e-mail odbiorcy
+     * @param recipientPhone numer telefonu odbiorcy
+     * @return {@code true} jeśli paczka została pomyślnie dodana do bazy,
+     * {@code false} w przypadku błędu
+     */
 
     public boolean addPackage(
             String size,
@@ -73,7 +113,42 @@ public class PackageService {
         return dao.addPackage(pack);
     }
     
-    
+    /**
+     * Dodaje nową paczkę do bazy danych wraz z pełnymi danymi nadawcy i
+     * odbiorcy.
+     * <p>
+     * Nadawca i odbiorca są najpierw zapisywani jako nowe rekordy w bazie
+     * danych, a ich wygenerowane ID są następnie przypisywane do paczki.
+     * Gabaryt jest przypisywany automatycznie na podstawie wymiarów paczki przy
+     * użyciu metody {@link #assignFormat(double, double, double)}. Przed
+     * dodaniem paczki sprawdzane są minimalne dopuszczalne wymiary (min. 2 x 10
+     * x 10 cm) oraz maksymalne (gabaryt C: 40 x 40 x 60 cm). Paczka nie ma
+     * przypisanego regału ({@code rack = null}).
+     * </p>
+     *
+     * @param size parametr ignorowany — gabaryt jest przypisywany automatycznie
+     * @param sendRegion nazwa miasta regionu nadania (np. "Warszawa")
+     * @param receiveRegion nazwa miasta regionu docelowego (np. "Kraków")
+     * @param weight waga paczki w kilogramach
+     * @param width szerokość paczki w centymetrach
+     * @param height wysokość paczki w centymetrach
+     * @param depth głębokość paczki w centymetrach
+     * @param senderName imię i nazwisko lub nazwa nadawcy
+     * @param senderCity miasto nadawcy
+     * @param senderStreet ulica nadawcy
+     * @param senderPostcode kod pocztowy nadawcy (format XX-XXX)
+     * @param senderEmail adres e-mail nadawcy
+     * @param senderPhone numer telefonu nadawcy
+     * @param recipientName imię i nazwisko lub nazwa odbiorcy
+     * @param recipientCity miasto odbiorcy
+     * @param recipientStreet ulica odbiorcy
+     * @param recipientPostcode kod pocztowy odbiorcy (format XX-XXX)
+     * @param recipientEmail adres e-mail odbiorcy
+     * @param recipientPhone numer telefonu odbiorcy
+     * @return {@code true} jeśli paczka wraz z nadawcą i odbiorcą zostały
+     * pomyślnie zapisane w bazie, {@code false} jeśli wymiary są nieprawidłowe,
+     * gabaryt niemożliwy do przypisania lub wystąpił błąd zapisu w bazie danych
+     */
     public boolean addPackageFull(
             String size,
             String sendRegion,
@@ -149,7 +224,44 @@ public class PackageService {
         return dao.addPackage(pack);
     }
     
-    
+    /**
+     * Aktualizuje dane istniejącej paczki w bazie danych wraz z danymi nadawcy
+     * i odbiorcy.
+     * <p>
+     * Metoda aktualizuje jednocześnie trzy rekordy w bazie: paczkę, jej nadawcę
+     * oraz odbiorcę. Zwraca {@code true} tylko jeśli wszystkie trzy operacje
+     * zakończyły się sukcesem. Regał paczki pozostaje niezmieniony —
+     * przekazywany jest bezpośrednio z istniejącego obiektu paczki.
+     * </p>
+     *
+     * @param packageId identyfikator aktualizowanej paczki
+     * @param size identyfikator gabarytu paczki ("A", "B" lub "C")
+     * @param sendRegion nazwa miasta regionu nadania
+     * @param receiveRegion nazwa miasta regionu docelowego
+     * @param weight waga paczki w kilogramach
+     * @param width szerokość paczki w centymetrach
+     * @param height wysokość paczki w centymetrach
+     * @param depth głębokość paczki w centymetrach
+     * @param senderId identyfikator nadawcy w bazie danych
+     * @param senderName imię i nazwisko lub nazwa nadawcy
+     * @param senderCity miasto nadawcy
+     * @param senderStreet ulica nadawcy
+     * @param senderPostcode kod pocztowy nadawcy (format XX-XXX)
+     * @param senderEmail adres e-mail nadawcy
+     * @param senderPhone numer telefonu nadawcy
+     * @param recipientId identyfikator odbiorcy w bazie danych
+     * @param recipientName imię i nazwisko lub nazwa odbiorcy
+     * @param recipientCity miasto odbiorcy
+     * @param recipientStreet ulica odbiorcy
+     * @param recipientPostcode kod pocztowy odbiorcy (format XX-XXX)
+     * @param recipientEmail adres e-mail odbiorcy
+     * @param recipientPhone numer telefonu odbiorcy
+     * @param rack regał, do którego przypisana jest paczka; może być
+     * {@code null} jeśli paczka nie ma regału
+     * @return {@code true} jeśli aktualizacja paczki, nadawcy i odbiorcy
+     * zakończyła się sukcesem, {@code false} jeśli którakolwiek z operacji nie
+     * powiodła się
+     */
     public boolean updatePackageFull(
             int packageId,
             String size,
@@ -219,11 +331,31 @@ public class PackageService {
         return senderUpdated && recipientUpdated && packageUpdated;
     }
     
-    
+    /**
+     * Usuwa paczkę z bazy danych na podstawie jej identyfikatora.
+     *
+     * @param packageId identyfikator paczki do usunięcia
+     * @return {@code true} jeśli paczka została pomyślnie usunięta,
+     * {@code false} jeśli paczka o podanym ID nie istnieje lub wystąpił błąd
+     * bazy danych
+     */
     public boolean deletePackage(int packageId) {
         return dao.deletePackage(packageId);
     }
     
+    /**
+     * Wyszukuje identyfikator regionu kurierskiego na podstawie nazwy miasta.
+     * <p>
+     * Najpierw konwertuje pełną nazwę miasta na trzyliterowy kod regionu przy
+     * użyciu {@link #mapRegionNameToCode(String)}, a następnie przeszukuje
+     * listę regionów pobraną z bazy danych. Jeśli region nie zostanie
+     * znaleziony, zwracana jest wartość {@code 1} jako domyślna.
+     * </p>
+     *
+     * @param name pełna nazwa miasta (np. "Warszawa", "Kraków")
+     * @return identyfikator regionu z bazy danych lub {@code 1} jeśli nie
+     * znaleziono dopasowania
+     */
     private int findRegionIdByName(String name) {
         String code = mapRegionNameToCode(name);
 
@@ -234,6 +366,16 @@ public class PackageService {
                 .orElse(1);
     }
     
+    /**
+     * Mapuje identyfikator gabarytu na liczbę zajmowanych slotów magazynowych.
+     * <p>
+     * Gabaryt A - 1 slot, B - 2 sloty, C - 4 sloty. Dla nierozpoznanego
+     * gabarytu zwracana jest wartość domyślna {@code 1}.
+     * </p>
+     *
+     * @param size identyfikator gabarytu ("A", "B" lub "C")
+     * @return liczba slotów zajmowanych przez dany gabaryt
+     */
     private int mapSizeToSlot(String size) {
         switch (size) {
             case "A":
@@ -247,6 +389,18 @@ public class PackageService {
         }
     }
     
+    /**
+     * Konwertuje pełną nazwę miasta na trzyliterowy kod regionu kurierskiego.
+     * <p>
+     * Obsługuje wszystkie 20 regionów kurierskich zdefiniowanych w bazie danych.
+     * Jeśli nazwa miasta nie zostanie rozpoznana, zwracany jest domyślny
+     * kod {@code "WAW"} (Warszawa).
+     * </p>
+     *
+     * @param name pełna nazwa miasta (np. "Gdańsk", "Wrocław")
+     * @return trzyliterowy kod regionu kurierskiego (np. "GDA", "WRO")
+     *         lub {@code "WAW"} jeśli nazwa nie została rozpoznana
+     */
     private String mapRegionNameToCode(String name) {
         switch (name) {
             case "Białystok":
@@ -294,6 +448,16 @@ public class PackageService {
         }
     }
     
+    
+    /**
+     * Automatycznie przypisuje gabaryt paczki na podstawie jej wymiarów.
+     *
+     * @param width szerokość paczki w centymetrach
+     * @param height wysokość paczki w centymetrach
+     * @param depth głębokość paczki w centymetrach
+     * @return identyfikator gabarytu ("A", "B" lub "C") lub {@code null} jeśli
+     * paczka jest zbyt duża dla żadnego gabarytu
+     */
     private String assignFormat(double width, double height, double depth) {
        
 
