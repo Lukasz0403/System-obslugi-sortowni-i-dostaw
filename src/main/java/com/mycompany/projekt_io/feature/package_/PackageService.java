@@ -23,7 +23,7 @@ import com.mycompany.projekt_io.datamodel.Rack;
  * @author Mateusz Gojny
  */
 
-public class PackageService {
+public class PackageService implements PackageServiceInterface {
 
     private final PackageDAO dao = new PackageDAO();
 

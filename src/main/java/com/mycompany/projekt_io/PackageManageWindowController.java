@@ -30,6 +30,7 @@ import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.LabelFactory;
 import com.mycompany.projekt_io.feature.package_.PackageService;
+import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -73,7 +74,7 @@ public class PackageManageWindowController implements Initializable {
     @FXML private Button labelButton;
 
     private Package currentPackage;
-    private final PackageService service = new PackageService();
+    private final PackageServiceInterface service = new PackageService();
 
     /**
      * Inicjalizuje kontroler — uruchamia zegar, wypełnia listy wyboru

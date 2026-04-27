@@ -9,6 +9,7 @@ import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -375,7 +376,7 @@ public class PackageAddWindowController implements Initializable {
             return;
         }
 
-        PackageService service = new PackageService();
+        PackageServiceInterface service = new PackageService();
 
         boolean success = service.addPackageFull(
                 "",
