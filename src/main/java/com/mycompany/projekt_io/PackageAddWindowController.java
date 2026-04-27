@@ -10,6 +10,8 @@ import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
+import com.mycompany.projekt_io.feature.package_.SenderTemplate;
+import com.mycompany.projekt_io.feature.package_.TemplateService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -35,6 +37,8 @@ import java.util.function.UnaryOperator;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.text.Text;
+
 
 //-------
 
@@ -106,6 +110,22 @@ public class PackageAddWindowController implements Initializable {
     private TextField recipientEmailField;
     @FXML
     private TextField recipientNumberField;
+    @FXML
+    private Text codeText;
+    @FXML
+    private Button loadTempButton;
+    @FXML
+    private Text mailText;
+    @FXML
+    private Text nameText;
+    @FXML
+    private Text numberText;
+    @FXML
+    private Text streetText;
+    @FXML
+    private Text cityText;
+    
+    private final TemplateService templateService = new TemplateService();
 
     // COMBOBOXES---------------------------------------------------------------
     @FXML
@@ -265,8 +285,101 @@ public class PackageAddWindowController implements Initializable {
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         
         //---------------------------------------------------------------------
+        
+        if (templateService.isTemplateSaved()) {
+            updateTemplateDisplay(templateService.loadTemplate());
+        }
     }
 
+    /**
+     * Wczytuje zapisany szablon nadawcy i wypełnia nim pola formularza.
+     * <p>
+     * Jeśli żaden szablon nie został wcześniej zapisany, wyświetlane jest
+     * ostrzeżenie i operacja jest przerywana. W przeciwnym razie dane nadawcy z
+     * szablonu są wpisywane do odpowiednich pól formularza. Jeśli szablon
+     * zawiera zapisane miasto, ustawiana jest również odpowiednia wartość w
+     * liście wyboru regionu nadania.
+     * </p>
+     *
+     * @param event zdarzenie akcji przycisku "Load Template"
+     */
+    @FXML
+    void loadTemplate(ActionEvent event) {
+        if (!templateService.isTemplateSaved()) {
+            showAlert(Alert.AlertType.WARNING, "Brak szablonu", "Nie zapisano jeszcze żadnego szablonu.");
+            return;
+        }
+        SenderTemplate template = templateService.loadTemplate();
+        senderNameField.setText(template.getName());
+        senderStreetField.setText(template.getStreet());
+        senderPostcodeField.setText(template.getPostcode());
+        senderEmailField.setText(template.getEmail());
+        senderNumberField.setText(template.getPhone());
+        if (!template.getCity().isEmpty()) {
+            sendRegionChoiceBox.setValue(template.getCity());
+        }
+    }
+
+    /**
+     * Zapisuje dane nadawcy z formularza jako szablon wielokrotnego użytku.
+     * <p>
+     * Przed zapisem sprawdzana jest kompletność danych — wszystkie pola nadawcy
+     * muszą być wypełnione. Jeśli którekolwiek pole jest puste, wyświetlane
+     * jest ostrzeżenie i operacja jest przerywana. Po pomyślnym zapisie panel
+     * podglądu szablonu jest aktualizowany za pomocą
+     * {@link #updateTemplateDisplay(SenderTemplate)}. Dane są przechowywane
+     * przy użyciu {@link TemplateService} w Java Preferences API i dostępne po
+     * ponownym uruchomieniu aplikacji.
+     * </p>
+     *
+     * @param event zdarzenie akcji przycisku "Save Template"
+     */
+    @FXML
+    void saveTemplate(ActionEvent event) {
+        if (senderNameField.getText().isEmpty()
+                || senderStreetField.getText().isEmpty()
+                || senderPostcodeField.getText().isEmpty()
+                || senderEmailField.getText().isEmpty()
+                || senderNumberField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Błąd", "Uzupełnij wszystkie dane nadawcy przed zapisem szablonu.");
+            return;
+        }
+        SenderTemplate template = new SenderTemplate(
+                senderNameField.getText(),
+                senderStreetField.getText(),
+                senderPostcodeField.getText(),
+                senderEmailField.getText(),
+                senderNumberField.getText(),
+                sendRegionChoiceBox.getValue().equals("--SENDERS REGION--") ? "" : sendRegionChoiceBox.getValue()
+        );
+        templateService.saveTemplate(template);
+        updateTemplateDisplay(template);
+        showAlert(Alert.AlertType.INFORMATION, "Sukces", "Szablon nadawcy został zapisany.");
+    }
+
+    /**
+     * Usuwa zapisany szablon nadawcy i resetuje panel podglądu do stanu
+     * domyślnego.
+     * <p>
+     * Wywołuje {@link TemplateService#clearTemplate()} kasując wszystkie dane
+     * szablonu z Java Preferences API. Następnie wszystkie pola panelu podglądu
+     * ustawiane są na wartość {@code "None"}, sygnalizując brak aktywnego
+     * szablonu.
+     * </p>
+     *
+     * @param event zdarzenie akcji przycisku "Clear Template"
+     */
+    @FXML
+    void clearTemplate(ActionEvent event) {
+        templateService.clearTemplate();
+        streetText.setText("None");
+        cityText.setText("None");
+        codeText.setText("None");
+        numberText.setText("None");
+        mailText.setText("None");
+        nameText.setText("None");
+    }
+    
     /**
      * Czyści wszystkie pola formularza i przywraca domyślne wartości list rozwijanych.
      * <p>
@@ -446,5 +559,19 @@ public class PackageAddWindowController implements Initializable {
         alert.setContentText(content);
         alert.initOwner(timeLabel.getScene().getWindow());
         alert.showAndWait();
+    }
+    
+    /**
+     * Aktualizuje pola tekstowe w panelu podglądu szablonu.
+     *
+     * @param template szablon którego dane mają być wyświetlone w panelu
+     */
+    private void updateTemplateDisplay(SenderTemplate template) {
+        nameText.setText(template.getName());
+        streetText.setText(template.getStreet());
+        codeText.setText(template.getPostcode());
+        mailText.setText(template.getEmail());
+        numberText.setText(template.getPhone());
+        cityText.setText(template.getCity());
     }
 }

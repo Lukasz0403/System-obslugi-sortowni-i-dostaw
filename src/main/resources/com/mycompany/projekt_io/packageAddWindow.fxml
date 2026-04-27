@@ -54,16 +54,19 @@
         <!-- MAIN -->
         <AnchorPane HBox.hgrow="ALWAYS">
          <children>
-            <Button fx:id="returnButton" layoutX="410.0" layoutY="344.0" maxWidth="66.0" onAction="#handleRetButton" prefHeight="26.0" prefWidth="66.0" text="RETURN" />
-            <Button fx:id="addPacButton" layoutX="348.0" layoutY="241.0" mnemonicParsing="false" onAction="#handleAddPackage" prefHeight="26.0" prefWidth="134.0" text="ADD PACKAGE" />
-            <Button fx:id="saveTempButton" layoutX="348.0" layoutY="268.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="SAVE TEMPLATE" />
+            <Button fx:id="returnButton" layoutX="412.0" layoutY="353.0" maxWidth="66.0" onAction="#handleRetButton" prefHeight="26.0" prefWidth="66.0" text="RETURN" />
+            <Button fx:id="addPacButton" layoutX="348.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleAddPackage" prefHeight="26.0" prefWidth="134.0" text="ADD PACKAGE" />
+            <Button fx:id="saveTempButton" layoutX="350.0" layoutY="203.0" mnemonicParsing="false" onAction="#saveTemplate" prefHeight="26.0" prefWidth="134.0" text="SAVE TEMPLATE" />
             
             <!-- WARNING! CLEAR BUTTON IS NAMED "DELETE" IN THE CONTROLLER. TOO LAZY TO CHANGE IT :3 -->
-            <Button fx:id="deleteButton" layoutX="348.0" layoutY="294.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="26.0" prefWidth="134.0" text="CLEAR" />
+            <Button fx:id="deleteButton" layoutX="348.0" layoutY="317.0" mnemonicParsing="false" onAction="#handleDeleteButton" prefHeight="26.0" prefWidth="134.0" text="CLEAR" />
             
             <!-- FORM -->
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#333a56" height="200.0" layoutX="336.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="158.0" />
-            <Text fill="WHITE" layoutX="388.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEMPLATE" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#333a56" height="165.0" layoutX="330.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="164.0" />
+            <Text fill="WHITE" layoutX="350.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SENDER DETAILS SAVED TEMPLATE" textAlignment="CENTER" wrappingWidth="134.39999999999986">
+               <font>
+                  <Font size="10.0" />
+               </font></Text>
             <AnchorPane layoutX="27.0" layoutY="25.0" prefHeight="355.0" prefWidth="290.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="355.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="292.0" />
@@ -90,6 +93,68 @@
                   <Label layoutX="175.0" layoutY="182.0" text="RECIPIENT" />
                </children>
             </AnchorPane>
+            <Text fill="WHITE" layoutX="338.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NAME:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="336.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="STREET:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="336.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="POSTCODE:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="336.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CITY:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="336.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-MAIL:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="nameText" fill="WHITE" layoutX="402.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="streetText" fill="WHITE" layoutX="403.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="codeText" fill="WHITE" layoutX="402.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="mailText" fill="WHITE" layoutX="402.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Button fx:id="loadTempButton" layoutX="350.0" layoutY="229.0" mnemonicParsing="false" onAction="#loadTemplate" prefHeight="26.0" prefWidth="134.0" text="LOAD TEMPLATE" />
+            <Text fill="WHITE" layoutX="336.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NUMBER:">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="numberText" fill="WHITE" layoutX="402.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Text fx:id="cityText" fill="WHITE" layoutX="402.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="None">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Text>
+            <Button fx:id="clearTempButton" layoutX="349.0" layoutY="255.0" mnemonicParsing="false" onAction="#clearTemplate" prefHeight="26.0" prefWidth="134.0" text="CLEAR TEMPLATE" />
          </children></AnchorPane>
 
     </HBox>
