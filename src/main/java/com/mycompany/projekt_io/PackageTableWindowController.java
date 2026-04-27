@@ -72,10 +72,14 @@ public class PackageTableWindowController implements Initializable {
     private TableColumn<PackageTableService, String> recregionColumn;
     @FXML
     private TableColumn<PackageTableService, Double> weightColumn;
+    
+    private final PackageDAO dao = new PackageDAO();
+    
+    private PackageTableService selected;
 
     /**
      * Inicjalizuje kontroler — uruchamia zegar, konfiguruje kolumny tabeli i
-     * ładuje dane paczek z bazy danych.
+     * ładuje dane paczek z bazy danych, autoamtycznie odświeża tabelę.
      *
      * @param url ścieżka do pliku FXML (nieużywana bezpośrednio)
      * @param rb zasoby lokalizacyjne (nieużywane bezpośrednio)
@@ -105,7 +109,7 @@ public class PackageTableWindowController implements Initializable {
         recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
-        PackageDAO dao = new PackageDAO();
+        
         List<Package> packages = dao.getPackages();
         List<PackageTableService> tableData = packages.stream()
                 .map(PackageTableService::new)
@@ -116,6 +120,19 @@ public class PackageTableWindowController implements Initializable {
             Stage stage = (Stage) magButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
+        
+        Timeline autoRefresh = new Timeline(
+                new KeyFrame(Duration.seconds(5), event -> {
+                    List<Package> updated = dao.getPackages();
+                    List<PackageTableService> updatedData = updated.stream()
+                            .map(PackageTableService::new)
+                            .collect(Collectors.toList());
+                    packageTable.getItems().setAll(updatedData);
+               
+                })
+        );
+        autoRefresh.setCycleCount(Timeline.INDEFINITE);
+        autoRefresh.play();
     }
 
     /**
@@ -161,7 +178,7 @@ public class PackageTableWindowController implements Initializable {
      */
     @FXML
     private void handlePacManButton() {
-        PackageTableService selected = packageTable.getSelectionModel().getSelectedItem();
+         selected = packageTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
             showAlert("Błąd", "Nie wybrano żadnej paczki");
@@ -179,7 +196,6 @@ public class PackageTableWindowController implements Initializable {
                     "/com/mycompany/projekt_io/packageManageWindow.fxml"));
             Parent root = loader.load();
 
-            PackageDAO dao = new PackageDAO();
             Package fullPackage = dao.getPackage(selected.getId());
 
             PackageManageWindowController controller = loader.getController();
