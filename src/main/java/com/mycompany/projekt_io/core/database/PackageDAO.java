@@ -427,7 +427,7 @@ public class PackageDAO implements PackageDAOInterface {
             
             while (rs.next()) {
 
-                Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   
+                Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone")));   
                  
                  
                 shelves.add(rack);              

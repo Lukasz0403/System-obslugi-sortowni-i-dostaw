@@ -2,6 +2,7 @@ package com.mycompany.projekt_io;
 
 //IMPORTS
 
+import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
@@ -12,6 +13,7 @@ import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import com.mycompany.projekt_io.feature.package_.SenderTemplate;
 import com.mycompany.projekt_io.feature.package_.TemplateService;
+import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -519,6 +521,10 @@ public class PackageAddWindowController implements Initializable {
         } else {
             showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się dodać paczki. Sprawdź wymiary lub połączenie z bazą.");
         }
+        
+        PackageDAO dao = new PackageDAO();
+        SortingService algorithm = new SortingService(dao);
+        algorithm.assignShelvesToPackages();
     }
 
     /**

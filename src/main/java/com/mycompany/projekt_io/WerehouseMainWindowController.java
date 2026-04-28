@@ -1,6 +1,7 @@
 package com.mycompany.projekt_io;
 
 import com.mycompany.projekt_io.core.database.PackageDAO;
+import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -80,6 +81,10 @@ public class WerehouseMainWindowController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
+        PackageDAO dao = new PackageDAO();
+        SortingService algorithm = new SortingService(dao);
+        algorithm.assignShelvesToPackages();
+        
         // MAP EACH SHELF RECTANGLE TO ITS REAL SHELF ID FROM DATABASE
         // ORDER LEFT TO RIGHT: shelfex=301, shelf4=101, shelf3=102, shelf2=201, shelf1=202
         setupShelfHover(shelf1, 1);
