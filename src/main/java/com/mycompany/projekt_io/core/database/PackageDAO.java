@@ -565,7 +565,18 @@ public Boolean addPackage(Package p) {
         try {
             Connection conn = ConnectDatabasePackage.getConnection();
 
-            String sql = "UPDATE packages SET package_sender = ?, package_recipient = ?, package_region = ?, package_dest_region = ?, package_format = ?, package_rack = ? WHERE package_id = ?";
+            String sql = "UPDATE packages SET "
+                    + "package_sender = ?, "
+                    + "package_recipient = ?, "
+                    + "package_region = ?, "
+                    + "package_dest_region = ?, "
+                    + "package_format = ?, "
+                    + "package_rack = ?, "
+                    + "width = ?, " 
+                    + "height = ?, " 
+                    + "depth = ?, " 
+                    + "weight = ? " 
+                    + "WHERE package_id = ?";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -575,14 +586,17 @@ public Boolean addPackage(Package p) {
             ps.setInt(4, p.getPackage_dest_region().getRegion_id());
             ps.setString(5, p.getPackage_format().getFormat_id());
 
-            // 
             if (p.getPackage_rack() != null) {
                 ps.setInt(6, p.getPackage_rack().getRack_id());
             } else {
                 ps.setNull(6, java.sql.Types.INTEGER);
             }
 
-            ps.setInt(7, p.getPackage_id());
+            ps.setInt(7, p.getWidth());   
+            ps.setInt(8, p.getHeight());  
+            ps.setInt(9, p.getDepth());   
+            ps.setInt(10, p.getWeight()); 
+            ps.setInt(11, p.getPackage_id()); 
 
             int rows = ps.executeUpdate();
 

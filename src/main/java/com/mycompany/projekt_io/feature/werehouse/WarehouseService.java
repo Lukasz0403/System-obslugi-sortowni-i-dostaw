@@ -8,6 +8,6 @@ package com.mycompany.projekt_io.feature.werehouse;
  *
  * @author mateu
  */
-public class WerehouseService {
+public class WarehouseService {
     
 }

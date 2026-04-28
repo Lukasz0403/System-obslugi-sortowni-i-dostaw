@@ -39,20 +39,12 @@ public class App extends Application {
 
     public static void main(String[] args) {
         
-        PackageDAO p1 = new PackageDAO();
         
-        Package u = p1.getPackage(3);
-        
-        System.out.println(u);
        
         
         launch();
         
-        List<Package> l1 = p1.getPackages();
         
-        for(Package ul : l1) {
-            System.out.println(ul);
-        }
         
     }
 

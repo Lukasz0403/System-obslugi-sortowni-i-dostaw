@@ -19,8 +19,10 @@ import java.util.prefs.Preferences;
  * jedynie dodania nowej stałej klucza i odpowiednich metod get/set w klasie
  * {@link SenderTemplate}.
  * </p>
+ * 
+ * @author Mateusz Gojny
  */
-public class TemplateService {
+public class TemplateService implements TemplateServiceInterface {
 
     private static final Preferences prefs
             = Preferences.userNodeForPackage(TemplateService.class);

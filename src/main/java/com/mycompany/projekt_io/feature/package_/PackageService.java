@@ -177,7 +177,7 @@ public class PackageService implements PackageServiceInterface {
         }
 
         // AUTOMATYCZNE PRZYPISANIE GABARYTU
-         size = assignFormat(width, height, depth);
+         size = assignFormat(width, height, depth,weight);
         if (size == null) {
             System.out.println("Paczka zbyt duża! Maksymalny gabaryt to C (40x40x60 cm)");
             return false;
@@ -458,16 +458,16 @@ public class PackageService implements PackageServiceInterface {
      * @return identyfikator gabarytu ("A", "B" lub "C") lub {@code null} jeśli
      * paczka jest zbyt duża dla żadnego gabarytu
      */
-    private String assignFormat(double width, double height, double depth) {
+    private String assignFormat(double width, double height, double depth, double weight) {
        
 
-        if (width <= 10 && height <= 40 && depth <= 60) {
+        if (width <= 10 && height <= 40 && depth <= 60 && weight <= 20) {
             return "A";
         }
-        if (width <= 20 && height <= 40 && depth <= 60) {
+        if (width <= 20 && height <= 40 && depth <= 60 && weight <= 20) {
             return "B";
         }
-        if (width <= 40 && height <= 40 && depth <= 60) {
+        if (width <= 40 && height <= 40 && depth <= 60 && weight <= 20) {
             return "C";
         }
 

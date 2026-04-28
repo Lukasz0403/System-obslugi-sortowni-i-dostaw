@@ -13,6 +13,7 @@ import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import com.mycompany.projekt_io.feature.package_.SenderTemplate;
 import com.mycompany.projekt_io.feature.package_.TemplateService;
+import com.mycompany.projekt_io.feature.package_.TemplateServiceInterface;
 import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -127,7 +128,7 @@ public class PackageAddWindowController implements Initializable {
     @FXML
     private Text cityText;
     
-    private final TemplateService templateService = new TemplateService();
+    private final TemplateServiceInterface templateService = new TemplateService();
 
     // COMBOBOXES---------------------------------------------------------------
     @FXML

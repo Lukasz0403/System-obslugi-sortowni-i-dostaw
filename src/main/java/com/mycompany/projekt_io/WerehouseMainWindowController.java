@@ -2,6 +2,7 @@ package com.mycompany.projekt_io;
 
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.feature.werehouse.SortingService;
+import com.mycompany.projekt_io.feature.werehouse.SortingServiceInterface;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -82,7 +83,22 @@ public class WerehouseMainWindowController implements Initializable {
         timeline.play();
 
         PackageDAO dao = new PackageDAO();
-        SortingService algorithm = new SortingService(dao);
+        SortingServiceInterface algorithm = new SortingService(dao);
+
+        algorithm.addObserver((zoneId, occupancy, maxCapacity) -> {
+            int percent = (int) ((occupancy / (double) maxCapacity) * 100);
+            Platform.runLater(() -> {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.WARNING);
+                alert.setTitle("Strefa prawie pełna");
+                alert.setHeaderText(null);
+                alert.setContentText("Strefa " + zoneId + " jest zapełniona w " + percent + "%.\n"
+                        + "Zajęte sloty: " + occupancy + " / " + maxCapacity);
+                alert.initOwner(magButton.getScene().getWindow());
+                alert.showAndWait();
+            });
+        });
+
         algorithm.assignShelvesToPackages();
         
         // MAP EACH SHELF RECTANGLE TO ITS REAL SHELF ID FROM DATABASE

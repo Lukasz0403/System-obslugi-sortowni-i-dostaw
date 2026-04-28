@@ -73,23 +73,65 @@
                   <ChoiceBox fx:id="sendRegionChoiceBox" layoutX="7.0" layoutY="43.0" prefHeight="26.0" prefWidth="134.0" style="-fx-font-size: 10px; -fx-alignment: CENTER;" />
                   <ChoiceBox fx:id="receiveRegionChoiceBox" layoutX="7.0" layoutY="71.0" prefHeight="26.0" prefWidth="134.0" style="-fx-font-size: 10px; -fx-alignment: CENTER;" />
                   
-                  <TextField fx:id="weightField" layoutX="21.0" layoutY="307.0" prefHeight="26.0" prefWidth="107.0" promptText="WEIGHT" />
-                  <TextField fx:id="heightField" layoutX="21.0" layoutY="229.0" prefHeight="26.0" prefWidth="107.0" promptText="HEIGHT" />
-                  <TextField fx:id="widthField" layoutX="20.0" layoutY="190.0" prefHeight="26.0" prefWidth="107.0" promptText="WIDTH" />
-                  <TextField fx:id="depthField" layoutX="21.0" layoutY="268.0" prefHeight="26.0" prefWidth="107.0" promptText="DEBTH" />
+                  <TextField fx:id="weightField" layoutX="21.0" layoutY="307.0" prefHeight="26.0" prefWidth="107.0" promptText="WEIGHT MAX: 20kg">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="heightField" layoutX="21.0" layoutY="229.0" prefHeight="26.0" prefWidth="107.0" promptText="HEIGHT MAX: 40cm">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="widthField" layoutX="20.0" layoutY="190.0" prefHeight="26.0" prefWidth="107.0" promptText="WIDTH  MAX: 40cm">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="depthField" layoutX="21.0" layoutY="268.0" prefHeight="26.0" prefWidth="107.0" promptText="DEBTH MAX: 60cm">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
                   
-                  <TextField fx:id="senderNameField" layoutX="153.0" layoutY="43.0" prefHeight="26.0" prefWidth="107.0" promptText="NAME" />
-                  <TextField fx:id="senderStreetField" layoutX="153.0" layoutY="71.0" prefHeight="26.0" prefWidth="107.0" promptText="STREET /NR" />
-                  <TextField fx:id="senderPostcodeField" layoutX="153.0" layoutY="98.0" prefHeight="26.0" prefWidth="107.0" promptText="POSTCODE" />
-                  <TextField fx:id="senderEmailField" layoutX="153.0" layoutY="125.0" prefHeight="26.0" prefWidth="107.0" promptText="E-MAIL" />
-                  <TextField fx:id="senderNumberField" layoutX="153.0" layoutY="151.0" prefHeight="26.0" prefWidth="107.0" promptText="NUMBER" />
+                  <TextField fx:id="senderNameField" layoutX="153.0" layoutY="43.0" prefHeight="26.0" prefWidth="107.0" promptText="NAME">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="senderStreetField" layoutX="153.0" layoutY="71.0" prefHeight="26.0" prefWidth="107.0" promptText="STREET /NR">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="senderPostcodeField" layoutX="153.0" layoutY="98.0" prefHeight="26.0" prefWidth="107.0" promptText="POSTCODE">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="senderEmailField" layoutX="153.0" layoutY="125.0" prefHeight="26.0" prefWidth="107.0" promptText="E-MAIL">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="senderNumberField" layoutX="153.0" layoutY="151.0" prefHeight="26.0" prefWidth="107.0" promptText="NUMBER">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
                   <Label layoutX="181.0" layoutY="21.0" text="SENDER" />
                   
-                  <TextField fx:id="recipientNameField" layoutX="153.0" layoutY="203.0" prefHeight="26.0" prefWidth="107.0" promptText="NAME" />
-                  <TextField fx:id="recipientStreetField" layoutX="153.0" layoutY="229.0" prefHeight="26.0" prefWidth="107.0" promptText="STREET / NR" />
-                  <TextField fx:id="recipientPostcodeField" layoutX="153.0" layoutY="255.0" prefHeight="26.0" prefWidth="107.0" promptText="POSTCODE" />
-                  <TextField fx:id="recipientEmailField" layoutX="153.0" layoutY="281.0" prefHeight="26.0" prefWidth="107.0" promptText="E-MAIL" />
-                  <TextField fx:id="recipientNumberField" layoutX="153.0" layoutY="307.0" prefHeight="26.0" prefWidth="107.0" promptText="NUMBER" />
+                  <TextField fx:id="recipientNameField" layoutX="153.0" layoutY="203.0" prefHeight="26.0" prefWidth="107.0" promptText="NAME">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="recipientStreetField" layoutX="153.0" layoutY="229.0" prefHeight="26.0" prefWidth="107.0" promptText="STREET / NR">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="recipientPostcodeField" layoutX="153.0" layoutY="255.0" prefHeight="26.0" prefWidth="107.0" promptText="POSTCODE">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="recipientEmailField" layoutX="153.0" layoutY="281.0" prefHeight="26.0" prefWidth="107.0" promptText="E-MAIL">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
+                  <TextField fx:id="recipientNumberField" layoutX="153.0" layoutY="307.0" prefHeight="26.0" prefWidth="107.0" promptText="NUMBER">
+                     <font>
+                        <Font size="10.0" />
+                     </font></TextField>
                   <Label layoutX="175.0" layoutY="182.0" text="RECIPIENT" />
                </children>
             </AnchorPane>

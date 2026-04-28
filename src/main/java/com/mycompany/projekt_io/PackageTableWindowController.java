@@ -23,6 +23,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.mycompany.projekt_io.feature.package_.PackageTableService;
 import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -115,6 +118,11 @@ public class PackageTableWindowController implements Initializable {
                 .map(PackageTableService::new)
                 .collect(Collectors.toList());
         packageTable.getItems().setAll(tableData);
+        
+        idColumn.setSortType(TableColumn.SortType.ASCENDING);
+        packageTable.getSortOrder().clear();
+        packageTable.getSortOrder().add(idColumn);
+        packageTable.sort();
 
         Platform.runLater(() -> {
             Stage stage = (Stage) magButton.getScene().getWindow();
@@ -122,13 +130,42 @@ public class PackageTableWindowController implements Initializable {
         });
         
         Timeline autoRefresh = new Timeline(
-                new KeyFrame(Duration.seconds(5), event -> {
+                new KeyFrame(Duration.seconds(10), event -> {
+                    // Zapamiętaj ID zaznaczonej paczki
+                    PackageTableService selected = packageTable.getSelectionModel().getSelectedItem();
+                    int selectedId = (selected != null) ? selected.getId() : -1;
+                    // Zapamiętaj stan sortowania
+                    List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
+                    Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
+                    for (TableColumn<PackageTableService, ?> col : sortOrder) {
+                        sortTypes.put(col, col.getSortType());
+                    }
+
+                    // Odśwież dane
                     List<Package> updated = dao.getPackages();
                     List<PackageTableService> updatedData = updated.stream()
                             .map(PackageTableService::new)
                             .collect(Collectors.toList());
                     packageTable.getItems().setAll(updatedData);
-               
+                    
+                    // Przywróć sortowanie
+                    packageTable.getSortOrder().clear();
+                    for (TableColumn<PackageTableService, ?> col : sortOrder) {
+                        col.setSortType(sortTypes.get(col));
+                    }
+                    packageTable.getSortOrder().setAll(sortOrder);
+                    packageTable.sort();
+
+                    // Przywróć zaznaczenie po ID
+                    if (selectedId != -1) {
+                        updatedData.stream()
+                                .filter(p -> p.getId() == selectedId)
+                                .findFirst()
+                                .ifPresent(p -> {
+                                    packageTable.getSelectionModel().select(p);
+                                    packageTable.scrollTo(p); // opcjonalnie — przewija do zaznaczonego wiersza
+                                });
+                    }
                 })
         );
         autoRefresh.setCycleCount(Timeline.INDEFINITE);
