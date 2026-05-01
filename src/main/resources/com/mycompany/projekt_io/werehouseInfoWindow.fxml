@@ -70,7 +70,7 @@
                <children>
                   <AnchorPane prefHeight="400.0" prefWidth="330.0">
                      <children>
-                        <ScrollPane layoutX="7.0" layoutY="190.0" prefHeight="196.0" prefWidth="330.0">
+                        <!--<ScrollPane layoutX="7.0" layoutY="190.0" prefHeight="196.0" prefWidth="330.0">
                            <content>
                               <TableView fx:id="table1" prefHeight="200.0" prefWidth="314.0">
                                 <columns>
@@ -79,7 +79,7 @@
                                 </columns>
                               </TableView>
                            </content>
-                        </ScrollPane>
+                        </ScrollPane>-->
                         <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="164.0" prefWidth="330.0">
                            <content>
                               <TableView fx:id="table2" prefHeight="200.0" prefWidth="314.0">

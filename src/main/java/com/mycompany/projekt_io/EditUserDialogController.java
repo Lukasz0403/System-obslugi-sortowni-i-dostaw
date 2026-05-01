@@ -9,82 +9,80 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 public class EditUserDialogController implements Initializable {
 
     @FXML private TextField loginField;
     @FXML private PasswordField passwordField;
+    @FXML private CheckBox keepCurrentPasswordCheckbox; // Musi być w FXML!
     @FXML private ChoiceBox<Permission> permissionChoiceBox;
     @FXML private Label errorLabel;
 
     private UserDAOInterface userDAO = new UserDAO();
-    private int id;
+    private int userId;
+    private Runnable onUserUpdated;
 
-    public void setUser(String login) {
-        loginField.setText(login);
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.userId = id; }
+    public void setUser(String login) { loginField.setText(login); }
+    public void setOnUserUpdated(Runnable callback) { this.onUserUpdated = callback; }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         List<Permission> permissions = userDAO.getPermissions();
         permissionChoiceBox.getItems().addAll(permissions);
-        if (!permissions.isEmpty()) {
-            permissionChoiceBox.setValue(permissions.get(0));
-        }
+        if (!permissions.isEmpty()) permissionChoiceBox.setValue(permissions.get(0));
 
-        permissionChoiceBox.setConverter(new javafx.util.StringConverter<Permission>() {
-            @Override
-            public String toString(Permission p) {
-                return p != null ? p.getName() : "";
-            }
-            @Override
-            public Permission fromString(String s) { return null; }
+        permissionChoiceBox.setConverter(new StringConverter<Permission>() {
+            @Override public String toString(Permission p) { return p != null ? p.getName() : ""; }
+            @Override public Permission fromString(String s) { return null; }
         });
     }
 
     @FXML
+    private void handleKeepPasswordAction() {
+        boolean keep = keepCurrentPasswordCheckbox.isSelected();
+        passwordField.setDisable(keep);
+        if (keep) passwordField.clear();
+    }
+
+    @FXML
     private void handleSave() {
-        
         String login = loginField.getText().trim();
         String password = passwordField.getText();
         Permission selected = permissionChoiceBox.getValue();
+        boolean keepOld = keepCurrentPasswordCheckbox.isSelected();
 
-        if (login.isEmpty() || password.isEmpty() || selected == null) {
-            errorLabel.setText("All fields are required.");
+        // Jeśli login jest pusty lub (nie chcemy starego hasła I nowe jest puste) -> stop
+        if (login.isEmpty() || selected == null || (!keepOld && password.isEmpty())) {
+            errorLabel.setText("Uzupełnij dane!");
             errorLabel.setVisible(true);
             return;
-        } else {
-            
-            UserManageService u = new UserManageService(login, password, selected);
-            
-            if(!u.addUser()) {
-                errorLabel.setText("Error adding user..");
-            } else {
-                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
-                confirm.setTitle("Add User");
-                confirm.setHeaderText("New user has been added: " + login + "?");
-                confirm.showAndWait();
-                closeDialog();
-            }
         }
-        errorLabel.setText("Method not finished - contact database administrator.");
-        errorLabel.setVisible(true);
+
+        // Jeśli zaznaczono "Keep password", wysyłamy cokolwiek (np. "OLD_PWD"), 
+        String passwordToSend = keepOld ? "BRAK_ZMIAN" : password;
+
+        try {
+            UserManageService u = new UserManageService(login, passwordToSend, selected);
+            boolean success = u.addUser(); // TRZEBA ZROBIĆ METODE UPDAYE IDK CZY JEST
+
+            if (success) {
+                if (onUserUpdated != null) onUserUpdated.run();
+                closeDialog();
+            } else {
+                errorLabel.setText("Błąd zapisu (może duplikujesz login?)");
+                errorLabel.setVisible(true);
+            }
+        } catch (Exception e) {
+            errorLabel.setText("Błąd SQL: " + e.getMessage());
+            errorLabel.setVisible(true);
+        }
     }
-    
-    @FXML
-    private void handleCancel() {
-        closeDialog();
-    }
+
+    @FXML private void handleCancel() { closeDialog(); }
 
     private void closeDialog() {
         Stage stage = (Stage) loginField.getScene().getWindow();

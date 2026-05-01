@@ -34,7 +34,7 @@
         <!-- TASKBAR -->
         <HBox alignment="CENTER_LEFT" prefHeight="40" style="-fx-background-color: #52658F; -fx-padding: 0 15 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <Label style="-fx-text-fill: white;" text="V 0.1" />
+                <Label style="-fx-text-fill: white;" text="V 0.2" />
                 <HBox HBox.hgrow="ALWAYS" />
                 <Label fx:id="dateTimeLabel" style="-fx-text-fill: white;" />
             </children>

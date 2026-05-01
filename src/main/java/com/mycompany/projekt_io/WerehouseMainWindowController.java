@@ -9,8 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -19,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -28,201 +25,146 @@ import javafx.scene.shape.Rectangle;
 
 public class WerehouseMainWindowController implements Initializable {
 
-    // SIDEBAR LABELS AND BUTTONS
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private Button addButton;
-
-    // SHELF RECTANGLES
-    @FXML private Rectangle shelf1;
-    @FXML private Rectangle shelf2;
-    @FXML private Rectangle shelf3;
-    @FXML private Rectangle shelf4;
-    @FXML private Rectangle shelfex;
-
+    @FXML private Label timeLabel, dateLabel;
+    @FXML private Button magButton, pacButton, addButton;
     @FXML private AnchorPane mainPane;
-
-    // HOVER INFO PANEL LABELS
     @FXML private VBox infoPanel;
-    @FXML private Label infoShelfId;
-    @FXML private Label infoPackageCount;
-    @FXML private Label infoLastPackage;
-    @FXML private Label infoLastDate;
-    @FXML private Label infoLastSender;
+    @FXML private Label infoShelfId, infoPackageCount, infoLastPackage;
 
-    // WAREHOUSE SUMMARY TABLE COLUMNS
+    // Regały 1-20
+    @FXML private Rectangle rack1, rack2, rack3, rack4, rack5, rack6, rack7, rack8, rack9, rack10,
+                            rack11, rack12, rack13, rack14, rack15, rack16, rack17, rack18, rack19, rack20;
+
     @FXML private TableView<WarehouseSummary> warehouseTable;
-    @FXML private TableColumn<WarehouseSummary, String> colTotalPackages;
-    @FXML private TableColumn<WarehouseSummary, String> colZone1;
-    @FXML private TableColumn<WarehouseSummary, String> colZone2;
-    @FXML private TableColumn<WarehouseSummary, String> colZone3;
-    @FXML private TableColumn<WarehouseSummary, String> colEmptyShelves;
-    @FXML private TableColumn<WarehouseSummary, String> colBusiestShelf;
+    @FXML private TableColumn<WarehouseSummary, String> colTotalPackages, colZone1, colZone2, colZone3, colZone4, colZone5, colEmptyShelves, colBusiestShelf;
 
-    // DAO FOR DATABASE ACCESS
     private PackageDAO packageDAO = new PackageDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //TIME
+        setupClock();
 
-        // DATE / TIME CLOCK UPDATE EVERY SECOND
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        Timeline timeline = new Timeline(
-            new KeyFrame(Duration.seconds(1), e -> {
-                LocalDateTime now = LocalDateTime.now();
-                timeLabel.setText(now.format(timeFormatter));
-                dateLabel.setText(now.format(dateFormatter));
-            })
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        // RAACKS
+        Rectangle[] allRacks = {
+            rack1, rack2, rack3, rack4, rack5, rack6, rack7, rack8, rack9, rack10,
+            rack11, rack12, rack13, rack14, rack15, rack16, rack17, rack18, rack19, rack20
+        };
 
-        // MAP EACH SHELF RECTANGLE TO ITS REAL SHELF ID FROM DATABASE
-        // ORDER LEFT TO RIGHT: shelfex=301, shelf4=101, shelf3=102, shelf2=201, shelf1=202
-        setupShelfHover(shelf1, 1);
-        setupShelfHover(shelf2, 2);
-        setupShelfHover(shelf3, 3);
-        setupShelfHover(shelf4, 4);
-        setupShelfHover(shelfex, 5);
+        for (int i = 0; i < allRacks.length; i++) {
+            setupShelfHover(allRacks[i], i + 1);
+        }
 
-        // SET UP WAREHOUSE SUMMARY TABLE COLUMNS
-        colTotalPackages.setCellValueFactory(new PropertyValueFactory<>("totalPackages"));
-        colZone1.setCellValueFactory(new PropertyValueFactory<>("zone1"));
-        colZone2.setCellValueFactory(new PropertyValueFactory<>("zone2"));
-        colZone3.setCellValueFactory(new PropertyValueFactory<>("zone3"));
-        colEmptyShelves.setCellValueFactory(new PropertyValueFactory<>("emptyShelves"));
-        colBusiestShelf.setCellValueFactory(new PropertyValueFactory<>("busiestShelf"));
-
-        // LOAD WAREHOUSE SUMMARY DATA FROM DATABASE
+        // TABLE
+        setupTable();
         loadWarehouseSummary();
 
-        // SIDEBAR NAVIGATION BUTTONS
+        // SIDEBAR
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));
 
-        // APPLY MINIMUM WINDOW SIZE
         Platform.runLater(() -> {
             Stage stage = (Stage) magButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
     }
 
-    // SET UP HOVER AND CLICK BEHAVIOUR FOR A SHELF RECTANGLE
-    private void setupShelfHover(Rectangle shelf, int shelfId) {
-
-        // WHEN MOUSE ENTERS THE SHELF - FETCH DATA AND SHOW INFO PANEL
+    private void setupShelfHover(Rectangle shelf, int rackId) {
         shelf.setOnMouseEntered(e -> {
-            int count = packageDAO.getPackageCountForShelf(shelfId);
-            int lastId = packageDAO.getLastPackageIdForShelf(shelfId);
-
-            infoShelfId.setText("Shelf: " + shelfId);
+            int count = packageDAO.getPackageCountForShelf(rackId);
+            int lastId = packageDAO.getLastPackageIdForShelf(rackId);
+            infoShelfId.setText("Rack ID: " + rackId);
             infoPackageCount.setText("Packages: " + count);
-            infoLastPackage.setText("Last Package ID: " + (lastId == -1 ? "none" : lastId));
-            infoLastDate.setText("Added: 00:00  0000-00-00");
-            infoLastSender.setText("By: N/A");
-
+            infoLastPackage.setText("Last ID: " + (lastId == -1 ? "none" : lastId));
             infoPanel.setVisible(true);
             updateInfoPanelPosition(e.getSceneX(), e.getSceneY());
         });
 
-        // PANEL FOLLOWS THE CURSOR WHILE HOVERING
         shelf.setOnMouseMoved(e -> updateInfoPanelPosition(e.getSceneX(), e.getSceneY()));
-
-        // HIDE PANEL WHEN MOUSE LEAVES THE SHELF
         shelf.setOnMouseExited(e -> infoPanel.setVisible(false));
-
-        // OPEN SHELF DETAIL WINDOW ON CLICK
-        shelf.setOnMouseClicked(e -> openWarehouseInfo());
+        shelf.setOnMouseClicked(e -> openWarehouseInfo()); // Przejście do info o magazynie
         shelf.setCursor(Cursor.HAND);
     }
 
-    // CALCULATE POSITION OF INFO PANEL RELATIVE TO CURSOR
     private void updateInfoPanelPosition(double sceneX, double sceneY) {
         double localX = mainPane.sceneToLocal(sceneX, sceneY).getX();
         double localY = mainPane.sceneToLocal(sceneX, sceneY).getY();
-        infoPanel.setLayoutX(localX + 30);
-        infoPanel.setLayoutY(localY + 30);
+        infoPanel.setLayoutX(localX + 15);
+        infoPanel.setLayoutY(localY + 15);
     }
 
-    // LOAD AND DISPLAY ONE ROW OF GENERAL WAREHOUSE STATISTICS IN THE TABLE
-    private void loadWarehouseSummary() {
-        int total = packageDAO.getTotalPackageCount();
-        int zone1 = packageDAO.getPackageCountForZone(1);
-        int zone2 = packageDAO.getPackageCountForZone(2);
-        int zone3 = packageDAO.getPackageCountForZone(3);
-
-        // COUNT EMPTY SHELVES - SHELVES WITH NO PACKAGES ASSIGNED
-        long emptyShelves = packageDAO.getRacks().stream()
-                .filter(r -> packageDAO.getPackageCountForShelf(r.getRack_id()) == 0)
-                .count();
-      
-
-        int busiestShelfId = packageDAO.getMostLoadedShelfId();
-        String busiestShelf = busiestShelfId == -1 ? "N/A" : String.valueOf(busiestShelfId);
-
-        warehouseTable.getItems().clear();
-        warehouseTable.getItems().add(new WarehouseSummary(
-            String.valueOf(total),
-            String.valueOf(zone1),
-            String.valueOf(zone2),
-            String.valueOf(zone3),
-            String.valueOf(emptyShelves),
-            busiestShelf
-        ));
-    }
-
-    // OPEN THE SHELF DETAIL WINDOW
     private void openWarehouseInfo() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("werehouseInfoWindow.fxml"));
             Parent newRoot = fxmlLoader.load();
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.getScene().setRoot(newRoot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
-    // LOAD A DIFFERENT WINDOW BY FXML PATH
+    private void setupClock() {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            LocalDateTime now = LocalDateTime.now();
+            timeLabel.setText(now.format(timeFormatter));
+            dateLabel.setText(now.format(dateFormatter));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
+    private void setupTable() {
+        colTotalPackages.setCellValueFactory(new PropertyValueFactory<>("totalPackages"));
+        colZone1.setCellValueFactory(new PropertyValueFactory<>("zone1"));
+        colZone2.setCellValueFactory(new PropertyValueFactory<>("zone2"));
+        colZone3.setCellValueFactory(new PropertyValueFactory<>("zone3"));
+        colZone4.setCellValueFactory(new PropertyValueFactory<>("zone4"));
+        colZone5.setCellValueFactory(new PropertyValueFactory<>("zone5"));
+        colEmptyShelves.setCellValueFactory(new PropertyValueFactory<>("emptyShelves"));
+        colBusiestShelf.setCellValueFactory(new PropertyValueFactory<>("busiestShelf"));
+    }
+
+    private void loadWarehouseSummary() {
+        int total = packageDAO.getTotalPackageCount();
+        int z1 = packageDAO.getPackageCountForZone(1);
+        int z2 = packageDAO.getPackageCountForZone(2);
+        int z3 = packageDAO.getPackageCountForZone(3);
+        int z4 = packageDAO.getPackageCountForZone(4);
+        int z5 = packageDAO.getPackageCountForZone(5);
+        long empty = packageDAO.getRacks().stream().filter(r -> packageDAO.getPackageCountForShelf(r.getRack_id()) == 0).count();
+        int busiest = packageDAO.getMostLoadedShelfId();
+        
+        warehouseTable.getItems().clear();
+        warehouseTable.getItems().add(new WarehouseSummary(
+            String.valueOf(total), String.valueOf(z1), String.valueOf(z2), 
+            String.valueOf(z3), String.valueOf(z4), String.valueOf(z5),
+            String.valueOf(empty), busiest == -1 ? "N/A" : "ID: " + busiest
+        ));
+    }
+
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            stage.getScene().setRoot(root);
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
-    // DATA MODEL CLASS FOR THE WAREHOUSE SUMMARY TABLE ROW
     public static class WarehouseSummary {
-        private final String totalPackages;
-        private final String zone1;
-        private final String zone2;
-        private final String zone3;
-        private final String emptyShelves;
-        private final String busiestShelf;
-
-        public WarehouseSummary(String totalPackages, String zone1, String zone2,
-                                String zone3, String emptyShelves, String busiestShelf) {
-            this.totalPackages = totalPackages;
-            this.zone1 = zone1;
-            this.zone2 = zone2;
-            this.zone3 = zone3;
-            this.emptyShelves = emptyShelves;
-            this.busiestShelf = busiestShelf;
+        private final String totalPackages, zone1, zone2, zone3, zone4, zone5, emptyShelves, busiestShelf;
+        public WarehouseSummary(String tp, String z1, String z2, String z3, String z4, String z5, String es, String bs) {
+            this.totalPackages = tp; this.zone1 = z1; this.zone2 = z2; this.zone3 = z3; 
+            this.zone4 = z4; this.zone5 = z5; this.emptyShelves = es; this.busiestShelf = bs;
         }
-
         public String getTotalPackages() { return totalPackages; }
         public String getZone1() { return zone1; }
         public String getZone2() { return zone2; }
         public String getZone3() { return zone3; }
+        public String getZone4() { return zone4; }
+        public String getZone5() { return zone5; }
         public String getEmptyShelves() { return emptyShelves; }
         public String getBusiestShelf() { return busiestShelf; }
     }
