@@ -10,6 +10,8 @@ package com.mycompany.projekt_io.datamodel;
  */
 public class User {
     
+    int user_id;
+    
     String login, password;
     
     Permission permission;
@@ -24,6 +26,10 @@ public class User {
 
     public Permission getPermission() {
         return permission;
+    }
+
+    public int getUser_id() {
+        return user_id;
     }
 
     public void setLogin(String login) {

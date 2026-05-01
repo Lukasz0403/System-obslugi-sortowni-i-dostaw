@@ -11,23 +11,6 @@ import java.sql.SQLException;
  * @author mateu
  */
 public final class ConnectDatabasePackage {
-
-//    private static Connection conn = null;
-//
-//    static {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//            //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
-//            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
-//            //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage","root","");
-//        } catch (ClassNotFoundException | SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-//
-//    public static Connection getConnection() {
-//        return conn;
-//    }
     
     private static Connection conn = null;
 
@@ -38,8 +21,8 @@ public final class ConnectDatabasePackage {
     private static void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();

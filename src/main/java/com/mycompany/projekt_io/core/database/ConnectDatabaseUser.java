@@ -7,23 +7,8 @@ import java.sql.SQLException;
  * @author mateu
  */
 public final class ConnectDatabaseUser {
-//    private static Connection conn = null;
-//    
-//    static {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-////            conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/login_credentials","root","1234");
-//            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials","root","");
-//        }  catch (ClassNotFoundException | SQLException ex) {
-//            ex.printStackTrace();
-//        } 
-//    }
-//    
-//    public static Connection getConnection() {
-//        return conn;
-//    }
-        
-            private static Connection conn = null;
+  
+    private static Connection conn = null;
 
     static {
         connect();
@@ -32,8 +17,8 @@ public final class ConnectDatabaseUser {
     private static void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/login_credentials","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/login_credentials","root","1234");
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();

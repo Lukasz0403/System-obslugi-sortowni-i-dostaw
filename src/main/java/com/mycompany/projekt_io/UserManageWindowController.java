@@ -73,13 +73,13 @@ public class UserManageWindowController implements Initializable {
         boolean alternate = false;
         for (User user : users) {
             userListContainer.getChildren().add(
-                buildUserRow(user.getLogin(), user.getPermission().getName(), alternate)
+                buildUserRow( user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate)
             );
             alternate = !alternate;
         }
     }
 
-    private HBox buildUserRow(String login, String role, boolean alternate) {
+    private HBox buildUserRow(int id, String login, String role, boolean alternate) {
         HBox row = new HBox();
         row.setPrefHeight(40.0);
         row.setStyle("-fx-padding: 0 15 0 15; -fx-background-color: " + (alternate ? "#efefea" : "#F7F5E6") + ";");
@@ -96,15 +96,15 @@ public class UserManageWindowController implements Initializable {
 
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        editBtn.setOnAction(e -> handleEditUser(login));
+        editBtn.setOnAction(e -> handleEditUser(id, login));
 
         Button permBtn = new Button("Perms");
         permBtn.setStyle("-fx-background-color: #333a56; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        permBtn.setOnAction(e -> handleChangePermissions(login));
+        permBtn.setOnAction(e -> handleChangePermissions(id, login));
 
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        deleteBtn.setOnAction(e -> handleDeleteUser(login));
+        deleteBtn.setOnAction(e -> handleDeleteUser(id, login));
 
         HBox actions = new HBox(5, editBtn, permBtn, deleteBtn);
         actions.setAlignment(Pos.CENTER_LEFT);
@@ -134,12 +134,13 @@ public class UserManageWindowController implements Initializable {
         }
     }
 
-    private void handleEditUser(String login) {
+    private void handleEditUser(int id, String login) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/editUserDialog.fxml"));
             Parent root = loader.load();
 
             EditUserDialogController controller = loader.getController();
+            controller.setId(id);
             controller.setUser(login);
 
             Stage dialog = new Stage();
@@ -154,7 +155,7 @@ public class UserManageWindowController implements Initializable {
         }
     }
 
-    private void handleChangePermissions(String login) {
+    private void handleChangePermissions(int id, String login) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Change Permissions");
         confirm.setHeaderText("Change permissions for: " + login);
@@ -163,7 +164,7 @@ public class UserManageWindowController implements Initializable {
         confirm.showAndWait();
     }
 
-    private void handleDeleteUser(String login) {
+    private void handleDeleteUser(int id, String login) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Delete User");
         confirm.setHeaderText("Are you sure you want to delete: " + login + "?");

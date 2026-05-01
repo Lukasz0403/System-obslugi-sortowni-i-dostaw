@@ -81,4 +81,28 @@ public class UserDAO implements UserDAOInterface {
             return false;
         }
     }
+    
+    @Override
+    public boolean changeUser(int id, String login, String pass, int permId) {
+        try {
+            Connection conn = ConnectDatabaseUser.getConnection();
+
+            String sql = "UPDATE users SET login = ?, password = ?, permission = ? WHERE user_id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, login);
+            ps.setString(2, pass);
+            ps.setInt(3, permId);
+            ps.setInt(4, id);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0; 
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }
