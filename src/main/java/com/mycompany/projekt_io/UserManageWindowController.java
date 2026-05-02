@@ -101,19 +101,26 @@ public class UserManageWindowController implements Initializable {
         row.getChildren().addAll(loginLabel, roleLabel, spacer, actions);
         return row;
     }
-
-    @FXML
+    
+        @FXML
     private void handleAddUser() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/addUserDialog.fxml"));
             Parent root = loader.load();
-            AddUserDialogController controller = loader.getController();
-            
-            // Reakcja na dodanie
-            controller.setOnUserAdded(() -> Platform.runLater(this::loadUsers));
 
-            showDialog(root, "Add User");
-        } catch (IOException e) { e.printStackTrace(); }
+            AddUserDialogController controller = loader.getController();
+            controller.setOnUserAdded(() -> Platform.runLater(this::loadUsers)); // refresh list after add
+
+            Stage dialog = new Stage();
+            dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialog.initOwner(timeLabel.getScene().getWindow());
+            dialog.setTitle("Add User");
+            dialog.setResizable(false);
+            dialog.setScene(new Scene(root));
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleEditUser(int id, String login) {
@@ -146,12 +153,14 @@ public class UserManageWindowController implements Initializable {
     private void handleDeleteUser(int id, String login) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Delete User");
-        confirm.setHeaderText("Delete: " + login + "?");
+        confirm.setHeaderText("Are you sure you want to delete: " + login + "?");
+        confirm.setContentText("This action cannot be undone.");
         confirm.initOwner(timeLabel.getScene().getWindow());
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                // Tutaj dodaj faktyczne usuwanie z DAO, np: userDAO.deleteUser(id);
+                System.out.println("Delete confirmed: " + login);
+                // TODO: delete via UserDAO
                 loadUsers();
             }
         });

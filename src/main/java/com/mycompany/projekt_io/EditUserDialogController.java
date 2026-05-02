@@ -55,7 +55,6 @@ public class EditUserDialogController implements Initializable {
         Permission selected = permissionChoiceBox.getValue();
         boolean keepOld = keepCurrentPasswordCheckbox.isSelected();
 
-        // Jeśli login jest pusty lub (nie chcemy starego hasła I nowe jest puste) -> stop
         if (login.isEmpty() || selected == null || (!keepOld && password.isEmpty())) {
             errorLabel.setText("Uzupełnij dane!");
             errorLabel.setVisible(true);
@@ -88,4 +87,5 @@ public class EditUserDialogController implements Initializable {
         Stage stage = (Stage) loginField.getScene().getWindow();
         stage.close();
     }
+   
 }
