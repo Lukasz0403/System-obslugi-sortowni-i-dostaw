@@ -14,64 +14,47 @@ package com.mycompany.projekt_io.datamodel;
  * @author Radosław Kruczek
  */
 public class User {
-
+    
+    int user_id;
+    
     String login, password;
     Permission permission;
 
-    /**
-     * Tworzy obiekt użytkownika systemu.
-     *
-     * @param login login użytkownika używany do uwierzytelniania
-     * @param password hasło użytkownika w postaci hasha BCrypt
-     * @param permission uprawnienia przypisane do użytkownika
-     */
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Permission getPermission() {
+        return permission;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPermission(Permission permission) {
+        this.permission = permission;
+    }
+
     public User(String login, String password, Permission permission) {
         this.login = login;
         this.password = password;
         this.permission = permission;
     }
 
-    /**
-     * @return login użytkownika
-     */
-    public String getLogin() {
-        return login;
-    }
-
-    /**
-     * @return hasło użytkownika w postaci hasha BCrypt
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @return uprawnienia użytkownika
-     */
-    public Permission getPermission() {
-        return permission;
-    }
-
-    /**
-     * @param login login użytkownika
-     */
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    /**
-     * @param password hasło w postaci hasha BCrypt
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * @param permission uprawnienia użytkownika
-     */
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
+    
 
     @Override
     public String toString() {

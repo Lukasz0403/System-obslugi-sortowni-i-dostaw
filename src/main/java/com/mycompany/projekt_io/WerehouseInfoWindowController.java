@@ -36,13 +36,13 @@ public class WerehouseInfoWindowController implements Initializable {
     @FXML private PieChart shelfPieChart;
 
     // TABLES
-    @FXML private TableView<TableItem> table1;
+    /*@FXML private TableView<TableItem> table1;
     @FXML private TableColumn<TableItem, String> table1Col1;
-    @FXML private TableColumn<TableItem, String> table1Col2;
+    @FXML private TableColumn<TableItem, String> table1Col2;*/
 
     @FXML private TableView<TableItem> table2;
     @FXML private TableColumn<TableItem, String> table2Col1;
-    @FXML private TableColumn<TableItem, String> table2Col2;
+    @FXML private TableColumn<TableItem, String> table2Col2; 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,12 +73,12 @@ public class WerehouseInfoWindowController implements Initializable {
 
         // -------------------------
         // INFO TABLE
-        table1Col1.setCellValueFactory(new PropertyValueFactory<>("col1"));
+        /*table1Col1.setCellValueFactory(new PropertyValueFactory<>("col1"));
         table1Col2.setCellValueFactory(new PropertyValueFactory<>("col2"));
         table1.getItems().addAll(
             new TableItem(" ", " "),
             new TableItem(" ", " ")
-        );
+        );*/
 
         // PACKAGE TABLE
         table2Col1.setCellValueFactory(new PropertyValueFactory<>("col1"));

@@ -1,19 +1,26 @@
 package com.mycompany.projekt_io;
 
+
+import com.mycompany.projekt_io.datamodel.Permission;
+import com.mycompany.projekt_io.feature.users.UserManageService;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.core.database.UserDAOInterface;
-import com.mycompany.projekt_io.datamodel.Permission;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.mindrot.jbcrypt.BCrypt;
+import javafx.scene.control.Alert;
+
 
 /**
  * Kontroler okna dialogowego dodawania nowego użytkownika systemu.
@@ -98,20 +105,28 @@ public class AddUserDialogController implements Initializable {
         String login = loginField.getText().trim();
         String password = passwordField.getText();
         Permission selected = permissionChoiceBox.getValue();
+
         if (login.isEmpty() || password.isEmpty() || selected == null) {
             errorLabel.setText("All fields are required.");
             errorLabel.setVisible(true);
             return;
+        } else {
+            
+            UserManageService u = new UserManageService(login, password, selected);
+            
+            if(!u.addUser()) {
+                errorLabel.setText("Error adding user..");
+            } else {
+                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+                confirm.setTitle("Add User");
+                confirm.setHeaderText("New user has been added: " + login + ".");
+                confirm.showAndWait();
+                closeDialog();
+            }
         }
-        //TODO
-        errorLabel.setText("Method not finished - TODO.");
-        errorLabel.setVisible(true);
     }
+    
 
-    /**
-     * Obsługuje kliknięcie przycisku anulowania — zamyka okno dialogowe
-     * bez zapisywania żadnych zmian.
-     */
     @FXML
     private void handleCancel() {
         closeDialog();

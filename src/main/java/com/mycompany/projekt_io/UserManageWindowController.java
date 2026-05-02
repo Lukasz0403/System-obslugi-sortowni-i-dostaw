@@ -33,16 +33,12 @@ public class UserManageWindowController implements Initializable {
 
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private Button addButton;
     @FXML private VBox userListContainer;
 
     private UserDAOInterface userDAO = new UserDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         // TIME AND DATE
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -62,24 +58,22 @@ public class UserManageWindowController implements Initializable {
             WindowConstraints.applyMinSize(stage);
         });
 
-        // LOAD USERS FROM DATABASE
         loadUsers();
     }
 
-    private void loadUsers() {
+    public void loadUsers() {
         List<User> users = userDAO.getUsers();
-
         userListContainer.getChildren().clear();
         boolean alternate = false;
         for (User user : users) {
             userListContainer.getChildren().add(
-                buildUserRow(user.getLogin(), user.getPermission().getName(), alternate)
+                buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate)
             );
             alternate = !alternate;
         }
     }
 
-    private HBox buildUserRow(String login, String role, boolean alternate) {
+    private HBox buildUserRow(int id, String login, String role, boolean alternate) {
         HBox row = new HBox();
         row.setPrefHeight(40.0);
         row.setStyle("-fx-padding: 0 15 0 15; -fx-background-color: " + (alternate ? "#efefea" : "#F7F5E6") + ";");
@@ -87,7 +81,6 @@ public class UserManageWindowController implements Initializable {
 
         Label loginLabel = new Label(login);
         loginLabel.setPrefWidth(150.0);
-
         Label roleLabel = new Label(role);
         roleLabel.setPrefWidth(120.0);
 
@@ -96,31 +89,27 @@ public class UserManageWindowController implements Initializable {
 
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        editBtn.setOnAction(e -> handleEditUser(login));
-
-        Button permBtn = new Button("Perms");
-        permBtn.setStyle("-fx-background-color: #333a56; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        permBtn.setOnAction(e -> handleChangePermissions(login));
+        editBtn.setOnAction(e -> handleEditUser(id, login));
 
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
-        deleteBtn.setOnAction(e -> handleDeleteUser(login));
+        deleteBtn.setOnAction(e -> handleDeleteUser(id, login));
 
-        HBox actions = new HBox(5, editBtn, permBtn, deleteBtn);
+        HBox actions = new HBox(5, editBtn, deleteBtn);
         actions.setAlignment(Pos.CENTER_LEFT);
 
         row.getChildren().addAll(loginLabel, roleLabel, spacer, actions);
         return row;
     }
-
-    @FXML
+    
+        @FXML
     private void handleAddUser() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/addUserDialog.fxml"));
             Parent root = loader.load();
 
             AddUserDialogController controller = loader.getController();
-            controller.setOnUserAdded(this::loadUsers); // refresh list after add
+            controller.setOnUserAdded(() -> Platform.runLater(this::loadUsers)); // refresh list after add
 
             Stage dialog = new Stage();
             dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
@@ -134,36 +123,34 @@ public class UserManageWindowController implements Initializable {
         }
     }
 
-    private void handleEditUser(String login) {
+    private void handleEditUser(int id, String login) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/editUserDialog.fxml"));
             Parent root = loader.load();
-
             EditUserDialogController controller = loader.getController();
+            
+            // Przekazanie danych do edycji
+            controller.setId(id);
             controller.setUser(login);
+            
+            // odświeżenie listy
+            controller.setOnUserUpdated(() -> Platform.runLater(this::loadUsers));
 
-            Stage dialog = new Stage();
-            dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-            dialog.initOwner(timeLabel.getScene().getWindow());
-            dialog.setTitle("Edit User");
-            dialog.setResizable(false);
-            dialog.setScene(new Scene(root));
-            dialog.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            showDialog(root, "Edit User");
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
-    private void handleChangePermissions(String login) {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Change Permissions");
-        confirm.setHeaderText("Change permissions for: " + login);
-        confirm.setContentText("Method not finished - contact database administrator.");
-        confirm.initOwner(timeLabel.getScene().getWindow());
-        confirm.showAndWait();
+    private void showDialog(Parent root, String title) {
+        Stage dialog = new Stage();
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        dialog.initOwner(timeLabel.getScene().getWindow());
+        dialog.setTitle(title);
+        dialog.setResizable(false);
+        dialog.setScene(new Scene(root));
+        dialog.showAndWait();
     }
 
-    private void handleDeleteUser(String login) {
+    private void handleDeleteUser(int id, String login) {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Delete User");
         confirm.setHeaderText("Are you sure you want to delete: " + login + "?");
@@ -189,9 +176,6 @@ public class UserManageWindowController implements Initializable {
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }

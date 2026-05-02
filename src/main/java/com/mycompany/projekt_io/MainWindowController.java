@@ -14,6 +14,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.application.Platform;
@@ -35,6 +36,12 @@ public class MainWindowController implements Initializable {
     @FXML
     private Button addButton;
 
+    // Pola Dashboardu
+    @FXML private Label userNameLabel;
+    @FXML private Label userRoleLabel;
+    @FXML private Label userIdLabel;
+    @FXML private Label sessionStartLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // aktualizacja czasu i daty
@@ -51,6 +58,12 @@ public class MainWindowController implements Initializable {
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+        
+        // Inicjalizacja danych dashboardu
+        userNameLabel.setText("Jan Kowalski"); 
+        userRoleLabel.setText("Administrator Systemu");
+        userIdLabel.setText("#001");
+        sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
         
         //rozmiar min okna
         Platform.runLater(() -> {
@@ -82,8 +95,7 @@ public class MainWindowController implements Initializable {
 
             // Pobranie aktualnego Stage z jednego z labeli
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            stage.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
