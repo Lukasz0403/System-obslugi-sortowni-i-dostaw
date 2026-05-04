@@ -54,7 +54,12 @@ public class User {
         this.permission = permission;
     }
 
-    
+    public User(int user_id, String login, String password, Permission permission) {
+        this.user_id = user_id;
+        this.login = login;
+        this.password = password;
+        this.permission = permission;
+    } 
 
     @Override
     public String toString() {

@@ -72,7 +72,7 @@ public class UserDAO implements UserDAOInterface {
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery(sql);
             while (rs.next()) {
-                users.add(new User(rs.getString("login"), rs.getString("password"), new Permission(rs.getInt("permission_id"), rs.getString("name"))));
+                users.add(new User(rs.getInt("user_id"), rs.getString("login"), rs.getString("password"), new Permission(rs.getInt("permission_id"), rs.getString("name"))));
             }
             conn.close();
         } catch (SQLException ex) {
@@ -158,5 +158,49 @@ public class UserDAO implements UserDAOInterface {
             ex.printStackTrace();
             return false;
         }
+    }
+    @Override
+    public boolean changeUser(int id, String login, int permId) {
+        try {
+            Connection conn = ConnectDatabaseUser.getConnection();
+
+            String sql = "UPDATE users SET login = ?, permission = ? WHERE user_id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, login);
+            ps.setInt(2, permId);
+            ps.setInt(3, id);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0; 
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }   
+    }
+    
+    @Override
+    public boolean deleteUser(int id) {
+
+        try {
+            Connection conn = ConnectDatabaseUser.getConnection();
+
+            String sql = "DELETE FROM users WHERE user_id = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0; 
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }   
     }
 }

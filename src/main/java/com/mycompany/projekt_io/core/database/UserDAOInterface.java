@@ -19,4 +19,6 @@ public interface UserDAOInterface {
     List<Permission> getPermissions();
     boolean addUser(String login, String hashedPassword, int permissionId);
     boolean changeUser(int id, String login, String pass, int permId);
+    boolean changeUser(int id, String login, int permId);
+    boolean deleteUser(int id);
 }

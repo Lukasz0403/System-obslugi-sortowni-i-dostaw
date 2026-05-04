@@ -88,6 +88,7 @@ public class EditUserDialogController implements Initializable {
         String password = passwordField.getText();
         Permission selected = permissionChoiceBox.getValue();
         boolean keepOld = keepCurrentPasswordCheckbox.isSelected();
+        UserManageService u;
 
         if (login.isEmpty() || selected == null || (!keepOld && password.isEmpty())) {
             errorLabel.setText("Uzupełnij dane!");
@@ -96,11 +97,15 @@ public class EditUserDialogController implements Initializable {
         }
 
         // Jeśli zaznaczono "Keep password", wysyłamy cokolwiek (np. "OLD_PWD"), 
-        String passwordToSend = keepOld ? "BRAK_ZMIAN" : password;
+        if(keepOld) {
+            u = new UserManageService(userId, login, null, selected);
+        } else {
+            String passwordToSend = password;
+            u = new UserManageService(userId, login, password, selected);
+        } 
 
-        try {
-            UserManageService u = new UserManageService(login, passwordToSend, selected);
-            boolean success = u.addUser(); // TRZEBA ZROBIĆ METODE UPDAYE IDK CZY JEST
+        try {         
+            boolean success = u.changeUser();
 
             if (success) {
                 if (onUserUpdated != null) onUserUpdated.run();

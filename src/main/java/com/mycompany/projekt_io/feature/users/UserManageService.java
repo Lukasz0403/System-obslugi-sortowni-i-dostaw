@@ -15,7 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserManageService {
     
-    int user_id;
+    int user_id = 0;
     String login, pass, hashedPass;
     Permission perm;
 
@@ -55,15 +55,26 @@ public class UserManageService {
         this.perm = perm;
     }
 
+    public UserManageService(int user_id, String login, String pass, Permission perm) {
+        this.user_id = user_id;
+        this.login = login;
+        this.pass = pass;
+        this.perm = perm;
+    }
+
     public UserManageService(String login, String pass, Permission perm) {
         this.login = login;
         this.pass = pass;
         this.perm = perm;
     }
+
+    public UserManageService(int user_id) {
+        this.user_id = user_id;
+    }
     
     public boolean hashPassword() {
         
-        if(this.pass == "") {
+        if("".equals(this.pass) || this.pass == null) {
             return false;
         } else {
             
@@ -82,26 +93,33 @@ public class UserManageService {
         
         UserDAO dao = new UserDAO();
         
-        if(dao.addUser(login, hashedPass, perm.getPermission_id())) {
-            return true;
-        } else {
-            return false;
-        }
+        return dao.addUser(login, hashedPass, perm.getPermission_id());
     }
     
     public boolean changeUser() {
         
-        if(!hashPassword()) {
-            return false;
-        }
-        
         UserDAO dao = new UserDAO();
         
-        if(dao.changeUser(user_id, login, hashedPass, perm.getPermission_id())) {
-            return true;
+        if(user_id <= 0) return false;
+        
+        if(this.pass == null) {
+            return dao.changeUser(user_id, login, perm.getPermission_id());
         } else {
-            return false;
+            if(!hashPassword()) {
+                return false;
+            }
+            return dao.changeUser(user_id, login, hashedPass, perm.getPermission_id());
         }
     }
     
+    public boolean deleteUser() {
+        
+        UserDAO dao = new UserDAO();
+        
+        if(user_id <= 0) {
+            return false;
+        } else {
+            return dao.deleteUser(user_id);
+        }    
+    }
 }

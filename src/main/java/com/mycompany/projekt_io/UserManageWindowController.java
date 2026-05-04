@@ -3,6 +3,7 @@ package com.mycompany.projekt_io;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.core.database.UserDAOInterface;
 import com.mycompany.projekt_io.datamodel.User;
+import com.mycompany.projekt_io.feature.users.UserManageService;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -160,6 +161,8 @@ public class UserManageWindowController implements Initializable {
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 System.out.println("Delete confirmed: " + login);
+                UserManageService u = new UserManageService(id);
+                u.deleteUser();
                 // TODO: delete via UserDAO
                 loadUsers();
             }
