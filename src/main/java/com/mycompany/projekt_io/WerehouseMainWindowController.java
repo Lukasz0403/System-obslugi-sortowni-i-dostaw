@@ -28,7 +28,7 @@ import javafx.scene.shape.Rectangle;
 public class WerehouseMainWindowController implements Initializable {
 
     @FXML private Label timeLabel, dateLabel;
-    @FXML private Button magButton, pacButton, addButton;
+    @FXML private Button homeButton, magButton, pacButton, addButton;
     @FXML private AnchorPane mainPane;
     @FXML private VBox infoPanel;
     @FXML private Label infoShelfId, infoPackageCount, infoLastPackage;
@@ -62,6 +62,7 @@ public class WerehouseMainWindowController implements Initializable {
         loadWarehouseSummary();
 
         // SIDEBAR
+        homeButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"));
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));

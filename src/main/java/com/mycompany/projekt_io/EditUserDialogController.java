@@ -91,7 +91,7 @@ public class EditUserDialogController implements Initializable {
         UserManageService u;
 
         if (login.isEmpty() || selected == null || (!keepOld && password.isEmpty())) {
-            errorLabel.setText("Uzupełnij dane!");
+            errorLabel.setText("All fields are required.");
             errorLabel.setVisible(true);
             return;
         }
@@ -111,11 +111,11 @@ public class EditUserDialogController implements Initializable {
                 if (onUserUpdated != null) onUserUpdated.run();
                 closeDialog();
             } else {
-                errorLabel.setText("Błąd zapisu (może duplikujesz login?)");
+                errorLabel.setText("SAVE ERROR (Check for duplicates)");
                 errorLabel.setVisible(true);
             }
         } catch (Exception e) {
-            errorLabel.setText("Błąd SQL: " + e.getMessage());
+            errorLabel.setText("SQL ERROR: " + e.getMessage());
             errorLabel.setVisible(true);
         }
     }

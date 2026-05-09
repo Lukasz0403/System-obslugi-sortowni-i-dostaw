@@ -67,6 +67,8 @@ public class PackageAddWindowController implements Initializable {
     private Label timeLabel;
     @FXML
     private Label dateLabel;
+    @FXML  
+    private Button homeButton;
     @FXML
     private Button magButton;
     @FXML
@@ -413,6 +415,11 @@ public class PackageAddWindowController implements Initializable {
 
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
+    }
+    
+    @FXML
+    private void handleHomeButton() {
+        loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
     }
     
     /**

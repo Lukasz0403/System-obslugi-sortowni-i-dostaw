@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <!-- -->
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.UserManageWindowController">
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.UserManageWindowController">
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <!-- SIDEBAR -->
@@ -21,6 +21,8 @@
             </VBox>
             <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="homeButton" maxWidth="60.0" onAction="#handleHomeButton" text="HOME" />
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
                 <Region VBox.vgrow="ALWAYS" />
@@ -47,6 +49,8 @@
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="10.0" style="-fx-background-color: #e8e6d8; -fx-padding: 0 15 0 15;">
                 <Label text="User Management" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333a56;" />
                 <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="refresh" text="Reload Page" onAction="#handleUserButton"
+                        style="-fx-cursor: hand;"/>
                 <Button fx:id="addUserButton" text="+ Add User" onAction="#handleAddUser"
                         style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand;" />
             </HBox>

@@ -40,23 +40,7 @@ import javafx.util.Duration;
  */
 public class LoginWindowController implements Initializable {
 
-    @FXML
-    private Label dateTimeLabel;
-    @FXML
-    private Button devButton;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private Button logInButton;
-
-    private UserDAOInterface userDAO = new UserDAO();
-    private final LoginService loginService = new LoginService();
-
-    /**
+     /**
      * Inicjalizuje kontroler po załadowaniu widoku FXML.
      * <p>
      * Uruchamia animację zegara aktualizującą etykietę daty i czasu co sekundę,
@@ -84,9 +68,25 @@ public class LoginWindowController implements Initializable {
 
         Platform.runLater(() -> {
             Stage stage = (Stage) logInButton.getScene().getWindow();
-            WindowConstraints.applyMinSize(stage);
         });
     }
+    
+    @FXML
+    private Label dateTimeLabel;
+    @FXML
+    private Button devButton;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Button logInButton;
+
+    private UserDAOInterface userDAO = new UserDAO();
+    private final LoginService loginService = new LoginService();
+
 
     /**
      * Obsługuje przycisk developerski umożliwiający pominięcie logowania.

@@ -28,6 +28,7 @@ public class WerehouseInfoWindowController implements Initializable {
 
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
+    @FXML private Button homeButton;
     @FXML private Button magButton;
     @FXML private Button pacButton;
     @FXML private Button addButton;
@@ -90,6 +91,7 @@ public class WerehouseInfoWindowController implements Initializable {
 
         // -------------------------
         // SIDE MENU
+        homeButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"));
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));
@@ -127,25 +129,5 @@ public class WerehouseInfoWindowController implements Initializable {
 
         public String getCol1() { return col1; }
         public String getCol2() { return col2; }
-    }
-    
-        @FXML
-    private void handleMagButton() {
-        loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
-    }
-
-    @FXML
-    private void handlePacButton() {
-        loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
-    }
-
-    @FXML
-    private void handleUserButton() {
-        loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
-    }
-    
-    @FXML
-    private void handleRetButton() {
-        loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
-    }
+        }
 }

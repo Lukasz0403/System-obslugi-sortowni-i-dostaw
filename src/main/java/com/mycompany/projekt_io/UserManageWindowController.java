@@ -169,6 +169,7 @@ public class UserManageWindowController implements Initializable {
         });
     }
 
+    @FXML private void handleHomeButton() { loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"); }
     @FXML private void handleMagButton() { loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"); }
     @FXML private void handlePacButton() { loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"); }
     @FXML private void handleUserButton() { loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"); }

@@ -46,6 +46,8 @@ public class PackageTableWindowController implements Initializable {
     @FXML
     private Label dateLabel;
     @FXML
+    private Button homeButton;
+    @FXML
     private Button magButton;
     @FXML
     private Button pacButton;
@@ -175,6 +177,12 @@ public class PackageTableWindowController implements Initializable {
     /**
      * Przechodzi do okna głównego magazynu.
      */
+    
+    @FXML
+    private void handleHomeButton() {
+        loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
+    }
+    
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");

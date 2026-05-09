@@ -16,7 +16,7 @@
 
 <!-- -->
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.PackageTableWindowController">
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.PackageTableWindowController">
 
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -30,6 +30,8 @@
 
             <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="homeButton" maxWidth="60.0" onAction="#handleHomeButton" text="HOME" />
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
                 <Region VBox.vgrow="ALWAYS" />
@@ -58,7 +60,7 @@
                 <content>
                     <TableView fx:id="packageTable" style="-fx-background-color: #E8E8E8; -fx-table-header-border-color: #F7F5E6;">
                         <columns>
-                            <TableColumn fx:id="idColumn" text="ID"  />
+                            <TableColumn fx:id="idColumn" text="ID" prefWidth="40.0" />
                             <TableColumn fx:id="shelfColumn" text="Regał/Strefa" />
                             <TableColumn fx:id="sizeColumn" text="Gabaryt" />
                             <TableColumn fx:id="widthColumn" text="Szerokość [cm]" />
@@ -68,7 +70,10 @@
                             <TableColumn fx:id="senregionColumn" text="Region Nadawcy" />
                             <TableColumn fx:id="recregionColumn" text="Region Odbiorcy" />
                         </columns>
-                    </TableView>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>    
                 </content>
             </ScrollPane>
         <Button fx:id="addButtonMain" maxWidth="90.0" onAction="#handleAddButton" text="ADD" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0" />

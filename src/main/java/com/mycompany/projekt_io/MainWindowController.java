@@ -21,28 +21,8 @@ import javafx.application.Platform;
 
 public class MainWindowController implements Initializable {
 
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private Label dateLabel;
-
-    @FXML
-    private Button magButton;
-
-    @FXML
-    private Button pacButton;
-
-    @FXML
-    private Button addButton;
-
-    // Pola Dashboardu
-    @FXML private Label userNameLabel;
-    @FXML private Label userRoleLabel;
-    @FXML private Label userIdLabel;
-    @FXML private Label sessionStartLabel;
-
-    @Override
+    
+        @Override
     public void initialize(URL url, ResourceBundle rb) {
         // aktualizacja czasu i daty
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -67,11 +47,42 @@ public class MainWindowController implements Initializable {
         
         //rozmiar min okna
         Platform.runLater(() -> {
-        Stage stage = (Stage) magButton.getScene().getWindow();
-        WindowConstraints.applyMinSize(stage);
+            Stage stage = (Stage) magButton.getScene().getWindow();
+            WindowConstraints.applyMinSize(stage);
+            stage.centerOnScreen();
         });
     }
+    
+    
+    @FXML
+    private Label timeLabel;
 
+    @FXML
+    private Label dateLabel;
+
+    @FXML
+    private Button homeButton;
+    
+    @FXML
+    private Button magButton;
+
+    @FXML
+    private Button pacButton;
+
+    @FXML
+    private Button addButton;
+
+    // Pola Dashboardu
+    @FXML private Label userNameLabel;
+    @FXML private Label userRoleLabel;
+    @FXML private Label userIdLabel;
+    @FXML private Label sessionStartLabel;
+
+    @FXML
+    private void handleHomeButton() {
+        loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
+    }
+    
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");

@@ -19,7 +19,7 @@
 
 <!-- -->
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WerehouseInfoWindowController">
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WerehouseInfoWindowController">
 
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- SIDEBAR -->
@@ -33,11 +33,13 @@
             <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
+                <Button fx:id="homeButton" maxWidth="60.0" text="HOME" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="pacButton" maxWidth="60.0" onAction="#handlePacButton" text="PAC" />
+                <Button fx:id="magButton" maxWidth="60.0" text="MAG" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
+                <Button fx:id="pacButton" maxWidth="60.0" text="PAC" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="addButton" maxWidth="60.0" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
@@ -70,23 +72,14 @@
                <children>
                   <AnchorPane prefHeight="400.0" prefWidth="330.0">
                      <children>
-                        <!--<ScrollPane layoutX="7.0" layoutY="190.0" prefHeight="196.0" prefWidth="330.0">
-                           <content>
-                              <TableView fx:id="table1" prefHeight="200.0" prefWidth="314.0">
-                                <columns>
-                                  <TableColumn fx:id="table1Col1" prefWidth="75.0" text="C1" />
-                                  <TableColumn fx:id="table1Col2" prefWidth="75.0" text="C2" />
-                                </columns>
-                              </TableView>
-                           </content>
-                        </ScrollPane>-->
-                        <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="164.0" prefWidth="330.0">
+                        <ScrollPane layoutX="8.0" layoutY="14.0" prefWidth="330.0">
                            <content>
                               <TableView fx:id="table2" prefHeight="200.0" prefWidth="314.0">
                                  <columns>
                                     <TableColumn fx:id="table2Col1" prefWidth="75.0" text="C1" />
                                     <TableColumn fx:id="table2Col2" prefWidth="75.0" text="C2" />
                                  </columns>
+                                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                               </TableView>
                            </content>
                         </ScrollPane>

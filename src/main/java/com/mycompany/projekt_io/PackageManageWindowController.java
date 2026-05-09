@@ -157,6 +157,11 @@ public class PackageManageWindowController implements Initializable {
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
     }
+    
+    @FXML
+    private void handleHomeButton() {
+        loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
+    }
 
     /** Przechodzi do okna głównego magazynu. */
     @FXML
