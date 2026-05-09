@@ -3,21 +3,17 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.mycompany.projekt_io.PackageManageWindowController">
+<AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.PackageManageWindowController">
 
-    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <!-- SIDEBAR -->
         <VBox prefWidth="83.0" style="-fx-background-color: #52658F;">
@@ -42,20 +38,25 @@
         </VBox>
 
         <!-- MAIN -->
-        <HBox HBox.hgrow="ALWAYS" spacing="20.0" style="-fx-padding: 25;">
+        <HBox spacing="20.0" style="-fx-padding: 25;" HBox.hgrow="ALWAYS">
 
             <!-- FORM PANEL -->
-            <VBox spacing="15.0" HBox.hgrow="ALWAYS" style="-fx-background-color: #e8e8e8; -fx-padding: 20; -fx-background-radius: 5;">
+            <VBox spacing="15.0" style="-fx-background-color: #e8e8e8; -fx-padding: 20; -fx-background-radius: 5;" HBox.hgrow="ALWAYS">
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                       <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Size:" />
+                       <ChoiceBox fx:id="sizeChoiceBox" prefHeight="26.0" prefWidth="120.0" style="-fx-font-size: 10px;" />
+                  <Region prefHeight="20.0" prefWidth="606.0" />
+                       <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Send Region:" />
+                       <ChoiceBox fx:id="sendRegionChoiceBox" prefHeight="26.0" prefWidth="160.0" style="-fx-font-size: 10px;" />
+                  <Region prefHeight="20.0" prefWidth="606.0" />
+                       <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Receive Region:" />
+                       <ChoiceBox fx:id="receiveRegionChoiceBox" prefHeight="26.0" prefWidth="160.0" style="-fx-font-size: 10px;" />
+               </children>
+            </VBox>
 
                 <!-- PACKAGE INFO ROW -->
-                <HBox spacing="15.0" alignment="CENTER_LEFT">
-                    <Label text="Size:" style="-fx-font-weight: bold; -fx-font-size: 11px;" />
-                    <ChoiceBox fx:id="sizeChoiceBox" prefHeight="26.0" prefWidth="120.0" style="-fx-font-size: 10px;" />
-                    <Label text="Send Region:" style="-fx-font-weight: bold; -fx-font-size: 11px;" />
-                    <ChoiceBox fx:id="sendRegionChoiceBox" prefHeight="26.0" prefWidth="160.0" style="-fx-font-size: 10px;" />
-                    <Label text="Receive Region:" style="-fx-font-weight: bold; -fx-font-size: 11px;" />
-                    <ChoiceBox fx:id="receiveRegionChoiceBox" prefHeight="26.0" prefWidth="160.0" style="-fx-font-size: 10px;" />
-                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="15.0" />
 
                 <Separator />
 
@@ -64,54 +65,44 @@
 
                     <!-- SENDER -->
                     <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                        <Label text="SENDER" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" />
-                        <TextField fx:id="senderNameField" promptText="Name" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="senderStreetField" promptText="Street / Nr" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="senderPostcodeField" promptText="Postcode" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="senderEmailField" promptText="E-mail" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="senderNumberField" promptText="Phone number" style="-fx-font-size: 10px;" maxWidth="Infinity" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" text="SENDER" />
+                        <TextField fx:id="senderNameField" maxWidth="Infinity" promptText="Name" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="senderStreetField" maxWidth="Infinity" promptText="Street / Nr" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="senderPostcodeField" maxWidth="Infinity" promptText="Postcode" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="senderEmailField" maxWidth="Infinity" promptText="E-mail" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="senderNumberField" maxWidth="Infinity" promptText="Phone number" style="-fx-font-size: 10px;" />
                     </VBox>
 
                     <!-- RECIPIENT -->
                     <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                        <Label text="RECIPIENT" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" />
-                        <TextField fx:id="recipientNameField" promptText="Name" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="recipientStreetField" promptText="Street / Nr" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="recipientPostcodeField" promptText="Postcode" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="recipientEmailField" promptText="E-mail" style="-fx-font-size: 10px;" maxWidth="Infinity" />
-                        <TextField fx:id="recipientNumberField" promptText="Phone number" style="-fx-font-size: 10px;" maxWidth="Infinity" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" text="RECIPIENT" />
+                        <TextField fx:id="recipientNameField" maxWidth="Infinity" promptText="Name" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="recipientStreetField" maxWidth="Infinity" promptText="Street / Nr" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="recipientPostcodeField" maxWidth="Infinity" promptText="Postcode" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="recipientEmailField" maxWidth="Infinity" promptText="E-mail" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="recipientNumberField" maxWidth="Infinity" promptText="Phone number" style="-fx-font-size: 10px;" />
                     </VBox>
 
                     <!-- DIMENSIONS -->
                     <VBox spacing="8.0">
-                        <Label text="DIMENSIONS" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" />
-                        <TextField fx:id="widthField" promptText="Width max 40cm" style="-fx-font-size: 10px;" prefWidth="140.0" />
-                        <TextField fx:id="heightField" promptText="Height max 40cm" style="-fx-font-size: 10px;" prefWidth="140.0" />
-                        <TextField fx:id="depthField" promptText="Depth max 60cm" style="-fx-font-size: 10px;" prefWidth="140.0" />
-                        <TextField fx:id="weightField" promptText="Weight max 20kg" style="-fx-font-size: 10px;" prefWidth="140.0" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #52658F;" text="DIMENSIONS" />
+                        <TextField fx:id="widthField" prefWidth="140.0" promptText="Width max 40cm" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="heightField" prefWidth="140.0" promptText="Height max 40cm" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="depthField" prefWidth="140.0" promptText="Depth max 60cm" style="-fx-font-size: 10px;" />
+                        <TextField fx:id="weightField" prefWidth="140.0" promptText="Weight max 20kg" style="-fx-font-size: 10px;" />
                     </VBox>
 
                 </HBox>
             </VBox>
 
             <!-- ACTION BUTTONS -->
-            <VBox spacing="10.0" alignment="TOP_CENTER" prefWidth="150.0">
-                <Button fx:id="labelButton" maxWidth="Infinity" onAction="#generateLabel"
-                        prefHeight="36.0" text="GENERATE LABEL"
-                        style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" />
-                <Button fx:id="saveButton" maxWidth="Infinity" onAction="#saveChanges"
-                        prefHeight="36.0" text="SAVE"
-                        style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" />
-                <Button fx:id="deleteButton" maxWidth="Infinity" onAction="#handleDeleteButton"
-                        prefHeight="36.0" text="CLEAR"
-                        style="-fx-background-color: #d4d2c4; -fx-font-size: 10px;" />
-                <Button fx:id="handleRemove" maxWidth="Infinity" onAction="#removePackage"
-                        prefHeight="36.0" text="DELETE PACKAGE"
-                        style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 10px;" />
+            <VBox alignment="TOP_CENTER" prefWidth="150.0" spacing="10.0">
+                <Button fx:id="labelButton" maxWidth="Infinity" onAction="#generateLabel" prefHeight="36.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" text="GENERATE LABEL" />
+                <Button fx:id="saveButton" maxWidth="Infinity" onAction="#saveChanges" prefHeight="36.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" text="SAVE" />
+                <Button fx:id="deleteButton" maxWidth="Infinity" onAction="#handleDeleteButton" prefHeight="36.0" style="-fx-background-color: #d4d2c4; -fx-font-size: 10px;" text="CLEAR" />
+                <Button fx:id="handleRemove" maxWidth="Infinity" onAction="#removePackage" prefHeight="36.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 10px;" text="DELETE PACKAGE" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="returnButton" maxWidth="Infinity" onAction="#handleRetButton"
-                        prefHeight="36.0" text="RETURN"
-                        style="-fx-background-color: #d4d2c4; -fx-font-size: 10px;" />
+                <Button fx:id="returnButton" maxWidth="Infinity" onAction="#handleRetButton" prefHeight="36.0" style="-fx-background-color: #d4d2c4; -fx-font-size: 10px;" text="RETURN" />
             </VBox>
 
         </HBox>

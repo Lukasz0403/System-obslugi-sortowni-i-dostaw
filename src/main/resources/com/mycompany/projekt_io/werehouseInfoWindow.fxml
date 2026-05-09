@@ -41,6 +41,9 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
             <!-- TIME AND DATE -->
@@ -57,24 +60,27 @@
         <!-- MAIN -->
         <AnchorPane HBox.hgrow="ALWAYS">
          <children>
-            <HBox prefHeight="400.0" prefWidth="161.0">
+            <HBox prefHeight="750.0" prefWidth="318.0">
                <children>
-                  <AnchorPane prefHeight="400.0" prefWidth="162.0">
+                  <AnchorPane prefHeight="750.0" prefWidth="315.0">
                      <children>
-                        <Rectangle fx:id="shelficon" fill="#aec1d1" height="175.0" layoutX="48.0" layoutY="42.0" stroke="#333333" strokeWidth="0" width="67.0" />
-                        <PieChart fx:id="shelfPieChart" layoutX="-18.0" layoutY="235.0" prefHeight="150" prefWidth="180" />
-                        <Label layoutX="63.0" layoutY="14.0" text="NR/ID" />
+                        <Rectangle fx:id="shelficon" fill="#aec1d1" height="249.0" layoutX="118.0" layoutY="108.0" stroke="#333333" strokeWidth="0" width="83.0" />
+                        <PieChart fx:id="shelfPieChart" layoutX="15.0" layoutY="437.0" prefHeight="290.0" prefWidth="289.0" />
+                        <Label layoutX="125.0" layoutY="58.0" text="NR/ID">
+                           <font>
+                              <Font size="24.0" />
+                           </font></Label>
                      </children>
                   </AnchorPane>
                </children></HBox>
             
-            <HBox layoutX="166.0" prefHeight="400.0" prefWidth="351.0">
+            <HBox layoutX="313.0" prefHeight="750.0" prefWidth="552.0">
                <children>
-                  <AnchorPane prefHeight="400.0" prefWidth="330.0">
+                  <AnchorPane prefHeight="750.0" prefWidth="548.0">
                      <children>
-                        <ScrollPane layoutX="8.0" layoutY="14.0" prefWidth="330.0">
+                        <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="720.0" prefWidth="531.0">
                            <content>
-                              <TableView fx:id="table2" prefHeight="200.0" prefWidth="314.0">
+                              <TableView fx:id="table2" prefHeight="718.0" prefWidth="533.0">
                                  <columns>
                                     <TableColumn fx:id="table2Col1" prefWidth="75.0" text="C1" />
                                     <TableColumn fx:id="table2Col2" prefWidth="75.0" text="C2" />

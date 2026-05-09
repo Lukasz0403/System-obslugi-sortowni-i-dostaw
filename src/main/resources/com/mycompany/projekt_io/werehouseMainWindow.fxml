@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WerehouseMainWindowController">
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -21,6 +28,9 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
             <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
                 <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm" />
@@ -30,66 +40,70 @@
 
         <!-- MAIN AREA -->
         <AnchorPane fx:id="mainPane" HBox.hgrow="ALWAYS">
-            <HBox layoutX="15.0" layoutY="25.0" spacing="10.0">
+            <HBox layoutX="15.0" layoutY="25.0" prefHeight="266.0" prefWidth="830.0" spacing="10.0">
                 <!-- ZONE 1 (1-4) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 1" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack1" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="1" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack2" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="2" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack3" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="3" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack4" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="4" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack1" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="1" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack2" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="2" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack3" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="3" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack4" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="4" /></VBox>
                     </HBox>
                 </AnchorPane>
+            <Region />
 
                 <!-- ZONE 2 (5-8) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 2" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack5" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="5" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack6" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="6" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack7" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="7" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack8" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="8" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack5" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="5" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack6" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="6" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack7" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="7" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack8" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="8" /></VBox>
                     </HBox>
                 </AnchorPane>
+            <Region />
 
                 <!-- ZONE 3 (9-12) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 3" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack9" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="9" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack10" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="10" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack11" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="11" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack12" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="12" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack9" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="9" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack10" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="10" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack11" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="11" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack12" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="12" /></VBox>
                     </HBox>
                 </AnchorPane>
+            <Region />
 
                 <!-- ZONE 4 (13-16) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 4" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack13" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="13" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack14" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="14" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack15" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="15" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack16" fill="#aec1d1" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="16" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack13" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="13" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack14" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="14" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack15" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="15" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack16" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="16" /></VBox>
                     </HBox>
                 </AnchorPane>
+            <Region />
 
                 <!-- ZONE 5 (17-20) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #cfaeb9; -fx-border-radius: 5; -fx-border-width: 2;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #cfaeb9; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 5" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack17" fill="#cfaeb9" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="17" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack18" fill="#cfaeb9" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="18" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack19" fill="#cfaeb9" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="19" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack20" fill="#cfaeb9" height="160" width="22" /><Label style="-fx-font-size: 8px;" text="20" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack17" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="17" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack18" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="18" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack19" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="19" /></VBox>
+                        <VBox alignment="CENTER"><Rectangle fx:id="rack20" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="20" /></VBox>
                     </HBox>
                 </AnchorPane>
             </HBox>
 
             <!-- TABELA -->
-            <AnchorPane layoutX="16.0" layoutY="260.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="260.0">
-                <TableView fx:id="warehouseTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="16.0" layoutY="326.4" prefHeight="409.0" prefWidth="836.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="326.0">
+                <TableView fx:id="warehouseTable" layoutY="-8.0" prefHeight="417.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
                     <columns>
                         <TableColumn fx:id="colTotalPackages" text="Total Packages" />
                         <TableColumn fx:id="colZone1" text="Zone 1" />
@@ -105,7 +119,7 @@
             </AnchorPane>
 
             <!-- HOVER INFO PANEL -->
-            <VBox fx:id="infoPanel" spacing="4" visible="false" style="-fx-background-color: white; -fx-border-color: #52658F; -fx-padding: 8; -fx-effect: dropshadow(gaussian, gray, 5, 0.5, 2, 2);">
+            <VBox fx:id="infoPanel" spacing="4" style="-fx-background-color: white; -fx-border-color: #52658F; -fx-padding: 8; -fx-effect: dropshadow(gaussian, gray, 5, 0.5, 2, 2);" visible="false">
                 <Label fx:id="infoShelfId" style="-fx-font-weight: bold;" text="Rack: " />
                 <Label fx:id="infoPackageCount" text="Packages: " />
                 <Label fx:id="infoLastPackage" text="Last ID: " />

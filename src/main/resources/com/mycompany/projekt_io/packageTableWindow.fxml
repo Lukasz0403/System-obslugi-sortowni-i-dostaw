@@ -39,6 +39,9 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="logOut" maxWidth="60.0"  text="LOGOUT" style="-fx-font-size: 10px;"/>
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
             <!-- TIME AND DATE -->
