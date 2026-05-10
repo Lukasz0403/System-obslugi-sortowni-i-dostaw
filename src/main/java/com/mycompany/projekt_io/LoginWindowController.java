@@ -139,7 +139,7 @@ public class LoginWindowController implements Initializable {
         }
         User user = loginService.authenticate(login, plainPassword);
         if (user != null) {
-            System.out.println("Zalogowano: " + user.getLogin());
+            AppSession.login(user); 
             errorLabel.setVisible(false);
             loadMainWindow();
         } else {

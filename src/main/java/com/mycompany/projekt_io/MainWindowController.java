@@ -72,11 +72,20 @@ public class MainWindowController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         
-        // Inicjalizacja danych dashboardu
-        userNameLabel.setText("Jan Kowalski"); 
-        userRoleLabel.setText("Administrator Systemu");
-        userIdLabel.setText("#001");
-        sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        
+            // Inicjalizacja danych dashboardu
+            if (AppSession.isLoggedIn()) {
+                userNameLabel.setText(AppSession.getCurrentUser().getLogin());
+                userRoleLabel.setText(AppSession.getCurrentUser().getPermission().getName());
+                userIdLabel.setText("#" + AppSession.getCurrentUser().getLogin());
+                sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            } else {
+                userNameLabel.setText("Unknown");
+                userRoleLabel.setText("Unknown");
+                userIdLabel.setText("-");
+                sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            }
+        
         
         //rozmiar min okna
         Platform.runLater(() -> {
@@ -86,22 +95,22 @@ public class MainWindowController implements Initializable {
         });
         
             logOut.setOnAction(e -> {
-                AppSession.logout();
-                loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
-            });
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
 
-            closeApp.setOnAction(e -> {
-                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-                confirm.setTitle("Zamknij aplikację");
-                confirm.setHeaderText(null);
-                confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
-                confirm.initOwner(timeLabel.getScene().getWindow());
-                confirm.showAndWait().ifPresent(response -> {
-                    if (response == javafx.scene.control.ButtonType.OK) {
-                        AppCloser.closeApp();
-                    }
-                });
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Close Application");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Are you sure you want to close the application?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
             });
+        });
         
     }
     

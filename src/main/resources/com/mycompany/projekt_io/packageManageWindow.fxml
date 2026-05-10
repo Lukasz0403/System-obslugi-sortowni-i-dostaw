@@ -30,6 +30,8 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="logOut" maxWidth="60.0"  text="LOGOUT" style="-fx-font-size: 10px;"/>
+                <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
                 <Region VBox.vgrow="ALWAYS" />
             </VBox>

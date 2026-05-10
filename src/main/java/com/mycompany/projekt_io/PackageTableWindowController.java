@@ -43,53 +43,34 @@ import javafx.scene.control.Alert;
  */
 public class PackageTableWindowController implements Initializable {
 
-    @FXML
-    private Label timeLabel;
-    @FXML
-    private Label dateLabel;
-    @FXML
-    private Button homeButton;
-    @FXML
-    private Button magButton;
-    @FXML
-    private Button pacButton;
-    @FXML
-    private Button userButton;
-    @FXML
-    private Button manageButton;
-    @FXML
-    private Button addButton,logOut,closeApp;;
-    @FXML
-    private TableView<PackageTableService> packageTable;
-    @FXML
-    private TableColumn<PackageTableService, Integer> idColumn;
-    @FXML
-    private TableColumn<PackageTableService, String> shelfColumn;
-    @FXML
-    private TableColumn<PackageTableService, String> sizeColumn;
-    @FXML
-    private TableColumn<PackageTableService, Integer> widthColumn;
-    @FXML
-    private TableColumn<PackageTableService, Integer> heightColumn;
-    @FXML
-    private TableColumn<PackageTableService, Integer> depthColumn;
-    @FXML
-    private TableColumn<PackageTableService, String> senregionColumn;
-    @FXML
-    private TableColumn<PackageTableService, String> recregionColumn;
-    @FXML
-    private TableColumn<PackageTableService, Double> weightColumn;
-    
+    @FXML private Label timeLabel;
+    @FXML private Label dateLabel;
+    @FXML private Button homeButton;
+    @FXML private Button magButton;
+    @FXML private Button pacButton;
+    @FXML private Button userButton;
+    @FXML private Button manageButton;
+    @FXML private Button addButton, logOut, closeApp;
+    @FXML private TableView<PackageTableService> packageTable;
+    @FXML private TableColumn<PackageTableService, Integer> idColumn;
+    @FXML private TableColumn<PackageTableService, String> shelfColumn;
+    @FXML private TableColumn<PackageTableService, String> sizeColumn;
+    @FXML private TableColumn<PackageTableService, Integer> widthColumn;
+    @FXML private TableColumn<PackageTableService, Integer> heightColumn;
+    @FXML private TableColumn<PackageTableService, Integer> depthColumn;
+    @FXML private TableColumn<PackageTableService, String> senregionColumn;
+    @FXML private TableColumn<PackageTableService, String> recregionColumn;
+    @FXML private TableColumn<PackageTableService, Double> weightColumn;
+
     private final PackageDAO dao = new PackageDAO();
-    
     private PackageTableService selected;
 
     /**
      * Inicjalizuje kontroler — uruchamia zegar, konfiguruje kolumny tabeli i
-     * ładuje dane paczek z bazy danych, autoamtycznie odświeża tabelę.
+     * ładuje dane paczek z bazy danych, automatycznie odświeża tabelę.
      *
      * @param url ścieżka do pliku FXML (nieużywana bezpośrednio)
-     * @param rb zasoby lokalizacyjne (nieużywane bezpośrednio)
+     * @param rb  zasoby lokalizacyjne (nieużywane bezpośrednio)
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -116,13 +97,12 @@ public class PackageTableWindowController implements Initializable {
         recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
-        
         List<Package> packages = dao.getPackages();
         List<PackageTableService> tableData = packages.stream()
                 .map(PackageTableService::new)
                 .collect(Collectors.toList());
         packageTable.getItems().setAll(tableData);
-        
+
         idColumn.setSortType(TableColumn.SortType.ASCENDING);
         packageTable.getSortOrder().clear();
         packageTable.getSortOrder().add(idColumn);
@@ -132,27 +112,24 @@ public class PackageTableWindowController implements Initializable {
             Stage stage = (Stage) magButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
-        
+
         Timeline autoRefresh = new Timeline(
                 new KeyFrame(Duration.seconds(10), event -> {
-                    // Zapamiętaj ID zaznaczonej paczki
-                    PackageTableService selected = packageTable.getSelectionModel().getSelectedItem();
-                    int selectedId = (selected != null) ? selected.getId() : -1;
-                    // Zapamiętaj stan sortowania
+                    PackageTableService selectedItem = packageTable.getSelectionModel().getSelectedItem();
+                    int selectedId = (selectedItem != null) ? selectedItem.getId() : -1;
+
                     List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
                     Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
                     for (TableColumn<PackageTableService, ?> col : sortOrder) {
                         sortTypes.put(col, col.getSortType());
                     }
 
-                    // Odśwież dane
                     List<Package> updated = dao.getPackages();
                     List<PackageTableService> updatedData = updated.stream()
                             .map(PackageTableService::new)
                             .collect(Collectors.toList());
                     packageTable.getItems().setAll(updatedData);
-                    
-                    // Przywróć sortowanie
+
                     packageTable.getSortOrder().clear();
                     for (TableColumn<PackageTableService, ?> col : sortOrder) {
                         col.setSortType(sortTypes.get(col));
@@ -160,22 +137,20 @@ public class PackageTableWindowController implements Initializable {
                     packageTable.getSortOrder().setAll(sortOrder);
                     packageTable.sort();
 
-                    // Przywróć zaznaczenie po ID
                     if (selectedId != -1) {
                         updatedData.stream()
                                 .filter(p -> p.getId() == selectedId)
                                 .findFirst()
                                 .ifPresent(p -> {
                                     packageTable.getSelectionModel().select(p);
-                                    packageTable.scrollTo(p); // opcjonalnie — przewija do zaznaczonego wiersza
+                                    packageTable.scrollTo(p);
                                 });
                     }
                 })
         );
         autoRefresh.setCycleCount(Timeline.INDEFINITE);
         autoRefresh.play();
-        
-        
+
         logOut.setOnAction(e -> {
             AppSession.logout();
             loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
@@ -183,9 +158,9 @@ public class PackageTableWindowController implements Initializable {
 
         closeApp.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Zamknij aplikację");
+            confirm.setTitle("Close Application");
             confirm.setHeaderText(null);
-            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.setContentText("Are you sure you want to close the application?");
             confirm.initOwner(timeLabel.getScene().getWindow());
             confirm.showAndWait().ifPresent(response -> {
                 if (response == javafx.scene.control.ButtonType.OK) {
@@ -193,42 +168,33 @@ public class PackageTableWindowController implements Initializable {
                 }
             });
         });
-        
     }
 
-    /**
-     * Przechodzi do okna głównego magazynu.
-     */
-    
+    /** Przechodzi do okna głównego. */
     @FXML
     private void handleHomeButton() {
         loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
     }
-    
+
+    /** Przechodzi do okna głównego magazynu. */
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
 
-    /**
-     * Odświeża bieżące okno tabeli paczek.
-     */
+    /** Odświeża bieżące okno tabeli paczek. */
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
 
-    /**
-     * Przechodzi do okna zarządzania użytkownikami.
-     */
+    /** Przechodzi do okna zarządzania użytkownikami. */
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
 
-    /**
-     * Przechodzi do okna dodawania nowej paczki.
-     */
+    /** Przechodzi do okna dodawania nowej paczki. */
     @FXML
     private void handleAddButton() {
         loadWindow("/com/mycompany/projekt_io/packageAddWindow.fxml");
@@ -245,16 +211,16 @@ public class PackageTableWindowController implements Initializable {
      */
     @FXML
     private void handlePacManButton() {
-         selected = packageTable.getSelectionModel().getSelectedItem();
+        selected = packageTable.getSelectionModel().getSelectedItem();
 
         if (selected == null) {
-            showAlert("Błąd", "Nie wybrano żadnej paczki");
+            showAlert("Error", "No package selected.");
             return;
         }
 
         if (selected.getShelf().equals("0")) {
-            showAlert("Brak regału",
-                    "Nie można edytować paczki.\n\nPaczka nie została jeszcze przypisana do strefy magazynowej.");
+            showAlert("No Rack Assigned",
+                    "Cannot edit this package.\n\nThe package has not yet been assigned to a warehouse zone.");
             return;
         }
 
@@ -297,7 +263,7 @@ public class PackageTableWindowController implements Initializable {
     /**
      * Wyświetla okno dialogowe z ostrzeżeniem.
      *
-     * @param title tytuł okna dialogowego
+     * @param title   tytuł okna dialogowego
      * @param content treść komunikatu
      */
     private void showAlert(String title, String content) {
@@ -308,5 +274,4 @@ public class PackageTableWindowController implements Initializable {
         alert.initOwner(timeLabel.getScene().getWindow());
         alert.showAndWait();
     }
-   
 }

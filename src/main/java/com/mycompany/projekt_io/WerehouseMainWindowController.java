@@ -75,9 +75,9 @@ public class WerehouseMainWindowController implements Initializable {
 
         closeApp.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Zamknij aplikację");
+            confirm.setTitle("Close Application");
             confirm.setHeaderText(null);
-            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.setContentText("Are you sure you want to close the application?");
             confirm.initOwner(timeLabel.getScene().getWindow());
             confirm.showAndWait().ifPresent(response -> {
                 if (response == javafx.scene.control.ButtonType.OK) {
@@ -98,10 +98,10 @@ public class WerehouseMainWindowController implements Initializable {
             int percent = (int) ((occupancy / (double) maxCapacity) * 100);
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Strefa prawie pełna");
+                alert.setTitle("Zone Almost Full");
                 alert.setHeaderText(null);
-                alert.setContentText("Strefa " + zoneId + " jest zapełniona w " + percent + "%.\n"
-                        + "Zajęte sloty: " + occupancy + " / " + maxCapacity);
+                alert.setContentText("Zone " + zoneId + " is " + percent + "% full.\n"
+                        + "Occupied slots: " + occupancy + " / " + maxCapacity);
                 alert.initOwner(magButton.getScene().getWindow());
                 alert.showAndWait();
             });

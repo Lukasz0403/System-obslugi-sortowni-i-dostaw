@@ -105,9 +105,9 @@ public class WerehouseInfoWindowController implements Initializable {
 
         closeApp.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Zamknij aplikację");
+            confirm.setTitle("Close Application");
             confirm.setHeaderText(null);
-            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.setContentText("Are you sure you want to close the application?");
             confirm.initOwner(timeLabel.getScene().getWindow());
             confirm.showAndWait().ifPresent(response -> {
                 if (response == javafx.scene.control.ButtonType.OK) {

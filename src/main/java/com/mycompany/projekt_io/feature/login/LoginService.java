@@ -49,7 +49,7 @@ public class LoginService {
                     return user;
                 }
             } catch (IllegalArgumentException e) {
-                System.err.println("Błąd: Format hasha w bazie jest niepoprawny!");
+                System.err.println("Error: Invalid BCrypt hash format in database!");
             }
         }
         return null;

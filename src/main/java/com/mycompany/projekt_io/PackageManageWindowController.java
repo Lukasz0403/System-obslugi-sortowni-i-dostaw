@@ -48,7 +48,7 @@ import javafx.scene.control.ButtonType;
  */
 public class PackageManageWindowController implements Initializable {
 
-    @FXML private Button addButton,logOut,closeApp;;
+    @FXML private Button addButton, logOut, closeApp;
     @FXML private Label dateLabel;
     @FXML private Button deleteButton;
     @FXML private TextField depthField;
@@ -158,7 +158,7 @@ public class PackageManageWindowController implements Initializable {
         heightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
-        
+
         logOut.setOnAction(e -> {
             AppSession.logout();
             loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
@@ -166,9 +166,9 @@ public class PackageManageWindowController implements Initializable {
 
         closeApp.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Zamknij aplikację");
+            confirm.setTitle("Close Application");
             confirm.setHeaderText(null);
-            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.setContentText("Are you sure you want to close the application?");
             confirm.initOwner(timeLabel.getScene().getWindow());
             confirm.showAndWait().ifPresent(response -> {
                 if (response == javafx.scene.control.ButtonType.OK) {
@@ -176,9 +176,9 @@ public class PackageManageWindowController implements Initializable {
                 }
             });
         });
-        
     }
-    
+
+    /** Przechodzi do okna głównego. */
     @FXML
     private void handleHomeButton() {
         loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
@@ -218,9 +218,9 @@ public class PackageManageWindowController implements Initializable {
     void generateLabel(ActionEvent event) {
         LabelFactory l = new LabelFactory(currentPackage);
         if (!l.printLabel()) {
-            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się wygenerować etykiety.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to generate the label.");
         } else {
-            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Pomyślnie wydrukowano etykietę.");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Label has been printed successfully.");
         }
     }
 
@@ -233,14 +233,14 @@ public class PackageManageWindowController implements Initializable {
     @FXML
     void removePackage(ActionEvent event) {
         if (currentPackage == null) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Brak paczki do usunięcia.");
+            showAlert(Alert.AlertType.WARNING, "Error", "No package selected for deletion.");
             return;
         }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Usuń paczkę");
-        confirm.setHeaderText("Czy na pewno chcesz usunąć paczkę?");
-        confirm.setContentText("Operacja jest nieodwracalna.");
+        confirm.setTitle("Delete Package");
+        confirm.setHeaderText("Are you sure you want to delete this package?");
+        confirm.setContentText("This operation cannot be undone.");
         confirm.initOwner(timeLabel.getScene().getWindow());
 
         confirm.showAndWait().ifPresent(response -> {
@@ -249,7 +249,7 @@ public class PackageManageWindowController implements Initializable {
                 if (success) {
                     loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
                 } else {
-                    showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się usunąć paczki.");
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete the package.");
                 }
             }
         });
@@ -264,10 +264,41 @@ public class PackageManageWindowController implements Initializable {
      */
     @FXML
     void saveChanges(ActionEvent event) {
+
+        // Walidacja list wyboru
         if (sizeChoiceBox.getValue().equals("--SIZE--")
                 || sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
                 || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Wybierz gabaryt oraz regiony nadania i odbioru.");
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select package size and sender and recipient regions.");
+            return;
+        }
+
+        // Walidacja pól wymiarów i wagi
+        if (weightField.getText().isEmpty()
+                || widthField.getText().isEmpty()
+                || heightField.getText().isEmpty()
+                || depthField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please fill in all package dimensions and weight.");
+            return;
+        }
+
+        // Walidacja danych nadawcy
+        if (senderNameField.getText().isEmpty()
+                || senderStreetField.getText().isEmpty()
+                || senderPostcodeField.getText().isEmpty()
+                || senderEmailField.getText().isEmpty()
+                || senderNumberField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please fill in all sender details.");
+            return;
+        }
+
+        // Walidacja danych odbiorcy
+        if (recipientNameField.getText().isEmpty()
+                || recipientStreetField.getText().isEmpty()
+                || recipientPostcodeField.getText().isEmpty()
+                || recipientEmailField.getText().isEmpty()
+                || recipientNumberField.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please fill in all recipient details.");
             return;
         }
 
@@ -300,10 +331,10 @@ public class PackageManageWindowController implements Initializable {
         );
 
         if (success) {
-            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Zmiany zostały zapisane.");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Changes have been saved successfully.");
             loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
         } else {
-            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się zapisać zmian.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to save changes. Please check your data or database connection.");
         }
     }
 
@@ -386,11 +417,9 @@ public class PackageManageWindowController implements Initializable {
 
     /**
      * Konwertuje trzyliterowy kod regionu kurierskiego na pełną nazwę miasta.
-     * Używana do wypełnienia list wyboru regionów w formularzu.
      *
      * @param code trzyliterowy kod regionu (np. "WAW", "KRK")
-     * @return pełna nazwa miasta (np. "Warszawa", "Kraków")
-     *         lub {@code "--SENDERS REGION--"} jeśli kod nie został rozpoznany
+     * @return pełna nazwa miasta lub {@code "--SENDERS REGION--"} jeśli nie rozpoznano
      */
     private String mapCodeToRegionName(String code) {
         switch (code) {
@@ -421,7 +450,7 @@ public class PackageManageWindowController implements Initializable {
     /**
      * Wyświetla okno dialogowe z komunikatem dla użytkownika.
      *
-     * @param type    typ alertu (np. {@code WARNING}, {@code ERROR}, {@code INFORMATION})
+     * @param type    typ alertu
      * @param title   tytuł okna dialogowego
      * @param content treść komunikatu
      */

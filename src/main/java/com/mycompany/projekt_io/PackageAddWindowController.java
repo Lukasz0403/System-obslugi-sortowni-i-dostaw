@@ -1,7 +1,5 @@
 package com.mycompany.projekt_io;
 
-//IMPORTS
-
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Recipient;
@@ -44,9 +42,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.text.Text;
 
-
-//-------
-
 /**
  * Kontroler okna dodawania nowej paczki do systemu magazynowego.
  * <p>
@@ -64,105 +59,52 @@ import javafx.scene.text.Text;
  */
 public class PackageAddWindowController implements Initializable {
 
-    //SIDEBAR-------------------------------------------------------------------
-    @FXML
-    private Label timeLabel;
-    @FXML
-    private Label dateLabel;
-    @FXML  
-    private Button homeButton,logOut,closeApp;;
-    @FXML
-    private Button magButton;
-    @FXML
-    private Button pacButton;
-    @FXML
-    private Button addButton;
-    
-    //FORM BUTTONS--------------------------------------------------------------
-    @FXML
-    private Button addPacButton;
-    @FXML
-    private Button saveTempButton;
-    @FXML
-    private Button deleteButton;
+    @FXML private Label timeLabel;
+    @FXML private Label dateLabel;
+    @FXML private Button homeButton, logOut, closeApp;
+    @FXML private Button magButton;
+    @FXML private Button pacButton;
+    @FXML private Button addButton;
+    @FXML private Button addPacButton;
+    @FXML private Button saveTempButton;
+    @FXML private Button deleteButton;
+    @FXML private TextField weightField;
+    @FXML private TextField heightField;
+    @FXML private TextField widthField;
+    @FXML private TextField depthField;
+    @FXML private TextField senderNameField;
+    @FXML private TextField senderStreetField;
+    @FXML private TextField senderPostcodeField;
+    @FXML private TextField senderEmailField;
+    @FXML private TextField senderNumberField;
+    @FXML private TextField recipientNameField;
+    @FXML private TextField recipientStreetField;
+    @FXML private TextField recipientPostcodeField;
+    @FXML private TextField recipientEmailField;
+    @FXML private TextField recipientNumberField;
+    @FXML private Text codeText;
+    @FXML private Button loadTempButton;
+    @FXML private Text mailText;
+    @FXML private Text nameText;
+    @FXML private Text numberText;
+    @FXML private Text streetText;
+    @FXML private Text cityText;
+    @FXML private ChoiceBox<String> sendRegionChoiceBox;
+    @FXML private ChoiceBox<String> receiveRegionChoiceBox;
 
-    // TEXTFIELDS---------------------------------------------------------------
-    @FXML
-    private TextField weightField;
-    @FXML
-    private TextField heightField;
-    @FXML
-    private TextField widthField;
-    @FXML
-    private TextField depthField;
-
-    @FXML
-    private TextField senderNameField;
-    @FXML
-    private TextField senderStreetField;
-    @FXML
-    private TextField senderPostcodeField;
-    @FXML
-    private TextField senderEmailField;
-    @FXML
-    private TextField senderNumberField;
-
-    @FXML
-    private TextField recipientNameField;
-    @FXML
-    private TextField recipientStreetField;
-    @FXML
-    private TextField recipientPostcodeField;
-    @FXML
-    private TextField recipientEmailField;
-    @FXML
-    private TextField recipientNumberField;
-    @FXML
-    private Text codeText;
-    @FXML
-    private Button loadTempButton;
-    @FXML
-    private Text mailText;
-    @FXML
-    private Text nameText;
-    @FXML
-    private Text numberText;
-    @FXML
-    private Text streetText;
-    @FXML
-    private Text cityText;
-    
     private final TemplateServiceInterface templateService = new TemplateService();
-
-    // COMBOBOXES---------------------------------------------------------------
-    @FXML
-    private ChoiceBox<String> sendRegionChoiceBox;
-    @FXML
-    private ChoiceBox<String> receiveRegionChoiceBox;
 
     /**
      * Inicjalizuje kontroler po załadowaniu widoku FXML.
-     * <p>
-     * Wykonywane operacje:
-     * </p>
-     * <ul>
-     *   <li>Uruchomienie animacji zegara aktualizującego etykiety czasu i daty co sekundę</li>
-     *   <li>Ustawienie minimalnych wymiarów okna za pomocą {@link WindowConstraints}</li>
-     *   <li>Wypełnienie list rozwijanych regionów nadania i odbioru</li>
-     *   <li>Ustawienie filtrów tekstowych na polach kodu pocztowego (format XX-XXX
-     *       z automatycznym wstawianiem myślnika), numeru telefonu (max 9 cyfr)
-     *       oraz wymiarów paczki (liczby dziesiętne)</li>
-     * </ul>
      *
-     * @param url            lokalizacja używana do rozwiązywania względnych ścieżek
-     *                       do obiektu głównego lub {@code null} jeśli nieznana
-     * @param rb             zasoby używane do lokalizacji obiektu głównego
-     *                       lub {@code null} jeśli nieznane
+     * @param url lokalizacja używana do rozwiązywania względnych ścieżek
+     *            do obiektu głównego lub {@code null} jeśli nieznana
+     * @param rb  zasoby używane do lokalizacji obiektu głównego
+     *            lub {@code null} jeśli nieznane
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    // TIME AND DATE--------------------------------------------------------
+
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -173,130 +115,73 @@ public class PackageAddWindowController implements Initializable {
                 dateLabel.setText(now.format(dateFormatter));
             })
         );
-
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-    // WINDOW CONSTRAINTS ---------------------------------------------------
         Platform.runLater(() -> {
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
 
-    // CHOICEBOXES INIT -------------------------------------------------------
-
-        // CITY LIST
         List<String> cities = List.of(
             "--SENDERS REGION--",
-                "Białystok",
-                "Bydgoszcz",
-                "Częstochowa",
-                "Gdańsk",
-                "Gdynia",
-                "Katowice",
-                "Kielce",
-                "Kraków",
-                "Łódź",
-                "Lublin",
-                "Olsztyn",
-                "Opole",
-                "Poznań",
-                "Rzeszów",
-                "Sopot",
-                "Szczecin",
-                "Toruń",
-                "Warszawa",
-                "Wrocław",
-                "Zielona Góra"
+            "Białystok", "Bydgoszcz", "Częstochowa", "Gdańsk", "Gdynia",
+            "Katowice", "Kielce", "Kraków", "Łódź", "Lublin", "Olsztyn",
+            "Opole", "Poznań", "Rzeszów", "Sopot", "Szczecin", "Toruń",
+            "Warszawa", "Wrocław", "Zielona Góra"
         );
-        
+
         List<String> cities2 = List.of(
             "--RECIPIENTS REGION--",
-                "Białystok",
-                "Bydgoszcz",
-                "Częstochowa",
-                "Gdańsk",
-                "Gdynia",
-                "Katowice",
-                "Kielce",
-                "Kraków",
-                "Łódź",
-                "Lublin",
-                "Olsztyn",
-                "Opole",
-                "Poznań",
-                "Rzeszów",
-                "Sopot",
-                "Szczecin",
-                "Toruń",
-                "Warszawa",
-                "Wrocław",
-                "Zielona Góra"
+            "Białystok", "Bydgoszcz", "Częstochowa", "Gdańsk", "Gdynia",
+            "Katowice", "Kielce", "Kraków", "Łódź", "Lublin", "Olsztyn",
+            "Opole", "Poznań", "Rzeszów", "Sopot", "Szczecin", "Toruń",
+            "Warszawa", "Wrocław", "Zielona Góra"
         );
 
         sendRegionChoiceBox.getItems().addAll(cities);
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
-
         receiveRegionChoiceBox.getItems().addAll(cities2);
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
-        
-    // FILTERS ----------------------------------------------------------------
-        
-        // POSTCODE FILTER (XX-XXX) WITH AUTOMATIC DASH
+
         UnaryOperator<Change> postcodeFilterAutoDash = change -> {
-            String text = change.getControlNewText();
-
-            String digitsOnly = text.replaceAll("[^\\d]", "");
-
+            String digitsOnly = change.getControlNewText().replaceAll("[^\\d]", "");
             if (digitsOnly.length() > 5) return null;
-
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < digitsOnly.length(); i++) {
                 if (i == 2) result.append('-');
                 result.append(digitsOnly.charAt(i));
             }
-
             change.setText(result.toString());
             change.setRange(0, change.getControlText().length());
             change.selectRange(result.length(), result.length());
-
             return change;
         };
         senderPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
         recipientPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
-        
-        // PHONE NUMBER FILTER
+
         UnaryOperator<Change> numberFilter = change -> {
-            String text = change.getControlNewText();
-            if (text.matches("\\d{0,9}")) {
-                return change;
-            }
+            if (change.getControlNewText().matches("\\d{0,9}")) return change;
             return null;
         };
         senderNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
         recipientNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
 
-        // NUMBER FILTER
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
             if (newText.isEmpty()) return change;
-            if (newText.matches("\\d*([\\.]\\d*)?")) {
-                return change;
-            }
+            if (newText.matches("\\d*([\\.]\\d*)?")) return change;
             return null;
         };
-
         weightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         heightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
-        
-        //---------------------------------------------------------------------
-        
+
         if (templateService.isTemplateSaved()) {
             updateTemplateDisplay(templateService.loadTemplate());
         }
-        
+
         logOut.setOnAction(e -> {
             AppSession.logout();
             loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
@@ -304,9 +189,9 @@ public class PackageAddWindowController implements Initializable {
 
         closeApp.setOnAction(e -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Zamknij aplikację");
+            confirm.setTitle("Close Application");
             confirm.setHeaderText(null);
-            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.setContentText("Are you sure you want to close the application?");
             confirm.initOwner(timeLabel.getScene().getWindow());
             confirm.showAndWait().ifPresent(response -> {
                 if (response == javafx.scene.control.ButtonType.OK) {
@@ -314,25 +199,17 @@ public class PackageAddWindowController implements Initializable {
                 }
             });
         });
-        
     }
 
     /**
      * Wczytuje zapisany szablon nadawcy i wypełnia nim pola formularza.
-     * <p>
-     * Jeśli żaden szablon nie został wcześniej zapisany, wyświetlane jest
-     * ostrzeżenie i operacja jest przerywana. W przeciwnym razie dane nadawcy z
-     * szablonu są wpisywane do odpowiednich pól formularza. Jeśli szablon
-     * zawiera zapisane miasto, ustawiana jest również odpowiednia wartość w
-     * liście wyboru regionu nadania.
-     * </p>
      *
      * @param event zdarzenie akcji przycisku "Load Template"
      */
     @FXML
     void loadTemplate(ActionEvent event) {
         if (!templateService.isTemplateSaved()) {
-            showAlert(Alert.AlertType.WARNING, "Brak szablonu", "Nie zapisano jeszcze żadnego szablonu.");
+            showAlert(Alert.AlertType.WARNING, "No Template", "No template has been saved yet.");
             return;
         }
         SenderTemplate template = templateService.loadTemplate();
@@ -348,15 +225,6 @@ public class PackageAddWindowController implements Initializable {
 
     /**
      * Zapisuje dane nadawcy z formularza jako szablon wielokrotnego użytku.
-     * <p>
-     * Przed zapisem sprawdzana jest kompletność danych — wszystkie pola nadawcy
-     * muszą być wypełnione. Jeśli którekolwiek pole jest puste, wyświetlane
-     * jest ostrzeżenie i operacja jest przerywana. Po pomyślnym zapisie panel
-     * podglądu szablonu jest aktualizowany za pomocą
-     * {@link #updateTemplateDisplay(SenderTemplate)}. Dane są przechowywane
-     * przy użyciu {@link TemplateService} w Java Preferences API i dostępne po
-     * ponownym uruchomieniu aplikacji.
-     * </p>
      *
      * @param event zdarzenie akcji przycisku "Save Template"
      */
@@ -367,7 +235,7 @@ public class PackageAddWindowController implements Initializable {
                 || senderPostcodeField.getText().isEmpty()
                 || senderEmailField.getText().isEmpty()
                 || senderNumberField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Uzupełnij wszystkie dane nadawcy przed zapisem szablonu.");
+            showAlert(Alert.AlertType.WARNING, "Error", "Please fill in all sender fields before saving the template.");
             return;
         }
         SenderTemplate template = new SenderTemplate(
@@ -380,18 +248,11 @@ public class PackageAddWindowController implements Initializable {
         );
         templateService.saveTemplate(template);
         updateTemplateDisplay(template);
-        showAlert(Alert.AlertType.INFORMATION, "Sukces", "Szablon nadawcy został zapisany.");
+        showAlert(Alert.AlertType.INFORMATION, "Success", "Sender template has been saved.");
     }
 
     /**
-     * Usuwa zapisany szablon nadawcy i resetuje panel podglądu do stanu
-     * domyślnego.
-     * <p>
-     * Wywołuje {@link TemplateService#clearTemplate()} kasując wszystkie dane
-     * szablonu z Java Preferences API. Następnie wszystkie pola panelu podglądu
-     * ustawiane są na wartość {@code "None"}, sygnalizując brak aktywnego
-     * szablonu.
-     * </p>
+     * Usuwa zapisany szablon nadawcy i resetuje panel podglądu do stanu domyślnego.
      *
      * @param event zdarzenie akcji przycisku "Clear Template"
      */
@@ -405,100 +266,68 @@ public class PackageAddWindowController implements Initializable {
         mailText.setText("None");
         nameText.setText("None");
     }
-    
+
     /**
      * Czyści wszystkie pola formularza i przywraca domyślne wartości list rozwijanych.
-     * <p>
-     * Wywoływana przez przycisk „Usuń" lub automatycznie po pomyślnym dodaniu
-     * paczki. Resetuje pola wymiarów, dane nadawcy, dane odbiorcy oraz wybrane
-     * regiony do stanu początkowego.
-     * </p>
      */
     @FXML
     private void handleDeleteButton() {
-
         weightField.clear();
         heightField.clear();
         widthField.clear();
         depthField.clear();
-
         senderNameField.clear();
         senderStreetField.clear();
         senderPostcodeField.clear();
         senderEmailField.clear();
         senderNumberField.clear();
-
         recipientNameField.clear();
         recipientStreetField.clear();
         recipientPostcodeField.clear();
         recipientEmailField.clear();
         recipientNumberField.clear();
-
         sendRegionChoiceBox.setValue("--SENDERS REGION--");
         receiveRegionChoiceBox.setValue("--RECIPIENTS REGION--");
     }
-    
+
+    /** Przechodzi do okna głównego. */
     @FXML
     private void handleHomeButton() {
         loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
     }
-    
-    /**
-     * Przechodzi do widoku głównego magazynu ({@code werehouseMainWindow.fxml}).
-     */
+
+    /** Przechodzi do okna głównego magazynu. */
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
 
-    /**
-     * Przechodzi do widoku tabeli paczek ({@code packageTableWindow.fxml}).
-     */
+    /** Przechodzi do okna tabeli paczek. */
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
 
-    /**
-     * Przechodzi do widoku zarządzania użytkownikami ({@code userManageWindow.fxml}).
-     */
+    /** Przechodzi do okna zarządzania użytkownikami. */
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");
     }
 
-    /**
-     * Przechodzi do widoku tabeli paczek ({@code packageTableWindow.fxml}).
-     * Działa identycznie jak {@link #handlePacButton()}.
-     */
+    /** Wraca do okna tabeli paczek. */
     @FXML
     private void handleRetButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
-    
+
     /**
      * Obsługuje zdarzenie dodania nowej paczki do systemu.
-     * <p>
-     * Metoda wykonuje kolejno:
-     * </p>
-     * <ol>
-     *   <li>Walidację wyboru regionów nadania i odbioru</li>
-     *   <li>Walidację kompletności wszystkich pól formularza</li>
-     *   <li>Wywołanie {@link PackageService#addPackageFull} z zebranymi danymi</li>
-     *   <li>Wyświetlenie komunikatu o powodzeniu lub błędzie operacji</li>
-     *   <li>Wyczyszczenie formularza po pomyślnym dodaniu paczki</li>
-     * </ol>
-     * <p>
-     * W przypadku niepoprawnych danych wyświetlane jest ostrzeżenie i operacja
-     * jest przerywana bez zapisu do bazy.
-     * </p>
      */
     @FXML
     private void handleAddPackage() {
-
         if (sendRegionChoiceBox.getValue().equals("--SENDERS REGION--")
                 || receiveRegionChoiceBox.getValue().equals("--RECIPIENTS REGION--")) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Wybierz region nadania i odbioru.");
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select sender and recipient regions.");
             return;
         }
 
@@ -516,7 +345,7 @@ public class PackageAddWindowController implements Initializable {
                 || recipientPostcodeField.getText().isEmpty()
                 || recipientEmailField.getText().isEmpty()
                 || recipientNumberField.getText().isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Błąd", "Uzupełnij wszystkie dane.");
+            showAlert(Alert.AlertType.WARNING, "Error", "Please fill in all required fields.");
             return;
         }
 
@@ -545,32 +374,26 @@ public class PackageAddWindowController implements Initializable {
         );
 
         if (success) {
-            showAlert(Alert.AlertType.INFORMATION, "Sukces", "Paczka została dodana.");
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Package has been added successfully.");
             handleDeleteButton();
         } else {
-            showAlert(Alert.AlertType.ERROR, "Błąd", "Nie udało się dodać paczki. Sprawdź wymiary lub połączenie z bazą.");
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add package. Please check your data or database connection.");
         }
-        
+
         PackageDAO dao = new PackageDAO();
         SortingService algorithm = new SortingService(dao);
         algorithm.assignShelvesToPackages();
     }
 
     /**
-     * Ładuje i wyświetla nowy widok JavaFX w tym samym oknie aplikacji.
-     * <p>
-     * Pobiera plik FXML z podanej ścieżki zasobów, tworzy nową scenę
-     * i zastępuje nią bieżącą zawartość okna.
-     * </p>
+     * Ładuje wskazane okno FXML i zastępuje nim bieżącą scenę.
      *
-     * @param fxmlPath ścieżka do pliku FXML względem classpath aplikacji
-     *                 (np. {@code "/com/mycompany/projekt_io/packageTableWindow.fxml"})
+     * @param fxmlPath ścieżka do pliku FXML okna docelowego
      */
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -578,14 +401,13 @@ public class PackageAddWindowController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Wyświetla modalne okno dialogowe z komunikatem dla użytkownika.
      *
-     * @param type    typ alertu określający ikonę i styl okna
-     *                (np. {@link Alert.AlertType#WARNING}, {@link Alert.AlertType#INFORMATION})
-     * @param title   tytuł wyświetlany na pasku tytułu okna dialogowego
-     * @param content treść komunikatu wyświetlana użytkownikowi
+     * @param type    typ alertu
+     * @param title   tytuł okna dialogowego
+     * @param content treść komunikatu
      */
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
@@ -595,7 +417,7 @@ public class PackageAddWindowController implements Initializable {
         alert.initOwner(timeLabel.getScene().getWindow());
         alert.showAndWait();
     }
-    
+
     /**
      * Aktualizuje pola tekstowe w panelu podglądu szablonu.
      *
