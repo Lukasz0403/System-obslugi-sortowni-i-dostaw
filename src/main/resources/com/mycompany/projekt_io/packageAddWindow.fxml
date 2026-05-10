@@ -35,6 +35,8 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
             <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
                 <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">

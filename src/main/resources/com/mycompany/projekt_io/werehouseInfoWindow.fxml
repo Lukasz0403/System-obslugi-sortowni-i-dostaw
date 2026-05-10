@@ -44,6 +44,8 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
+                <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
             <!-- TIME AND DATE -->

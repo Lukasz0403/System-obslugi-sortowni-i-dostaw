@@ -1,5 +1,7 @@
 package com.mycompany.projekt_io;
 
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,9 +20,40 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 public class MainWindowController implements Initializable {
 
+    
+    @FXML
+    private Label timeLabel;
+
+    @FXML
+    private Label dateLabel;
+
+    @FXML
+    private Button homeButton;
+
+    @FXML
+    private Button magButton;
+
+    @FXML
+    private Button pacButton;
+
+    @FXML
+    private Button addButton, logOut, closeApp;
+    ;
+
+    // Pola Dashboardu
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private Label userRoleLabel;
+    @FXML
+    private Label userIdLabel;
+    @FXML
+    private Label sessionStartLabel;
+    
     
         @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,32 +84,29 @@ public class MainWindowController implements Initializable {
             WindowConstraints.applyMinSize(stage);
             stage.centerOnScreen();
         });
+        
+            logOut.setOnAction(e -> {
+                AppSession.logout();
+                loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+            });
+
+            closeApp.setOnAction(e -> {
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                confirm.setTitle("Zamknij aplikację");
+                confirm.setHeaderText(null);
+                confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+                confirm.initOwner(timeLabel.getScene().getWindow());
+                confirm.showAndWait().ifPresent(response -> {
+                    if (response == javafx.scene.control.ButtonType.OK) {
+                        AppCloser.closeApp();
+                    }
+                });
+            });
+        
     }
     
     
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private Label dateLabel;
-
-    @FXML
-    private Button homeButton;
-    
-    @FXML
-    private Button magButton;
-
-    @FXML
-    private Button pacButton;
-
-    @FXML
-    private Button addButton;
-
-    // Pola Dashboardu
-    @FXML private Label userNameLabel;
-    @FXML private Label userRoleLabel;
-    @FXML private Label userIdLabel;
-    @FXML private Label sessionStartLabel;
+   
 
     @FXML
     private void handleHomeButton() {

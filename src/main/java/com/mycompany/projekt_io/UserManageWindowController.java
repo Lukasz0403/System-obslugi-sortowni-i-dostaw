@@ -3,6 +3,8 @@ package com.mycompany.projekt_io;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.core.database.UserDAOInterface;
 import com.mycompany.projekt_io.datamodel.User;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.users.UserManageService;
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +37,7 @@ public class UserManageWindowController implements Initializable {
     @FXML private Label timeLabel;
     @FXML private Label dateLabel;
     @FXML private VBox userListContainer;
+    @FXML private Button logOut,closeApp;
 
     private UserDAOInterface userDAO = new UserDAO();
 
@@ -60,6 +63,24 @@ public class UserManageWindowController implements Initializable {
         });
 
         loadUsers();
+        
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
     }
 
     public void loadUsers() {

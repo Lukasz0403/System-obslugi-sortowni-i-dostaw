@@ -1,6 +1,8 @@
 package com.mycompany.projekt_io;
 
 import com.mycompany.projekt_io.core.database.PackageDAO;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import com.mycompany.projekt_io.feature.werehouse.SortingServiceInterface;
 import java.net.URL;
@@ -28,7 +30,7 @@ import javafx.scene.shape.Rectangle;
 public class WerehouseMainWindowController implements Initializable {
 
     @FXML private Label timeLabel, dateLabel;
-    @FXML private Button homeButton, magButton, pacButton, addButton;
+    @FXML private Button homeButton, magButton, pacButton, addButton,logOut,closeApp;
     @FXML private AnchorPane mainPane;
     @FXML private VBox infoPanel;
     @FXML private Label infoShelfId, infoPackageCount, infoLastPackage;
@@ -66,6 +68,23 @@ public class WerehouseMainWindowController implements Initializable {
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
 
         Platform.runLater(() -> {
             Stage stage = (Stage) magButton.getScene().getWindow();

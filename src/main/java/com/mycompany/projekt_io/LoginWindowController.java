@@ -39,6 +39,22 @@ import javafx.util.Duration;
  * @author Łukasz
  */
 public class LoginWindowController implements Initializable {
+    
+     @FXML
+    private Label dateTimeLabel;
+    @FXML
+    private Button devButton;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private Button logInButton;
+
+    private UserDAOInterface userDAO = new UserDAO();
+    private final LoginService loginService = new LoginService();
 
      /**
      * Inicjalizuje kontroler po załadowaniu widoku FXML.
@@ -69,23 +85,11 @@ public class LoginWindowController implements Initializable {
         Platform.runLater(() -> {
             Stage stage = (Stage) logInButton.getScene().getWindow();
         });
+        
+        devButton.setVisible(false);
     }
     
-    @FXML
-    private Label dateTimeLabel;
-    @FXML
-    private Button devButton;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private TextField usernameField;
-    @FXML
-    private Label errorLabel;
-    @FXML
-    private Button logInButton;
-
-    private UserDAOInterface userDAO = new UserDAO();
-    private final LoginService loginService = new LoginService();
+   
 
 
     /**

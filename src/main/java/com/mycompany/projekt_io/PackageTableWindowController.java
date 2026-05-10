@@ -23,6 +23,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import com.mycompany.projekt_io.feature.package_.PackageTableService;
 import java.util.List;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class PackageTableWindowController implements Initializable {
     @FXML
     private Button manageButton;
     @FXML
-    private Button addButton;
+    private Button addButton,logOut,closeApp;;
     @FXML
     private TableView<PackageTableService> packageTable;
     @FXML
@@ -172,6 +174,26 @@ public class PackageTableWindowController implements Initializable {
         );
         autoRefresh.setCycleCount(Timeline.INDEFINITE);
         autoRefresh.play();
+        
+        
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
+        
     }
 
     /**

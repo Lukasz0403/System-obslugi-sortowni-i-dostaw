@@ -1,5 +1,7 @@
 package com.mycompany.projekt_io;
 
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 public class WerehouseInfoWindowController implements Initializable {
 
@@ -31,7 +34,7 @@ public class WerehouseInfoWindowController implements Initializable {
     @FXML private Button homeButton;
     @FXML private Button magButton;
     @FXML private Button pacButton;
-    @FXML private Button addButton;
+    @FXML private Button addButton,logOut,closeApp;;
 
     // PIE CHART
     @FXML private PieChart shelfPieChart;
@@ -95,6 +98,23 @@ public class WerehouseInfoWindowController implements Initializable {
         magButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"));
         pacButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"));
         addButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"));
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
         
         //rozmiar min okna
         Platform.runLater(() -> {

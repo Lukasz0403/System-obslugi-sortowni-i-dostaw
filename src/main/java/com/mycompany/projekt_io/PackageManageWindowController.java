@@ -28,6 +28,8 @@ import javafx.scene.control.TextFormatter;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Rack;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.package_.LabelFactory;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
@@ -46,7 +48,7 @@ import javafx.scene.control.ButtonType;
  */
 public class PackageManageWindowController implements Initializable {
 
-    @FXML private Button addButton;
+    @FXML private Button addButton,logOut,closeApp;;
     @FXML private Label dateLabel;
     @FXML private Button deleteButton;
     @FXML private TextField depthField;
@@ -156,6 +158,25 @@ public class PackageManageWindowController implements Initializable {
         heightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
+        
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
+        
     }
     
     @FXML

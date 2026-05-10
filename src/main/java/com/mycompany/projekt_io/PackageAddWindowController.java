@@ -10,6 +10,8 @@ import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import com.mycompany.projekt_io.feature.package_.SenderTemplate;
 import com.mycompany.projekt_io.feature.package_.TemplateService;
@@ -68,7 +70,7 @@ public class PackageAddWindowController implements Initializable {
     @FXML
     private Label dateLabel;
     @FXML  
-    private Button homeButton;
+    private Button homeButton,logOut,closeApp;;
     @FXML
     private Button magButton;
     @FXML
@@ -294,6 +296,25 @@ public class PackageAddWindowController implements Initializable {
         if (templateService.isTemplateSaved()) {
             updateTemplateDisplay(templateService.loadTemplate());
         }
+        
+        logOut.setOnAction(e -> {
+            AppSession.logout();
+            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+        });
+
+        closeApp.setOnAction(e -> {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Zamknij aplikację");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Czy na pewno chcesz zamknąć aplikację?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppCloser.closeApp();
+                }
+            });
+        });
+        
     }
 
     /**
