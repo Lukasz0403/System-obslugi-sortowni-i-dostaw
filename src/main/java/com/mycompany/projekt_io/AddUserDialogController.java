@@ -8,8 +8,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.core.database.UserDAOInterface;
+import com.mycompany.projekt_io.feature.login.AppSession;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -77,7 +79,13 @@ public class AddUserDialogController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        List<Permission> permissions = userDAO.getPermissions();
+        
+        List<Permission> permissions = new ArrayList<>();
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
+            permissions.add(userDAO.getPermissions().getFirst());
+        } else {
+            permissions = userDAO.getPermissions();
+        }
         permissionChoiceBox.getItems().addAll(permissions);
         if (!permissions.isEmpty()) {
             permissionChoiceBox.setValue(permissions.get(0));
@@ -121,6 +129,7 @@ public class AddUserDialogController implements Initializable {
                 confirm.setTitle("Add User");
                 confirm.setHeaderText("New user has been added: " + login + ".");
                 confirm.showAndWait();
+                if (onUserAdded != null) onUserAdded.run();
                 closeDialog();
             }
         }

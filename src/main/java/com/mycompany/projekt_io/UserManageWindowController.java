@@ -87,12 +87,33 @@ public class UserManageWindowController implements Initializable {
         List<User> users = userDAO.getUsers();
         userListContainer.getChildren().clear();
         boolean alternate = false;
-        for (User user : users) {
-            userListContainer.getChildren().add(
-                buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate)
-            );
-            alternate = !alternate;
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+            for (User user : users) {
+                if(user.getPermission().getPermission_id() != 1){
+                    continue;
+                }
+                userListContainer.getChildren().add(
+                buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate));
+                alternate = !alternate;
+            }
+        } else if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
+            for (User user : users) {
+                if(user.getPermission().getPermission_id() == 2){
+                    continue;
+                }
+                userListContainer.getChildren().add(
+                buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate));
+                alternate = !alternate;
+            }
+            
+        } else {
+            for (User user : users) {
+                userListContainer.getChildren().add(
+                buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate));
+                alternate = !alternate;
+            }
         }
+
     }
 
     private HBox buildUserRow(int id, String login, String role, boolean alternate) {
@@ -112,10 +133,14 @@ public class UserManageWindowController implements Initializable {
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         editBtn.setOnAction(e -> handleEditUser(id, login));
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) editBtn.setDisable(true);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) editBtn.setDisable(true);
 
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         deleteBtn.setOnAction(e -> handleDeleteUser(id, login));
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) deleteBtn.setDisable(true);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) deleteBtn.setDisable(true);
 
         HBox actions = new HBox(5, editBtn, deleteBtn);
         actions.setAlignment(Pos.CENTER_LEFT);

@@ -49,7 +49,7 @@ public class PackageTableWindowController implements Initializable {
     @FXML private Button magButton;
     @FXML private Button pacButton;
     @FXML private Button userButton;
-    @FXML private Button manageButton;
+    @FXML private Button manageButtonMain;
     @FXML private Button addButton, logOut, closeApp;
     @FXML private TableView<PackageTableService> packageTable;
     @FXML private TableColumn<PackageTableService, Integer> idColumn;
@@ -168,6 +168,8 @@ public class PackageTableWindowController implements Initializable {
                 }
             });
         });
+        
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) manageButtonMain.setDisable(true);
     }
 
     /** Przechodzi do okna głównego. */
