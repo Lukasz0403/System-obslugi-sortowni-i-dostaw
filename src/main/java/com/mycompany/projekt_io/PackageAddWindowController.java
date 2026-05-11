@@ -14,7 +14,7 @@ import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import com.mycompany.projekt_io.feature.package_.SenderTemplate;
 import com.mycompany.projekt_io.feature.package_.TemplateService;
 import com.mycompany.projekt_io.feature.package_.TemplateServiceInterface;
-import com.mycompany.projekt_io.feature.werehouse.SortingService;
+import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;

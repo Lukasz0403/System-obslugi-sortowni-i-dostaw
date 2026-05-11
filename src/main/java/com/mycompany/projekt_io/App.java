@@ -4,7 +4,7 @@ import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.User;
-import com.mycompany.projekt_io.feature.werehouse.SortingService;
+import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
