@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 
 /**
  * Kontroler okna tabeli paczek.
@@ -61,6 +62,8 @@ public class PackageTableWindowController implements Initializable {
     @FXML private TableColumn<PackageTableService, String> senregionColumn;
     @FXML private TableColumn<PackageTableService, String> recregionColumn;
     @FXML private TableColumn<PackageTableService, Double> weightColumn;
+    @FXML private TextField searchField;
+
 
     private final PackageDAO dao = new PackageDAO();
     private PackageTableService selected;
@@ -169,7 +172,37 @@ public class PackageTableWindowController implements Initializable {
             });
         });
         
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) manageButtonMain.setDisable(true);
+        if (AppSession.isLoggedIn() && AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+            manageButtonMain.setDisable(true);
+        }
+        
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                // Pokaż wszystkie paczki
+                List<Package> all = dao.getPackages();
+                List<PackageTableService> allData = all.stream()
+                        .map(PackageTableService::new)
+                        .collect(Collectors.toList());
+                packageTable.getItems().setAll(allData);
+            } else {
+                // Filtruj po ID
+                try {
+                    int searchId = Integer.parseInt(newValue);
+                    List<PackageTableService> filtered = dao.getPackages().stream()
+                            .map(PackageTableService::new)
+                            .filter(p -> p.getId() == searchId)
+                            .collect(Collectors.toList());
+                    packageTable.getItems().setAll(filtered);
+                } catch (NumberFormatException e) {
+                    // Jeśli wpisano nie-liczbę — pokaż wszystkie
+                    List<Package> all = dao.getPackages();
+                    List<PackageTableService> allData = all.stream()
+                            .map(PackageTableService::new)
+                            .collect(Collectors.toList());
+                    packageTable.getItems().setAll(allData);
+                }
+            }
+        });
     }
 
     /** Przechodzi do okna głównego. */
