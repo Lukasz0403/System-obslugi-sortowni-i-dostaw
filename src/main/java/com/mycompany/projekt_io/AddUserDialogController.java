@@ -82,7 +82,7 @@ public class AddUserDialogController implements Initializable {
         
         List<Permission> permissions = new ArrayList<>();
         if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
-            permissions.add(userDAO.getPermissions().getFirst());
+            permissions.add(userDAO.getPermissions().get(0));
         } else {
             permissions = userDAO.getPermissions();
         }

@@ -2,6 +2,8 @@ package com.mycompany.projekt_io;
 
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
+import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.feature.werehouse.WarehouseService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -24,8 +26,11 @@ import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.shape.Rectangle;
 
 public class WerehouseInfoWindowController implements Initializable {
 
@@ -38,6 +43,9 @@ public class WerehouseInfoWindowController implements Initializable {
 
     // PIE CHART
     @FXML private PieChart shelfPieChart;
+    @FXML private Label rackIdLabel;
+    @FXML private Rectangle shelficon;
+    @FXML private Label occupancyLabel;
 
     // TABLES
     /*@FXML private TableView<TableItem> table1;
@@ -45,8 +53,15 @@ public class WerehouseInfoWindowController implements Initializable {
     @FXML private TableColumn<TableItem, String> table1Col2;*/
 
     @FXML private TableView<TableItem> table2;
-    @FXML private TableColumn<TableItem, String> table2Col1;
-    @FXML private TableColumn<TableItem, String> table2Col2; 
+    @FXML private TableColumn<TableItem, String> colId;
+    @FXML private TableColumn<TableItem, String> colFormat;
+    @FXML private TableColumn<TableItem, String> colOrigin;
+    @FXML private TableColumn<TableItem, String> colDest;
+    @FXML private TableColumn<TableItem, String> colSender;
+    @FXML private TableColumn<TableItem, String> colRecipient;
+    
+    private int currentRackId;
+    private WarehouseService warehouseService;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -85,11 +100,12 @@ public class WerehouseInfoWindowController implements Initializable {
         );*/
 
         // PACKAGE TABLE
-        table2Col1.setCellValueFactory(new PropertyValueFactory<>("col1"));
-        table2Col2.setCellValueFactory(new PropertyValueFactory<>("col2"));
-        table2.getItems().addAll(
-            new TableItem(" ", " "),
-            new TableItem(" ", " ")
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colFormat.setCellValueFactory(new PropertyValueFactory<>("format"));
+        colOrigin.setCellValueFactory(new PropertyValueFactory<>("origin"));
+        colDest.setCellValueFactory(new PropertyValueFactory<>("destination"));
+        colSender.setCellValueFactory(new PropertyValueFactory<>("sender"));
+        colRecipient.setCellValueFactory(new PropertyValueFactory<>("recipient")
         );
 
         // -------------------------
@@ -123,6 +139,50 @@ public class WerehouseInfoWindowController implements Initializable {
         });
     }
 
+        public void loadRackData(int rackId, WarehouseService service) {
+        this.currentRackId = rackId;
+        this.warehouseService = service;
+        
+        rackIdLabel.setText("REGAŁ: " + rackId);
+        
+        Map<String, Integer> occupancyData = warehouseService.getRackOccupancyData(rackId);
+        int occupied = occupancyData.getOrDefault("Occupied", 0);
+        int available = occupancyData.getOrDefault("Available", 1050);
+        int totalSlots = occupied + available;
+
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+            new PieChart.Data("Zajęte (" + occupied + ")", occupied),
+            new PieChart.Data("Wolne (" + available + ")", available)
+        );
+        shelfPieChart.setData(pieData);
+
+        double maxBarHeight = 249.0;
+        double baseY = 108.0;
+        double occupancyRatio = (double) occupied / totalSlots;
+        double currentFillHeight = maxBarHeight * occupancyRatio;
+        double percentage = occupancyRatio * 100;
+        occupancyLabel.setText(String.format("%.1f%%", percentage));
+        
+        shelficon.setHeight(currentFillHeight);
+        shelficon.setLayoutY(baseY + (maxBarHeight - currentFillHeight));
+        shelficon.setFill(javafx.scene.paint.Color.web("#ff4d4d"));
+
+        List<Package> packagesOnRack = warehouseService.getPackagesOnRack(rackId);
+        ObservableList<TableItem> tableItems = FXCollections.observableArrayList();
+
+        for (Package p : packagesOnRack) {
+            tableItems.add(new TableItem(
+                String.valueOf(p.getPackage_id()),
+                p.getPackage_format().getFormat_id(),
+                p.getPackage_region().getRegion_name(),
+                p.getPackage_dest_region().getRegion_name(),
+                p.getPackage_sender().getSender_name(),
+                p.getPackage_recipient().getRecipient_name()
+            ));
+        }
+        table2.setItems(tableItems);
+    }
+    
     // -------------------------
     private void loadWindow(String fxmlPath) {
         try {
@@ -139,15 +199,28 @@ public class WerehouseInfoWindowController implements Initializable {
     // -------------------------
     // TABLE CLASS
     public static class TableItem {
-        private final String col1;
-        private final String col2;
+private final String id;
+    private final String format;
+    private final String origin;
+    private final String destination;
+    private final String sender;
+    private final String recipient;
 
-        public TableItem(String col1, String col2) {
-            this.col1 = col1;
-            this.col2 = col2;
-        }
+    public TableItem(String id, String format, String origin, String destination, String sender, String recipient) {
+        this.id = id;
+        this.format = format;
+        this.origin = origin;
+        this.destination = destination;
+        this.sender = sender;
+        this.recipient = recipient;
+    }
 
-        public String getCol1() { return col1; }
-        public String getCol2() { return col2; }
+    // Gettery są NIEZBĘDNE dla TableView w JavaFX
+    public String getId() { return id; }
+    public String getFormat() { return format; }
+    public String getOrigin() { return origin; }
+    public String getDestination() { return destination; }
+    public String getSender() { return sender; }
+    public String getRecipient() { return recipient; }
         }
 }

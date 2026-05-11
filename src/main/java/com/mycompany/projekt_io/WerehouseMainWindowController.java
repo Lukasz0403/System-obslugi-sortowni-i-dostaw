@@ -5,6 +5,7 @@ import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.werehouse.SortingService;
 import com.mycompany.projekt_io.feature.werehouse.SortingServiceInterface;
+import com.mycompany.projekt_io.feature.werehouse.WarehouseService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -121,10 +122,11 @@ public class WerehouseMainWindowController implements Initializable {
             updateInfoPanelPosition(e.getSceneX(), e.getSceneY());
         });
 
-        shelf.setOnMouseMoved(e -> updateInfoPanelPosition(e.getSceneX(), e.getSceneY()));
-        shelf.setOnMouseExited(e -> infoPanel.setVisible(false));
-        shelf.setOnMouseClicked(e -> openWarehouseInfo()); // Przejście do info o magazynie
-        shelf.setCursor(Cursor.HAND);
+//        shelf.setOnMouseMoved(e -> updateInfoPanelPosition(e.getSceneX(), e.getSceneY()));
+//        shelf.setOnMouseExited(e -> infoPanel.setVisible(false));
+//        shelf.setOnMouseClicked(e -> openWarehouseInfo()); // Przejście do info o magazynie
+          shelf.setOnMouseClicked(e -> openWarehouseInfo(rackId));
+          shelf.setCursor(Cursor.HAND);
     }
 
     private void updateInfoPanelPosition(double sceneX, double sceneY) {
@@ -134,10 +136,13 @@ public class WerehouseMainWindowController implements Initializable {
         infoPanel.setLayoutY(localY + 15);
     }
 
-    private void openWarehouseInfo() {
+    private void openWarehouseInfo(int rackID) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("werehouseInfoWindow.fxml"));
             Parent newRoot = fxmlLoader.load();
+            WerehouseInfoWindowController controller = fxmlLoader.getController();
+                   WarehouseService service = new WarehouseService(this.packageDAO);
+            controller.loadRackData(rackID, service);
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.getScene().setRoot(newRoot);
         } catch (IOException e) { e.printStackTrace(); }
