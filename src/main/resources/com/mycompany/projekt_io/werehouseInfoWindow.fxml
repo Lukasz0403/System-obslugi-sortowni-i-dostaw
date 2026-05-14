@@ -69,7 +69,8 @@
                         <Rectangle fill="aec1d1" height="249.0" layoutX="118.0" layoutY="108.0" stroke="#333333" strokeWidth="1" width="83.0" />       
                         <Rectangle fx:id="shelficon" fill="#ff4d4d" height="0.0" layoutX="118.0" layoutY="357.0" strokeWidth="0" width="83.0" />
                         <Label fx:id="occupancyLabel" alignment="CENTER" layoutX="118.0" layoutY="215.0" prefWidth="83.0" style="-fx-text-fill: rgba(255, 255, 255, 0.8); -fx-font-weight: bold; -fx-font-size: 14px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 2, 0, 0, 0);" text="0.0%" textAlignment="CENTER" />
-                        <PieChart fx:id="shelfPieChart" layoutX="15.0" layoutY="437.0" prefHeight="290.0" prefWidth="289.0" />
+                        <PieChart fx:id="shelfPieChart" layoutX="1.0" layoutY="437.0" prefHeight="340.0" prefWidth="340.0" /> 
+<!--                        290/289-->
                         <Label fx:id="rackIdLabel" alignment="CENTER" layoutX="15.0" layoutY="58.0" prefWidth="289.0" text="REGAŁ: --">
                            <font>
                               <Font name="System Bold" size="24.0" />

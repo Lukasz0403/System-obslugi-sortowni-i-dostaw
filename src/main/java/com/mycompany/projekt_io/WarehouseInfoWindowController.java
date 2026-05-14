@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.shape.Rectangle;
 
@@ -81,14 +82,14 @@ public class WarehouseInfoWindowController implements Initializable {
 
         // -------------------------
         // PIE CHART TEMP DATA
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("aaa", 30),
-            new PieChart.Data("bbb", 45),
-            new PieChart.Data("ccc", 25)
-        );
-        shelfPieChart.setData(pieChartData);
-        shelfPieChart.setLegendVisible(true);
-        shelfPieChart.setLabelsVisible(true);
+//        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+//            new PieChart.Data("aaa", 30),
+//            new PieChart.Data("bbb", 45),
+//            new PieChart.Data("ccc", 25)
+//        );        
+//        shelfPieChart.setData(pieChartData);
+//        shelfPieChart.setLegendVisible(true);
+//        shelfPieChart.setLabelsVisible(true);
 
         // -------------------------
         // INFO TABLE
@@ -155,6 +156,23 @@ public class WarehouseInfoWindowController implements Initializable {
             new PieChart.Data("Wolne (" + available + ")", available)
         );
         shelfPieChart.setData(pieData);
+        shelfPieChart.setLegendVisible(true);
+        shelfPieChart.setLabelsVisible(true);
+
+        pieData.get(0).getNode().setStyle("-fx-pie-color: #ff0000;");
+        pieData.get(1).getNode().setStyle("-fx-pie-color: #aec1d1;");
+
+        Platform.runLater(() -> {
+            Node symbol0 = shelfPieChart.lookup(".default-color0.chart-legend-item-symbol");
+            Node symbol1 = shelfPieChart.lookup(".default-color1.chart-legend-item-symbol");
+
+            if (symbol0 != null) {
+                symbol0.setStyle("-fx-background-color: #ff0000;");
+            }
+            if (symbol1 != null) {
+                symbol1.setStyle("-fx-background-color: #aec1d1;");
+            }
+        });
 
         double maxBarHeight = 249.0;
         double baseY = 108.0;

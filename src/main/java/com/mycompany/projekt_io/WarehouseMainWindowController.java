@@ -52,7 +52,7 @@ public class WarehouseMainWindowController implements Initializable {
         //TIME
         setupClock();
 
-        // RAACKS
+        // RACKS
         Rectangle[] allRacks = {
             rack1, rack2, rack3, rack4, rack5, rack6, rack7, rack8, rack9, rack10,
             rack11, rack12, rack13, rack14, rack15, rack16, rack17, rack18, rack19, rack20
