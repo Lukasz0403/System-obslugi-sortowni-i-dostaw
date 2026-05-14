@@ -28,10 +28,12 @@ import com.mycompany.projekt_io.feature.login.AppSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 /**
  * Kontroler okna tabeli paczek.
@@ -175,6 +177,15 @@ public class PackageTableWindowController implements Initializable {
         if (AppSession.isLoggedIn() && AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
             manageButtonMain.setDisable(true);
         }
+        
+        UnaryOperator<TextFormatter.Change> digitFilter = change -> {
+            if (change.getControlNewText().matches("\\d*")) {
+                return change;
+            }
+            return null;
+        };
+        
+        searchField.setTextFormatter(new TextFormatter<>(digitFilter));
         
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
