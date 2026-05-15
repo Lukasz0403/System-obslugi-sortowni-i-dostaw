@@ -175,7 +175,7 @@ public class PackageTableWindowController implements Initializable {
         });
         
         if (AppSession.isLoggedIn() && AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
-            manageButtonMain.setDisable(true);
+            manageButtonMain.setVisible(false);
         }
         
         UnaryOperator<TextFormatter.Change> digitFilter = change -> {
