@@ -21,8 +21,16 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class LoginService {
     
-    private final UserDAOInterface userDAO = new UserDAO();
+    private final UserDAOInterface userDAO;
 
+    public LoginService() {
+        this.userDAO = new UserDAO();
+    }
+
+    // konstruktor dla testów — przyjmuje mocka
+    public LoginService(UserDAOInterface userDAO) {
+        this.userDAO = userDAO;
+    }
     /**
      * Uwierzytelnia użytkownika na podstawie loginu i hasła.
      * <p>

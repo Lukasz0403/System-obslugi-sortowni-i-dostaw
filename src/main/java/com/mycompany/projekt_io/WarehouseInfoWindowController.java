@@ -3,7 +3,7 @@ package com.mycompany.projekt_io;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.datamodel.Package;
-import com.mycompany.projekt_io.feature.werehouse.WarehouseService;
+import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

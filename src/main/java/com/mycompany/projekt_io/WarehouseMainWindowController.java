@@ -7,7 +7,8 @@ import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
 import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
-import com.mycompany.projekt_io.feature.werehouse.WarehouseService;
+import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

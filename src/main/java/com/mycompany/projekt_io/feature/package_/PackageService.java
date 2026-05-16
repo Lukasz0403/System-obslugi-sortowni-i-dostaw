@@ -25,15 +25,30 @@ import com.mycompany.projekt_io.datamodel.Rack;
 
 public class PackageService implements PackageServiceInterface {
 
-    private final PackageDAO dao = new PackageDAO();
+    private final PackageDAO dao ;
 
+    public PackageService() {
+        this.dao = new PackageDAO();
+    }
+
+    // konstruktor dla testów — przyjmuje mocka
+    public PackageService(PackageDAO dao) {
+        this.dao = dao;
+    }
 
     /**
      * Dodaje nową paczkę do bazy danych 
      * <p>
      * Metoda przeznaczona do szybkiego dodawania paczek bez pełnych danych
      * adresowych. Gabaryt ({@code size}) jest przekazywany jawnie. Paczka nie
-     * ma przypisanego regału ({@code rack = null}).
+     * ma przypisanego regału ({@co  public PackageService() {
+        this.dao = new PackageDAO();
+    }
+
+    // konstruktor dla testów — przyjmuje mocka
+    public PackageService(PackageDAO dao) {
+        this.dao = dao;
+    }de rack = null}).
      * </p>
      *
      * @param size identyfikator gabarytu paczki ("A", "B" lub "C")
