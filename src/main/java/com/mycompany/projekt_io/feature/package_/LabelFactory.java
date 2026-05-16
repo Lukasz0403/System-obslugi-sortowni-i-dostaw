@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.FileSystems;
 import com.mycompany.projekt_io.datamodel.Package;
+import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+import java.net.URISyntaxException;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
 import org.jsoup.nodes.Document;
@@ -81,7 +83,7 @@ public class LabelFactory {
         
             document.getElementById("region").html(p.getPackage_region().getRegion_name());
             document.getElementById("regionDest").html("<sub>PL/</sub>"+p.getPackage_dest_region().getRegion_name());
-            document.getElementById("id").html("<sup>12345678911111666644</sup>"+String.format("%d", p.getPackage_id()));
+//            document.getElementById("id").html("<sup>12345678911111666644</sup>"+String.format("%d", p.getPackage_id()));
             document.getElementById("nadawca").html(p.getPackage_sender().getSender_name()+
                                                     "<br>tel. "+p.getPackage_sender().getSender_phone()+
                                                     "<br>email: "+p.getPackage_sender().getSender_email()+
@@ -99,6 +101,11 @@ public class LabelFactory {
             
             PdfRendererBuilder builder = new PdfRendererBuilder();
             builder.toStream(os);
+            try {
+                builder.useFont(new File(getClass().getResource("/DejaVuSans.ttf").toURI()), "DejaVu Sans");
+            } catch (URISyntaxException ex) {
+                System.getLogger(LabelFactory.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
             String baseUrl = FileSystems.getDefault().getPath("src/main/resources/").toUri().toURL().toString();
             builder.withW3cDocument(new W3CDom().fromJsoup(document), baseUrl);
             builder.run();

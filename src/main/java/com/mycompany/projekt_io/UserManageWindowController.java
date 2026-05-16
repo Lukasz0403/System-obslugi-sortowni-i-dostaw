@@ -38,6 +38,7 @@ public class UserManageWindowController implements Initializable {
     @FXML private Label dateLabel;
     @FXML private VBox userListContainer;
     @FXML private Button logOut,closeApp;
+     @FXML private Button addUserButton;
 
     private UserDAOInterface userDAO = new UserDAO();
 
@@ -61,6 +62,10 @@ public class UserManageWindowController implements Initializable {
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
+        
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+            addUserButton.setVisible(false);
+        }
 
         loadUsers();
         
@@ -133,14 +138,14 @@ public class UserManageWindowController implements Initializable {
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         editBtn.setOnAction(e -> handleEditUser(id, login));
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) editBtn.setDisable(true);
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) editBtn.setDisable(true);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) editBtn.setVisible(false);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) editBtn.setVisible(false);
 
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         deleteBtn.setOnAction(e -> handleDeleteUser(id, login));
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) deleteBtn.setDisable(true);
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) deleteBtn.setDisable(true);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) deleteBtn.setVisible(false);
+        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) deleteBtn.setVisible(false);
 
         HBox actions = new HBox(5, editBtn, deleteBtn);
         actions.setAlignment(Pos.CENTER_LEFT);
