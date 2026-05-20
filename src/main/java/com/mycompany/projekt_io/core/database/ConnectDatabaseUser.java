@@ -44,7 +44,7 @@ public final class ConnectDatabaseUser {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/login_credentials","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "1234");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();

@@ -37,9 +37,10 @@ public class SortingService implements SortingServiceInterface {
     private final PackageDAO packageDAO;
 
     /**
-     * Maksymalna liczba slotów na jeden regał.
+     * Maksymalna liczba slotów na jeden regał. Zmienna używana jest zarówno przez algorym sortujący,
+     * jak i funkcję do wizualizacji maagazynu.
      */
-    private static final int MAX_RACK_CAPACITY = 1050;
+    public static final int MAX_RACK_CAPACITY = 1050;
 
     /**
      * Identyfikator strefy zapasowej używanej gdy główne strefy są pełne.
@@ -155,7 +156,7 @@ public class SortingService implements SortingServiceInterface {
      * @param allRegions lista wszystkich regionów kurierskich z bazy danych
      */
     private void mapRegionsToRacks(List<Region> allRegions) {
-        regionToRackMapping.clear();
+        regionToRackMapping.clear();    
         for (int i = 0; i < allRegions.size(); i++) {
             int regionId = allRegions.get(i).getRegion_id();
             int index = i % mainRacks.size();
@@ -262,8 +263,8 @@ public class SortingService implements SortingServiceInterface {
             int newTotal = rackOccupancyMap.get(rack.getRack_id()) + slots;
             rackOccupancyMap.put(rack.getRack_id(), newTotal);
             System.out.println("Przydzielono: Paczka " + pkg.getPackage_id()
-                    + " do regalu " + rack.getRack_id()
-                    + " (" + newTotal + "/1050 slotów)");
+                    + " do Regalu " + rack.getRack_id()
+                    + " (" + newTotal + "/" + MAX_RACK_CAPACITY + " slotow)");
         }
     }
 

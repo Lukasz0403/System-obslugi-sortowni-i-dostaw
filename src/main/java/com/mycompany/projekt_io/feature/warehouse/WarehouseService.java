@@ -2,6 +2,7 @@ package com.mycompany.projekt_io.feature.warehouse;
 
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Package;
+import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.Map;
 public class WarehouseService {
 
     private final PackageDAO packageDAO;
-    private static final int MAX_RACK_CAPACITY = 1050;
 
     public WarehouseService(PackageDAO packageDAO) {
         this.packageDAO = packageDAO;

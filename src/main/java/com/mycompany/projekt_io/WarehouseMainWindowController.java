@@ -26,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 import java.io.IOException;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -46,6 +48,9 @@ public class WarehouseMainWindowController implements Initializable {
     @FXML private TableView<WarehouseSummary> warehouseTable;
     @FXML private TableColumn<WarehouseSummary, String> colTotalPackages, colZone1, colZone2, colZone3, colZone4, colZone5, colEmptyShelves, colBusiestShelf;
 
+    @FXML
+    private StackedBarChart<String, Number> ZoneCapacity;
+    
     private PackageDAO packageDAO = new PackageDAO();
 
     @Override
@@ -112,6 +117,7 @@ public class WarehouseMainWindowController implements Initializable {
         });
 
         algorithm.assignShelvesToPackages();
+        loadZoneCapacityChart();
     }
 
     private void setupShelfHover(Rectangle shelf, int rackId) {
@@ -132,6 +138,59 @@ public class WarehouseMainWindowController implements Initializable {
           shelf.setCursor(Cursor.HAND);
     }
 
+    private void loadZoneCapacityChart() {
+        ZoneCapacity.getData().clear();
+        int[] rackSlots = new int[21];
+
+        for (com.mycompany.projekt_io.datamodel.Package p : packageDAO.getPackages()) {
+            if (p.getPackage_rack() != null) {
+                int rackId = p.getPackage_rack().getRack_id();
+                if (rackId >= 1 && rackId <= 20 && p.getPackage_format() != null) {
+                    rackSlots[rackId] += p.getPackage_format().getSlot_coverage();
+                }
+            }
+        }
+
+        XYChart.Series<String, Number> occupiedSeries = new XYChart.Series<>();
+        occupiedSeries.setName("Ilość zajętych slotów");
+
+        for (int i = 0; i < 5; i++) {
+            int zoneTotal = 0;
+            StringBuilder tooltipText = new StringBuilder("Strefa " + (i + 1) + ":\n");
+
+            for (int r = 1; r <= 4; r++) {
+                int rackId = (i * 4) + r;
+                int slots = rackSlots[rackId];
+
+                tooltipText.append("  • Regał ").append(rackId)
+                           .append(":   ").append(slots).append(" / 1050 slotów\n");
+                zoneTotal += slots;
+            }
+
+            XYChart.Data<String, Number> data = new XYChart.Data<>("Zone " + (i + 1), zoneTotal);
+            String finalInfoText = tooltipText.toString().trim();
+
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    newNode.setStyle("-fx-bar-fill: #aec1d1;");
+                    javafx.scene.control.Tooltip tooltip = new javafx.scene.control.Tooltip(finalInfoText);
+                    tooltip.setStyle("-fx-font-size: 11px; -fx-font-weight: normal;");
+                    tooltip.setShowDelay(javafx.util.Duration.millis(50)); 
+                    tooltip.setShowDuration(javafx.util.Duration.seconds(10));
+                    javafx.scene.control.Tooltip.install(newNode, tooltip);
+                }
+            });
+            occupiedSeries.getData().add(data);
+        }
+        ZoneCapacity.getData().add(occupiedSeries);
+
+        javafx.application.Platform.runLater(() -> {
+            for (javafx.scene.Node n : ZoneCapacity.lookupAll(".chart-legend-item-symbol")) {
+                n.setStyle("-fx-bar-fill: #aec1d1; -fx-fill: #aec1d1;");
+            }
+        });
+    } 
+        
     private void updateInfoPanelPosition(double sceneX, double sceneY) {
         double localX = mainPane.sceneToLocal(sceneX, sceneY).getX();
         double localY = mainPane.sceneToLocal(sceneX, sceneY).getY();
@@ -171,7 +230,7 @@ public class WarehouseMainWindowController implements Initializable {
         colZone4.setCellValueFactory(new PropertyValueFactory<>("zone4"));
         colZone5.setCellValueFactory(new PropertyValueFactory<>("zone5"));
         colEmptyShelves.setCellValueFactory(new PropertyValueFactory<>("emptyShelves"));
-        colBusiestShelf.setCellValueFactory(new PropertyValueFactory<>("busiestShelf"));
+        colBusiestShelf.setCellValueFactory(new PropertyValueFactory<>("busiestShelf"));      
     }
 
     private void loadWarehouseSummary() {
