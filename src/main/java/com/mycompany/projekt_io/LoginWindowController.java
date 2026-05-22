@@ -133,13 +133,20 @@ public class LoginWindowController implements Initializable {
     void loginAction(ActionEvent event) {
         String login = usernameField.getText();
         String plainPassword = passwordField.getText();
+
         if (login.isEmpty() || plainPassword.isEmpty()) {
             showError("Wprowadź login i hasło.");
             return;
         }
+
+        if (!loginService.isDatabaseAvailable()) {
+            showError("Brak połączenia z bazą danych.");
+            return;
+        }
+
         User user = loginService.authenticate(login, plainPassword);
         if (user != null) {
-            AppSession.login(user); 
+            AppSession.login(user);
             errorLabel.setVisible(false);
             loadMainWindow();
         } else {

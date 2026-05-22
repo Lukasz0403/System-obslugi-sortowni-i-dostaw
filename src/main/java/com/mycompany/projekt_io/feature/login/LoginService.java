@@ -4,6 +4,7 @@
  */
 package com.mycompany.projekt_io.feature.login;
 
+import com.mycompany.projekt_io.core.database.ConnectDatabaseUser;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.core.database.UserDAOInterface;
 import com.mycompany.projekt_io.datamodel.User;
@@ -49,18 +50,31 @@ public class LoginService {
      * niepoprawne lub hash w bazie ma nieprawidłowy format
      */
     public User authenticate(String login, String plainPassword) {
-        User user = userDAO.getUser(login);
-
-        if (user != null) {
-            try {
-                if (BCrypt.checkpw(plainPassword, user.getPassword())) {
-                    return user;
+        try {
+            User user = userDAO.getUser(login);
+            if (user != null) {
+                try {
+                    if (BCrypt.checkpw(plainPassword, user.getPassword())) {
+                        return user;
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Error: Invalid BCrypt hash format in database!");
                 }
-            } catch (IllegalArgumentException e) {
-                System.err.println("Error: Invalid BCrypt hash format in database!");
             }
+            return null;
+        } catch (Exception e) {
+            // połączenie z bazą nie powiodło się
+            return null;
         }
-        return null;
     }
+    
+    
+    public boolean isDatabaseAvailable() {
+    try {
+        return ConnectDatabaseUser.getConnection() != null;
+    } catch (Exception e) {
+        return false;
+    }
+}
     
 }
