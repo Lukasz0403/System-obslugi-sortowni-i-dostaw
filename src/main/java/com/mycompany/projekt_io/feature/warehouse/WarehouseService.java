@@ -27,20 +27,19 @@ public class WarehouseService {
     public Map<String, Integer> getRackOccupancyData(int rackId) {
         List<Package> allPackages = packageDAO.getPackages();
         int occupiedSlots = 0;
-        int availableSlots = MAX_RACK_CAPACITY - occupiedSlots;
-        
+        int availableSlots = 0;
         for (int i = 0; i < allPackages.size(); i++) {
             Package p = allPackages.get(i);
-            
             if (p.getPackage_rack() != null && p.getPackage_rack().getRack_id() == rackId) {
                 occupiedSlots += p.getPackage_format().getSlot_coverage();
             }
         }
 
+         availableSlots = MAX_RACK_CAPACITY - occupiedSlots; 
+
         Map<String, Integer> chartData = new HashMap<>();
         chartData.put("Occupied", occupiedSlots);
         chartData.put("Available", availableSlots);
-
         return chartData;
     }
 
