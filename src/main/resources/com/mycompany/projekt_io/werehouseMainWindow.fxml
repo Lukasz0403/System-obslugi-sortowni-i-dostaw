@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
@@ -13,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WarehouseMainWindowController">
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -45,7 +47,8 @@
 
         <!-- MAIN AREA -->
         <AnchorPane fx:id="mainPane" HBox.hgrow="ALWAYS">
-            <HBox layoutX="15.0" layoutY="25.0" prefHeight="266.0" prefWidth="830.0" spacing="10.0">
+            <HBox alignment="CENTER" layoutX="15.0" layoutY="25.0" prefHeight="266.0" prefWidth="830.0" spacing="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="8.0">
+            <Region HBox.hgrow="ALWAYS" />
                 <!-- ZONE 1 (1-4) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 1" />
@@ -56,7 +59,7 @@
                         <VBox alignment="CENTER"><Rectangle fx:id="rack4" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="4" /></VBox>
                     </HBox>
                 </AnchorPane>
-            <Region />
+            <Region HBox.hgrow="ALWAYS" />
 
                 <!-- ZONE 2 (5-8) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
@@ -68,7 +71,7 @@
                         <VBox alignment="CENTER"><Rectangle fx:id="rack8" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="8" /></VBox>
                     </HBox>
                 </AnchorPane>
-            <Region />
+            <Region HBox.hgrow="ALWAYS" />
 
                 <!-- ZONE 3 (9-12) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
@@ -80,7 +83,7 @@
                         <VBox alignment="CENTER"><Rectangle fx:id="rack12" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="12" /></VBox>
                     </HBox>
                 </AnchorPane>
-            <Region />
+            <Region HBox.hgrow="ALWAYS" />
 
                 <!-- ZONE 4 (13-16) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
@@ -92,7 +95,7 @@
                         <VBox alignment="CENTER"><Rectangle fx:id="rack16" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="16" /></VBox>
                     </HBox>
                 </AnchorPane>
-            <Region />
+            <Region HBox.hgrow="ALWAYS" />
 
                 <!-- ZONE 5 (17-20) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #cfaeb9; -fx-border-radius: 5; -fx-border-width: 2;">
@@ -104,11 +107,12 @@
                         <VBox alignment="CENTER"><Rectangle fx:id="rack20" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="20" /></VBox>
                     </HBox>
                 </AnchorPane>
+            <Region HBox.hgrow="ALWAYS" />
             </HBox>
 
             <!-- TABELA -->
             <AnchorPane layoutX="16.0" layoutY="326.4" prefHeight="409.0" prefWidth="836.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="326.0">
-                <TableView fx:id="warehouseTable" layoutY="-8.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="836.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
+                <TableView fx:id="warehouseTable" layoutY="-8.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="836.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
                     <columns>
                         <TableColumn fx:id="colTotalPackages" maxWidth="104.0" prefWidth="104.0" resizable="false" text="Total Packages" />
                         <TableColumn fx:id="colZone1" maxWidth="104.0" prefWidth="104.0" resizable="false" text="Zone 1" />
@@ -123,7 +127,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                 </TableView>
-            <StackedBarChart fx:id="ZoneCapacity" layoutY="83.2" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="358.0" prefWidth="838.0" title="Zajętość Stref" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.400000000000034">
+            <StackedBarChart fx:id="ZoneCapacity" layoutY="50.4" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="838.0" title="Zajętość Stref" AnchorPane.bottomAnchor="-16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -131,6 +135,61 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </StackedBarChart>
+            <HBox alignment="TOP_CENTER" layoutY="-19.0" prefHeight="100.0" prefWidth="830.0" AnchorPane.leftAnchor="-1.1368683772161603E-13" AnchorPane.rightAnchor="7.999999999999886">
+               <children>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="Total Packages" />
+                        <Text fx:id="totalPackages" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="0" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="Busiest Rack" />
+                        <Text fx:id="busiestRack" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="0" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="Empty Racks" />
+                        <Text fx:id="emptyRack" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="0" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="Warehouse Occupancy" />
+                        <Text fx:id="warehouseOccupancy" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="0%" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="Top Format" />
+                        <Text fx:id="topFormat" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: #52658F;" text="unknown" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             </AnchorPane>
 
             <!-- HOVER INFO PANEL -->

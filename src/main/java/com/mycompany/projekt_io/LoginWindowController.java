@@ -177,7 +177,8 @@ public class LoginWindowController implements Initializable {
             Stage stage = (Stage) devButton.getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/MainWindow.fxml"));
             Parent root = loader.load();
-            stage.setScene(new Scene(root));
+            //stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

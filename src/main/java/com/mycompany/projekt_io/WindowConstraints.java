@@ -10,8 +10,8 @@ public class WindowConstraints {
     public static void applyMinSize(Stage stage) {
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
-        stage.setWidth(MIN_WIDTH);
-        stage.setHeight(MIN_HEIGHT);
-        stage.sizeToScene();
+//        stage.setWidth(MIN_WIDTH);
+//        stage.setHeight(MIN_HEIGHT);
+//        stage.sizeToScene();
     }
 }

@@ -1,11 +1,13 @@
 package com.mycompany.projekt_io;
 
 import com.mycompany.projekt_io.core.database.PackageDAO;
+import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
 import com.mycompany.projekt_io.feature.warehouse.SortingService;
+import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
 import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
 
@@ -24,6 +26,7 @@ import javafx.util.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.Cursor;
 import javafx.scene.chart.StackedBarChart;
@@ -32,6 +35,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class WarehouseMainWindowController implements Initializable {
 
@@ -40,6 +44,7 @@ public class WarehouseMainWindowController implements Initializable {
     @FXML private AnchorPane mainPane;
     @FXML private VBox infoPanel;
     @FXML private Label infoShelfId, infoPackageCount, infoLastPackage;
+    @FXML private Text totalPackages, busiestRack, emptyRack, warehouseOccupancy, topFormat;
 
     // Regały 1-20
     @FXML private Rectangle rack1, rack2, rack3, rack4, rack5, rack6, rack7, rack8, rack9, rack10,
@@ -222,6 +227,34 @@ public class WarehouseMainWindowController implements Initializable {
         timeline.play();
     }
 
+    private void showBasicStatistics(int total, int busiest, long empty, float occupancy, String format){
+        totalPackages.setText(String.valueOf(total));
+        busiestRack.setText("No. " + String.valueOf(busiest));
+        emptyRack.setText(String.valueOf(empty));
+        warehouseOccupancy.setText(String.format("%.2f %%", occupancy));
+        topFormat.setText(format);
+    }
+    
+    public int getTotalRackOccupancy() {
+    return packageDAO.getPackages().stream()
+        .filter(p -> p.getPackage_rack() != null)
+        .mapToInt(p -> p.getPackage_format().getSlot_coverage())
+        .sum();
+    }
+    
+    public String getMostPopularFormat() {
+    return packageDAO.getPackages().stream()
+        .filter(p -> p.getPackage_format() != null && p.getPackage_format().getFormat_id() != null)
+        .collect(java.util.stream.Collectors.groupingBy(
+            p -> p.getPackage_format().getFormat_id(), 
+            java.util.stream.Collectors.counting()
+        ))
+        .entrySet().stream()
+        .max(java.util.Map.Entry.comparingByValue())
+        .map(java.util.Map.Entry::getKey)
+        .orElse("N/A");
+}
+    
     private void setupTable() {
         colTotalPackages.setCellValueFactory(new PropertyValueFactory<>("totalPackages"));
         colZone1.setCellValueFactory(new PropertyValueFactory<>("zone1"));
@@ -234,14 +267,21 @@ public class WarehouseMainWindowController implements Initializable {
     }
 
     private void loadWarehouseSummary() {
+        List<Rack> items = packageDAO.getRacks();
         int total = packageDAO.getTotalPackageCount();
         int z1 = packageDAO.getPackageCountForZone(1);
         int z2 = packageDAO.getPackageCountForZone(2);
         int z3 = packageDAO.getPackageCountForZone(3);
         int z4 = packageDAO.getPackageCountForZone(4);
         int z5 = packageDAO.getPackageCountForZone(5);
-        long empty = packageDAO.getRacks().stream().filter(r -> packageDAO.getPackageCountForShelf(r.getRack_id()) == 0).count();
+        int rackOccupancy = getTotalRackOccupancy();
         int busiest = packageDAO.getMostLoadedShelfId();
+        int count = items.size();
+        long empty = packageDAO.getRacks().stream().filter(r -> packageDAO.getPackageCountForShelf(r.getRack_id()) == 0).count();
+        float occupancy = ((float) rackOccupancy / (MAX_RACK_CAPACITY * count)) * 100;        
+        String format = getMostPopularFormat();
+
+        showBasicStatistics(total, busiest, empty, occupancy, format);
         
         warehouseTable.getItems().clear();
         warehouseTable.getItems().add(new WarehouseSummary(

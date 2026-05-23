@@ -395,7 +395,8 @@ public class PackageAddWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+//            stage.setScene(new Scene(root));
+            stage.getScene().setRoot(root);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
