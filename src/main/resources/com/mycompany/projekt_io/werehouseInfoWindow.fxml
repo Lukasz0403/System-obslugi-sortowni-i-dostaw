@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<!-- WARNING!!! THIS IS A TEMPORARY TEMPLATE, NOT A FINISHED PRODUCT!!! POSSIBILITY OF ADDING SEPERATE INFO WINDOWS IN THE FUTURE!!-->
+<!-- imports -->
+
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,20 +12,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
+<!-- -->
+
 <AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.WarehouseInfoWindowController">
 
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- SIDEBAR -->
         <VBox prefWidth="83.0" style="-fx-background-color: #52658F;">
+
+            <!-- LOGO -->
             <VBox alignment="CENTER" prefHeight="83.0" spacing="10.0">
                 <Circle fill="#333a56" radius="24.0" />
             </VBox>
 
+            <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="homeButton" maxWidth="60.0" text="HOME" />
@@ -34,55 +41,67 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
                 <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
+            <!-- TIME AND DATE -->
             <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
-                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm" />
-                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD" />
+                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">
+                    <font><Font size="5.0" /></font>
+                </Label>
+                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD">
+                    <font><Font size="5.0" /></font>
+                </Label>
             </VBox>
+
         </VBox>
-
+        <!-- MAIN -->
         <AnchorPane HBox.hgrow="ALWAYS">
-            <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <StackPane HBox.hgrow="ALWAYS" prefWidth="315.0">
-                    <padding>
-                        <Insets bottom="20" left="20" right="20" top="20" />
-                    </padding>
-                    <VBox alignment="CENTER" spacing="10">
-                        <Label fx:id="rackIdLabel" style="-fx-font-weight: bold; -fx-font-size: 24px;" text="REGAŁ: --" />
-                        
-                        <StackPane alignment="BOTTOM_CENTER" maxHeight="249.0" maxWidth="83.0">
-                            <Rectangle fill="#aec1d1" height="249.0" stroke="#333333" strokeWidth="1" width="83.0" />
-                            <Rectangle fx:id="shelficon" fill="#ff4d4d" height="0.0" width="83.0" />
-                        </StackPane>
-                        
-                        <Label fx:id="occupancyLabel" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="0.0%" />
-                        <PieChart fx:id="shelfPieChart" prefHeight="300.0" prefWidth="300.0" />
-                    </VBox>
-                </StackPane>
+         <children>
+            <HBox prefHeight="750.0" prefWidth="318.0">
+               <children>
+                  <AnchorPane prefHeight="750.0" prefWidth="315.0">
+                     <children>
+                        <Rectangle fill="aec1d1" height="249.0" layoutX="118.0" layoutY="108.0" stroke="#333333" strokeWidth="1" width="83.0" />       
+                        <Rectangle fx:id="shelficon" fill="#ff4d4d" height="0.0" layoutX="118.0" layoutY="357.0" strokeWidth="0" width="83.0" />
+                        <Label fx:id="occupancyLabel" alignment="CENTER" layoutX="118.0" layoutY="215.0" prefWidth="83.0" style="-fx-text-fill: rgba(255, 255, 255, 0.8); -fx-font-weight: bold; -fx-font-size: 14px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 2, 0, 0, 0);" text="0.0%" textAlignment="CENTER" />
+                        <PieChart fx:id="shelfPieChart" layoutX="1.0" layoutY="437.0" prefHeight="340.0" prefWidth="340.0" /> 
+<!--                        290/289-->
+                        <Label fx:id="rackIdLabel" alignment="CENTER" layoutX="15.0" layoutY="58.0" prefWidth="289.0" text="REGAŁ: --">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font></Label>
+                     </children>
+                  </AnchorPane>
+               </children></HBox>
+            
+            <HBox layoutX="313.0" prefHeight="750.0" prefWidth="552.0">
+               <children>
+                  <AnchorPane prefHeight="750.0" prefWidth="548.0">
+                     <children>
+                        <ScrollPane layoutX="8.0" layoutY="14.0" prefHeight="720.0" prefWidth="531.0">
+                           <content>
+                              <TableView fx:id="table2" prefHeight="718.0" prefWidth="533.0">
+                                 <columns>
+                                    <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="colFormat" prefWidth="60.0" text="Format" />
+                                    <TableColumn fx:id="colOrigin" prefWidth="100.0" text="Nadanie" />
+                                    <TableColumn fx:id="colDest" prefWidth="100.0" text="Cel" />
+                                    <TableColumn fx:id="colSender" prefWidth="110.0" text="Nadawca" />
+                                    <TableColumn fx:id="colRecipient" prefWidth="110.0" text="Odbiorca" />
+                                 </columns>
+                                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                              </TableView>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </children></HBox>
+         </children></AnchorPane>
 
-                <AnchorPane HBox.hgrow="ALWAYS" prefWidth="548.0">
-                    <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                        <TableView fx:id="table2">
-                            <columns>
-                                <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
-                                <TableColumn fx:id="colFormat" prefWidth="60.0" text="Format" />
-                                <TableColumn fx:id="colOrigin" prefWidth="100.0" text="Nadanie" />
-                                <TableColumn fx:id="colDest" prefWidth="100.0" text="Cel" />
-                                <TableColumn fx:id="colSender" prefWidth="110.0" text="Nadawca" />
-                                <TableColumn fx:id="colRecipient" prefWidth="110.0" text="Odbiorca" />
-                            </columns>
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                            </columnResizePolicy>
-                        </TableView>
-                    </ScrollPane>
-                </AnchorPane>
-            </HBox>
-        </AnchorPane>
-    </HBox>
+    </HBox> 
 </AnchorPane>
