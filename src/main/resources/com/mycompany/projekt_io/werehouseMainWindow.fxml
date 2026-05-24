@@ -44,7 +44,8 @@
                 <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD" />
             </VBox>
         </VBox>
-
+      <Region prefHeight="200.0" prefWidth="200.0" />
+   
         <!-- MAIN AREA -->
         <AnchorPane fx:id="mainPane" HBox.hgrow="ALWAYS">
             <HBox alignment="CENTER" layoutX="15.0" layoutY="25.0" prefHeight="266.0" prefWidth="830.0" spacing="29.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="8.0">
@@ -53,66 +54,126 @@
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 1" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack1" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="1" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack2" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="2" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack3" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="3" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack4" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="4" /></VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack1" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="1" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack2" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="2" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack3" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="3" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack4" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="4" />
+                  </VBox>
                     </HBox>
                 </AnchorPane>
             <Region HBox.hgrow="ALWAYS" />
-
-                <!-- ZONE 2 (5-8) -->
+   
+                                  <!-- ZONE 2 (5-8) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 2" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack5" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="5" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack6" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="6" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack7" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="7" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack8" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="8" /></VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack5" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="5" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack6" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="6" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack7" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="7" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack8" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="8" />
+                  </VBox>
                     </HBox>
                 </AnchorPane>
             <Region HBox.hgrow="ALWAYS" />
-
-                <!-- ZONE 3 (9-12) -->
+   
+                                  <!-- ZONE 3 (9-12) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 3" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack9" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="9" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack10" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="10" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack11" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="11" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack12" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="12" /></VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack9" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="9" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack10" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="10" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack11" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="11" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack12" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="12" />
+                  </VBox>
                     </HBox>
                 </AnchorPane>
             <Region HBox.hgrow="ALWAYS" />
-
-                <!-- ZONE 4 (13-16) -->
+   
+                                  <!-- ZONE 4 (13-16) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #52658F; -fx-border-radius: 5;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #52658F; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 4" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack13" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="13" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack14" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="14" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack15" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="15" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack16" fill="#aec1d1" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="16" /></VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack13" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="13" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack14" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="14" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack15" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="15" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack16" fill="#aec1d1" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="16" />
+                  </VBox>
                     </HBox>
                 </AnchorPane>
             <Region HBox.hgrow="ALWAYS" />
-
-                <!-- ZONE 5 (17-20) -->
+   
+                                  <!-- ZONE 5 (17-20) -->
                 <AnchorPane prefHeight="210.0" prefWidth="120.0" style="-fx-border-color: #cfaeb9; -fx-border-radius: 5; -fx-border-width: 2;">
                     <Label layoutX="10.0" layoutY="-8.0" style="-fx-background-color: #F7F5E6; -fx-text-fill: #cfaeb9; -fx-font-weight: bold; -fx-font-size: 10px;" text="ZONE 5" />
                     <HBox layoutX="7.0" layoutY="15.0" spacing="4.0">
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack17" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="17" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack18" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="18" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack19" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="19" /></VBox>
-                        <VBox alignment="CENTER"><Rectangle fx:id="rack20" fill="#cfaeb9" height="200.0" width="22" /><Label style="-fx-font-size: 8px;" text="20" /></VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack17" fill="#cfaeb9" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="17" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack18" fill="#cfaeb9" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="18" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack19" fill="#cfaeb9" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="19" />
+                  </VBox>
+                        <VBox alignment="CENTER">
+                     <Rectangle fx:id="rack20" fill="#cfaeb9" height="200.0" width="22" />
+                     <Label style="-fx-font-size: 8px;" text="20" />
+                  </VBox>
                     </HBox>
                 </AnchorPane>
             <Region HBox.hgrow="ALWAYS" />
             </HBox>
-
-            <!-- TABELA -->
-            <AnchorPane layoutX="16.0" layoutY="326.4" prefHeight="409.0" prefWidth="836.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="326.0">
-                <TableView fx:id="warehouseTable" layoutY="-8.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" prefWidth="836.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
+   
+                              <!-- TABELA -->
+            <AnchorPane layoutX="16.0" layoutY="346.4" prefHeight="389.0" prefWidth="838.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="346.0">
+                <TableView fx:id="warehouseTable" layoutY="-8.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="78.0" prefWidth="838.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-8.0">
                     <columns>
                         <TableColumn fx:id="colTotalPackages" maxWidth="104.0" prefWidth="104.0" resizable="false" text="Total Packages" />
                         <TableColumn fx:id="colZone1" maxWidth="104.0" prefWidth="104.0" resizable="false" text="Zone 1" />
@@ -127,7 +188,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                 </TableView>
-            <StackedBarChart fx:id="ZoneCapacity" layoutY="50.4" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="838.0" title="Zajętość Stref" AnchorPane.bottomAnchor="-16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <StackedBarChart fx:id="ZoneCapacity" layoutY="50.4" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="266.0" prefWidth="838.0" title="Zajętość Stref" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>
@@ -135,7 +196,7 @@
                 <NumberAxis side="LEFT" />
               </yAxis>
             </StackedBarChart>
-            <HBox alignment="TOP_CENTER" layoutY="-19.0" prefHeight="100.0" prefWidth="830.0" AnchorPane.leftAnchor="-1.1368683772161603E-13" AnchorPane.rightAnchor="7.999999999999886">
+            <HBox alignment="TOP_CENTER" layoutY="-19.0" prefHeight="129.0" prefWidth="830.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="8.0">
                <children>
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -191,13 +252,14 @@
                </children>
             </HBox>
             </AnchorPane>
-
-            <!-- HOVER INFO PANEL -->
+   
+                  <!-- HOVER INFO PANEL -->
             <VBox fx:id="infoPanel" spacing="4" style="-fx-background-color: white; -fx-border-color: #52658F; -fx-padding: 8; -fx-effect: dropshadow(gaussian, gray, 5, 0.5, 2, 2);" visible="false">
                 <Label fx:id="infoShelfId" style="-fx-font-weight: bold;" text="Rack: " />
                 <Label fx:id="infoPackageCount" text="Packages: " />
                 <Label fx:id="infoLastPackage" text="Last ID: " />
             </VBox>
         </AnchorPane>
+      <Region prefHeight="200.0" prefWidth="200.0" />
     </HBox>
 </AnchorPane>
