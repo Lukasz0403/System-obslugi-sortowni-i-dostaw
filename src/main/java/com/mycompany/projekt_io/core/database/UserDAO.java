@@ -1,7 +1,5 @@
 package com.mycompany.projekt_io.core.database;
 
-import com.mycompany.projekt_io.datamodel.Permission;
-import com.mycompany.projekt_io.datamodel.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mycompany.projekt_io.datamodel.Permission;
+import com.mycompany.projekt_io.datamodel.User;
 
 /**
  * Implementacja interfejsu {@link UserDAOInterface} zapewniająca dostęp do
@@ -19,7 +20,6 @@ import java.util.List;
  * pośrednictwem {@link ConnectDatabaseUser}.
  * </p>
  */
-
 public class UserDAO implements UserDAOInterface {
 
     /**
@@ -49,7 +49,6 @@ public class UserDAO implements UserDAOInterface {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        
         return user;
     }
 
@@ -101,7 +100,6 @@ public class UserDAO implements UserDAOInterface {
         } 
         return permissions;
     }
-
 
     /**
      * Dodaje nowego użytkownika do bazy danych.

@@ -1,65 +1,86 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.feature.login.AppCloser;
-import com.mycompany.projekt_io.feature.login.AppSession;
-import com.mycompany.projekt_io.datamodel.Package;
-import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
+
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import javafx.application.Platform;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
+import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
+
+/*
+ * @author Łukasz Motyka, Ida Wszoła
+ */
 public class WarehouseInfoWindowController implements Initializable {
 
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private Button homeButton;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private Button addButton,logOut,closeApp;;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML 
+    private Button homeButton;
+    @FXML 
+    private Button magButton;
+    @FXML 
+    private Button pacButton;
+    @FXML
+    private Button addButton;
+    @FXML
+    private Button logOut;
+    @FXML
+    private Button closeApp;
 
     // PIE CHART
-    @FXML private PieChart shelfPieChart;
-    @FXML private Label rackIdLabel;
-    @FXML private Rectangle shelficon;
-    @FXML private Label occupancyLabel;
+    @FXML 
+    private PieChart shelfPieChart;
+    @FXML 
+    private Label rackIdLabel;
+    @FXML 
+    private Rectangle shelficon;
+    @FXML
+    private Label occupancyLabel;
 
-    // TABLES
-    /*@FXML private TableView<TableItem> table1;
-    @FXML private TableColumn<TableItem, String> table1Col1;
-    @FXML private TableColumn<TableItem, String> table1Col2;*/
-
-    @FXML private TableView<TableItem> table2;
-    @FXML private TableColumn<TableItem, String> colId;
-    @FXML private TableColumn<TableItem, String> colFormat;
-    @FXML private TableColumn<TableItem, String> colOrigin;
-    @FXML private TableColumn<TableItem, String> colDest;
-    @FXML private TableColumn<TableItem, String> colSender;
-    @FXML private TableColumn<TableItem, String> colRecipient;
+    @FXML 
+    private TableView<TableItem> table2;
+    @FXML
+    private TableColumn<TableItem, String> colId;
+    @FXML 
+    private TableColumn<TableItem, String> colFormat;
+    @FXML 
+    private TableColumn<TableItem, String> colOrigin;
+    @FXML 
+    private TableColumn<TableItem, String> colDest;
+    @FXML 
+    private TableColumn<TableItem, String> colSender;
+    @FXML 
+    private TableColumn<TableItem, String> colRecipient;
     
     private int currentRackId;
     private WarehouseService warehouseService;
@@ -79,26 +100,6 @@ public class WarehouseInfoWindowController implements Initializable {
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-        // -------------------------
-        // PIE CHART TEMP DATA
-//        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-//            new PieChart.Data("aaa", 30),
-//            new PieChart.Data("bbb", 45),
-//            new PieChart.Data("ccc", 25)
-//        );        
-//        shelfPieChart.setData(pieChartData);
-//        shelfPieChart.setLegendVisible(true);
-//        shelfPieChart.setLabelsVisible(true);
-
-        // -------------------------
-        // INFO TABLE
-        /*table1Col1.setCellValueFactory(new PropertyValueFactory<>("col1"));
-        table1Col2.setCellValueFactory(new PropertyValueFactory<>("col2"));
-        table1.getItems().addAll(
-            new TableItem(" ", " "),
-            new TableItem(" ", " ")
-        );*/
 
         // PACKAGE TABLE
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -135,12 +136,12 @@ public class WarehouseInfoWindowController implements Initializable {
         
         //rozmiar min okna
         Platform.runLater(() -> {
-        Stage stage = (Stage) magButton.getScene().getWindow();
-        WindowConstraints.applyMinSize(stage);
+            Stage stage = (Stage) magButton.getScene().getWindow();
+            WindowConstraints.applyMinSize(stage);
         });
     }
 
-        public void loadRackData(int rackId, WarehouseService service) {
+    public void loadRackData(int rackId, WarehouseService service) {
         this.currentRackId = rackId;
         this.warehouseService = service;
         
@@ -207,7 +208,6 @@ public class WarehouseInfoWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-//            stage.setScene(new Scene(root));
             stage.getScene().setRoot(root);
             stage.show();
         } catch (IOException e) {
@@ -218,28 +218,40 @@ public class WarehouseInfoWindowController implements Initializable {
     // -------------------------
     // TABLE CLASS
     public static class TableItem {
-private final String id;
-    private final String format;
-    private final String origin;
-    private final String destination;
-    private final String sender;
-    private final String recipient;
+        private final String id;
+        private final String format;
+        private final String origin;
+        private final String destination;
+        private final String sender;
+        private final String recipient;
 
-    public TableItem(String id, String format, String origin, String destination, String sender, String recipient) {
-        this.id = id;
-        this.format = format;
-        this.origin = origin;
-        this.destination = destination;
-        this.sender = sender;
-        this.recipient = recipient;
-    }
+        public TableItem(String id, String format, String origin, String destination, String sender, String recipient) {
+            this.id = id;
+            this.format = format;
+            this.origin = origin;
+            this.destination = destination;
+            this.sender = sender;
+            this.recipient = recipient;
+        }
 
     // Gettery są NIEZBĘDNE dla TableView w JavaFX
-    public String getId() { return id; }
-    public String getFormat() { return format; }
-    public String getOrigin() { return origin; }
-    public String getDestination() { return destination; }
-    public String getSender() { return sender; }
-    public String getRecipient() { return recipient; }
+        public String getId() { 
+            return id; 
         }
+        public String getFormat() { 
+            return format; 
+        }
+        public String getOrigin() { 
+            return origin; 
+        }
+        public String getDestination() { 
+            return destination;
+        }
+        public String getSender() { 
+            return sender; 
+        }
+        public String getRecipient() { 
+            return recipient; 
+        }
+    }
 }

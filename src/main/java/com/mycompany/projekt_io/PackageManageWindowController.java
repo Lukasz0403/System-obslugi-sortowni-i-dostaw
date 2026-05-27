@@ -1,40 +1,39 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.core.database.PackageDAO;
-import com.mycompany.projekt_io.datamodel.Format;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
-import java.util.List;
-import java.util.function.UnaryOperator;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import com.mycompany.projekt_io.datamodel.Package;
-import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.package_.LabelFactory;
 import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+
 
 /**
  * Kontroler okna zarządzania istniejącą paczką.
@@ -48,32 +47,48 @@ import javafx.scene.control.ButtonType;
  */
 public class PackageManageWindowController implements Initializable {
 
-    @FXML private Button addButton, logOut, closeApp;
-    @FXML private Label dateLabel;
-    @FXML private Button deleteButton;
-    @FXML private TextField depthField;
-    @FXML private TextField heightField;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private ChoiceBox<String> receiveRegionChoiceBox;
-    @FXML private TextField recipientEmailField;
-    @FXML private TextField recipientNameField;
-    @FXML private TextField recipientNumberField;
-    @FXML private TextField recipientPostcodeField;
-    @FXML private TextField recipientStreetField;
-    @FXML private Button returnButton;
-    @FXML private Button saveButton;
-    @FXML private ChoiceBox<String> sendRegionChoiceBox;
-    @FXML private TextField senderEmailField;
-    @FXML private TextField senderNameField;
-    @FXML private TextField senderNumberField;
-    @FXML private TextField senderPostcodeField;
-    @FXML private TextField senderStreetField;
-    @FXML private ChoiceBox<String> sizeChoiceBox;
-    @FXML private Label timeLabel;
-    @FXML private TextField weightField;
-    @FXML private TextField widthField;
-    @FXML private Button labelButton;
+    @FXML 
+    private Button logOut;
+    @FXML 
+    private Button closeApp;
+    @FXML 
+    private Label dateLabel;
+    @FXML 
+    private TextField depthField;
+    @FXML 
+    private TextField heightField;
+    @FXML 
+    private ChoiceBox<String> receiveRegionChoiceBox;
+    @FXML 
+    private TextField recipientEmailField;
+    @FXML 
+    private TextField recipientNameField;
+    @FXML 
+    private TextField recipientNumberField;
+    @FXML 
+    private TextField recipientPostcodeField;
+    @FXML 
+    private TextField recipientStreetField;
+    @FXML 
+    private ChoiceBox<String> sendRegionChoiceBox;
+    @FXML 
+    private TextField senderEmailField;
+    @FXML 
+    private TextField senderNameField;
+    @FXML 
+    private TextField senderNumberField;
+    @FXML
+    private TextField senderPostcodeField;
+    @FXML 
+    private TextField senderStreetField;
+    @FXML 
+    private ChoiceBox<String> sizeChoiceBox;
+    @FXML 
+    private Label timeLabel;
+    @FXML 
+    private TextField weightField;
+    @FXML 
+    private TextField widthField;
 
     private Package currentPackage;
     private final PackageServiceInterface service = new PackageService();
@@ -127,10 +142,14 @@ public class PackageManageWindowController implements Initializable {
 
         UnaryOperator<TextFormatter.Change> postcodeFilterAutoDash = change -> {
             String digitsOnly = change.getControlNewText().replaceAll("[^\\d]", "");
-            if (digitsOnly.length() > 5) return null;
+            if (digitsOnly.length() > 5) {
+                return null;
+            }
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < digitsOnly.length(); i++) {
-                if (i == 2) result.append('-');
+                if (i == 2) {
+                    result.append('-');
+                }
                 result.append(digitsOnly.charAt(i));
             }
             change.setText(result.toString());
@@ -142,7 +161,9 @@ public class PackageManageWindowController implements Initializable {
         recipientPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
 
         UnaryOperator<TextFormatter.Change> numberFilter = change -> {
-            if (change.getControlNewText().matches("\\d{0,9}")) return change;
+            if (change.getControlNewText().matches("\\d{0,9}")) {
+                return change;
+            }
             return null;
         };
         senderNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
@@ -150,8 +171,12 @@ public class PackageManageWindowController implements Initializable {
 
         UnaryOperator<TextFormatter.Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
-            if (newText.isEmpty()) return change;
-            if (newText.matches("\\d*([\\.]\\d*)?")) return change;
+            if (newText.isEmpty()) {
+                return change;
+            }
+            if (newText.matches("\\d*([\\.]\\d*)?")) {
+                return change;
+            }
             return null;
         };
         weightField.setTextFormatter(new TextFormatter<>(doubleFilter));
@@ -370,9 +395,7 @@ public class PackageManageWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-//            stage.setScene(new Scene(root));
             stage.getScene().setRoot(root);
-            //stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.package_;
 
-import com.google.zxing.WriterException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.FileSystems;
-import com.mycompany.projekt_io.datamodel.Package;
-import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder;
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
+
+import com.google.zxing.WriterException;
+import com.mycompany.projekt_io.datamodel.Package;
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
 import org.jsoup.nodes.Document;
@@ -83,7 +79,6 @@ public class LabelFactory {
         
             document.getElementById("region").html(p.getPackage_region().getRegion_name());
             document.getElementById("regionDest").html("<sub>PL/</sub>"+p.getPackage_dest_region().getRegion_name());
-//            document.getElementById("id").html("<sup>12345678911111666644</sup>"+String.format("%d", p.getPackage_id()));
             document.getElementById("nadawca").html(p.getPackage_sender().getSender_name()+
                                                     "<br>tel. "+p.getPackage_sender().getSender_phone()+
                                                     "<br>email: "+p.getPackage_sender().getSender_email()+
@@ -113,9 +108,7 @@ public class LabelFactory {
             
         } catch (IOException | WriterException ex) {
              return false;    
-        }
-        
+        } 
         return true;
     }
-    
 }

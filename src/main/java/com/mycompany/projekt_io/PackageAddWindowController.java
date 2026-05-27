@@ -1,46 +1,41 @@
 package com.mycompany.projekt_io;
 
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.Parent;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 import com.mycompany.projekt_io.core.database.PackageDAO;
-import com.mycompany.projekt_io.datamodel.Format;
-import com.mycompany.projekt_io.datamodel.Recipient;
-import com.mycompany.projekt_io.datamodel.Region;
-import com.mycompany.projekt_io.datamodel.Sender;
-import com.mycompany.projekt_io.datamodel.Rack;
-import com.mycompany.projekt_io.feature.package_.PackageService;
-import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
+import com.mycompany.projekt_io.feature.package_.PackageService;
 import com.mycompany.projekt_io.feature.package_.PackageServiceInterface;
 import com.mycompany.projekt_io.feature.package_.SenderTemplate;
 import com.mycompany.projekt_io.feature.package_.TemplateService;
 import com.mycompany.projekt_io.feature.package_.TemplateServiceInterface;
 import com.mycompany.projekt_io.feature.warehouse.SortingService;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
-import javafx.scene.control.ChoiceBox;
-import java.util.List;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import java.util.function.UnaryOperator;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextFormatter.Change;
-import javafx.scene.text.Text;
 
 /**
  * Kontroler okna dodawania nowej paczki do systemu magazynowego.
@@ -59,38 +54,58 @@ import javafx.scene.text.Text;
  */
 public class PackageAddWindowController implements Initializable {
 
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private Button homeButton, logOut, closeApp;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private Button addButton;
-    @FXML private Button addPacButton;
-    @FXML private Button saveTempButton;
-    @FXML private Button deleteButton;
-    @FXML private TextField weightField;
-    @FXML private TextField heightField;
-    @FXML private TextField widthField;
-    @FXML private TextField depthField;
-    @FXML private TextField senderNameField;
-    @FXML private TextField senderStreetField;
-    @FXML private TextField senderPostcodeField;
-    @FXML private TextField senderEmailField;
-    @FXML private TextField senderNumberField;
-    @FXML private TextField recipientNameField;
-    @FXML private TextField recipientStreetField;
-    @FXML private TextField recipientPostcodeField;
-    @FXML private TextField recipientEmailField;
-    @FXML private TextField recipientNumberField;
-    @FXML private Text codeText;
-    @FXML private Button loadTempButton;
-    @FXML private Text mailText;
-    @FXML private Text nameText;
-    @FXML private Text numberText;
-    @FXML private Text streetText;
-    @FXML private Text cityText;
-    @FXML private ChoiceBox<String> sendRegionChoiceBox;
-    @FXML private ChoiceBox<String> receiveRegionChoiceBox;
+    @FXML 
+    private Label timeLabel;
+    @FXML 
+    private Label dateLabel;
+    @FXML 
+    private Button logOut;
+    @FXML 
+    private Button closeApp;
+    @FXML 
+    private TextField weightField;
+    @FXML 
+    private TextField heightField;
+    @FXML 
+    private TextField widthField;
+    @FXML 
+    private TextField depthField;
+    @FXML 
+    private TextField senderNameField;
+    @FXML 
+    private TextField senderStreetField;
+    @FXML 
+    private TextField senderPostcodeField;
+    @FXML 
+    private TextField senderEmailField;
+    @FXML 
+    private TextField senderNumberField;
+    @FXML 
+    private TextField recipientNameField;
+    @FXML 
+    private TextField recipientStreetField;
+    @FXML
+    private TextField recipientPostcodeField;
+    @FXML 
+    private TextField recipientEmailField;
+    @FXML 
+    private TextField recipientNumberField;
+    @FXML 
+    private Text codeText;
+    @FXML 
+    private Text mailText;
+    @FXML 
+    private Text nameText;
+    @FXML 
+    private Text numberText;
+    @FXML 
+    private Text streetText;
+    @FXML 
+    private Text cityText;
+    @FXML 
+    private ChoiceBox<String> sendRegionChoiceBox;
+    @FXML 
+    private ChoiceBox<String> receiveRegionChoiceBox;
 
     private final TemplateServiceInterface templateService = new TemplateService();
 
@@ -146,10 +161,14 @@ public class PackageAddWindowController implements Initializable {
 
         UnaryOperator<Change> postcodeFilterAutoDash = change -> {
             String digitsOnly = change.getControlNewText().replaceAll("[^\\d]", "");
-            if (digitsOnly.length() > 5) return null;
+            if (digitsOnly.length() > 5) {
+                return null;
+            }
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < digitsOnly.length(); i++) {
-                if (i == 2) result.append('-');
+                if (i == 2) {
+                    result.append('-');
+                }
                 result.append(digitsOnly.charAt(i));
             }
             change.setText(result.toString());
@@ -161,7 +180,9 @@ public class PackageAddWindowController implements Initializable {
         recipientPostcodeField.setTextFormatter(new TextFormatter<>(postcodeFilterAutoDash));
 
         UnaryOperator<Change> numberFilter = change -> {
-            if (change.getControlNewText().matches("\\d{0,9}")) return change;
+            if (change.getControlNewText().matches("\\d{0,9}")) {
+                return change;
+            }
             return null;
         };
         senderNumberField.setTextFormatter(new TextFormatter<>(numberFilter));
@@ -169,8 +190,12 @@ public class PackageAddWindowController implements Initializable {
 
         UnaryOperator<Change> doubleFilter = change -> {
             String newText = change.getControlNewText();
-            if (newText.isEmpty()) return change;
-            if (newText.matches("\\d*([\\.]\\d*)?")) return change;
+            if (newText.isEmpty()) {
+                return change;
+            }
+            if (newText.matches("\\d*([\\.]\\d*)?")) {
+                return change;
+            }
             return null;
         };
         weightField.setTextFormatter(new TextFormatter<>(doubleFilter));
@@ -376,13 +401,13 @@ public class PackageAddWindowController implements Initializable {
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "Success", "Package has been added successfully.");
             handleDeleteButton();
+            
+            PackageDAO dao = new PackageDAO();
+            SortingService algorithm = new SortingService(dao);
+            algorithm.assignShelvesToPackages();
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to add package. Please check your data or database connection.");
         }
-
-        PackageDAO dao = new PackageDAO();
-        SortingService algorithm = new SortingService(dao);
-        algorithm.assignShelvesToPackages();
     }
 
     /**

@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.login;
+
+import java.sql.SQLException;
+
+import javafx.application.Platform;
 
 import com.mycompany.projekt_io.core.database.ConnectDatabasePackage;
 import com.mycompany.projekt_io.core.database.ConnectDatabaseUser;
-import javafx.application.Platform;
-import java.sql.SQLException;
 
 /**
  * Klasa narzędziowa odpowiedzialna za bezpieczne zamknięcie aplikacji.

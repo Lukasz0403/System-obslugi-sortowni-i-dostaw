@@ -1,58 +1,89 @@
 package com.mycompany.projekt_io;
 
+import java.io.IOException;
+import java.util.List;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
 import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
-import com.mycompany.projekt_io.feature.warehouse.SortingService;
-import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
-import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
 import com.mycompany.projekt_io.feature.warehouse.WarehouseService;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.*;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
-import java.util.List;
-import javafx.application.Platform;
-import javafx.scene.Cursor;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-
+/*
+ * @author Łukasz Motyka, Ida Wszoła
+ */
 public class WarehouseMainWindowController implements Initializable {
 
-    @FXML private Label timeLabel, dateLabel;
-    @FXML private Button homeButton, magButton, pacButton, addButton,logOut,closeApp;
-    @FXML private AnchorPane mainPane;
-    @FXML private VBox infoPanel;
-    @FXML private Label infoShelfId, infoPackageCount, infoLastPackage;
-    @FXML private Text totalPackages, busiestRack, emptyRack, warehouseOccupancy, topFormat;
-
+    @FXML 
+    private Label timeLabel;
+    @FXML 
+    private Label dateLabel;
+    @FXML 
+    private Button homeButton;
+    @FXML 
+    private Button magButton;
+    @FXML 
+    private Button pacButton;
+    @FXML
+    private Button addButton;
+    @FXML 
+    private Button logOut;
+    @FXML 
+    private Button closeApp;
+    @FXML 
+    private AnchorPane mainPane;
+    @FXML 
+    private VBox infoPanel;
+    @FXML 
+    private Label infoShelfId;
+    @FXML
+    private Label infoPackageCount;
+    @FXML 
+    private Label infoLastPackage;
+    @FXML 
+    private Text totalPackages;
+    @FXML
+    private Text busiestRack;
+    @FXML 
+    private Text emptyRack;
+    @FXML 
+    private Text warehouseOccupancy;
+    @FXML 
+    private Text topFormat;
+    
     // Regały 1-20
     @FXML private Rectangle rack1, rack2, rack3, rack4, rack5, rack6, rack7, rack8, rack9, rack10,
                             rack11, rack12, rack13, rack14, rack15, rack16, rack17, rack18, rack19, rack20;
-
-    @FXML private TableView<WarehouseSummary> warehouseTable;
-    @FXML private TableColumn<WarehouseSummary, String> colTotalPackages, colZone1, colZone2, colZone3, colZone4, colZone5, colEmptyShelves, colBusiestShelf;
-
+    @FXML 
+    private TableView<WarehouseSummary> warehouseTable;
+    @FXML 
+    private TableColumn<WarehouseSummary, String> colTotalPackages, colZone1, colZone2, colZone3, colZone4, colZone5, colEmptyShelves, colBusiestShelf;
     @FXML
     private StackedBarChart<String, Number> ZoneCapacity;
     
@@ -136,9 +167,6 @@ public class WarehouseMainWindowController implements Initializable {
             updateInfoPanelPosition(e.getSceneX(), e.getSceneY());
         });
 
-//        shelf.setOnMouseMoved(e -> updateInfoPanelPosition(e.getSceneX(), e.getSceneY()));
-//        shelf.setOnMouseExited(e -> infoPanel.setVisible(false));
-//        shelf.setOnMouseClicked(e -> openWarehouseInfo()); // Przejście do info o magazynie
           shelf.setOnMouseClicked(e -> openWarehouseInfo(rackId));
           shelf.setCursor(Cursor.HAND);
     }
@@ -212,7 +240,9 @@ public class WarehouseMainWindowController implements Initializable {
             controller.loadRackData(rackID, service);
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.getScene().setRoot(newRoot);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) { 
+            e.printStackTrace(); 
+        }
     }
 
     private void setupClock() {
@@ -297,7 +327,9 @@ public class WarehouseMainWindowController implements Initializable {
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
             stage.getScene().setRoot(root);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace(); 
+        }
     }
 
     public static class WarehouseSummary {
@@ -306,13 +338,29 @@ public class WarehouseMainWindowController implements Initializable {
             this.totalPackages = tp; this.zone1 = z1; this.zone2 = z2; this.zone3 = z3; 
             this.zone4 = z4; this.zone5 = z5; this.emptyShelves = es; this.busiestShelf = bs;
         }
-        public String getTotalPackages() { return totalPackages; }
-        public String getZone1() { return zone1; }
-        public String getZone2() { return zone2; }
-        public String getZone3() { return zone3; }
-        public String getZone4() { return zone4; }
-        public String getZone5() { return zone5; }
-        public String getEmptyShelves() { return emptyShelves; }
-        public String getBusiestShelf() { return busiestShelf; }
+        public String getTotalPackages() { 
+            return totalPackages;
+        }
+        public String getZone1() { 
+            return zone1; 
+        }
+        public String getZone2() { 
+            return zone2; 
+        }
+        public String getZone3() { 
+            return zone3; 
+        }
+        public String getZone4() { 
+            return zone4; 
+        }
+        public String getZone5() { 
+            return zone5; 
+        }
+        public String getEmptyShelves() {
+            return emptyShelves;
+        }
+        public String getBusiestShelf() { 
+            return busiestShelf; 
+        }
     }
 }

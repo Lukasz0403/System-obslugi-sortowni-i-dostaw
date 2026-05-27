@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.datamodel;
 
 /**
@@ -30,16 +26,24 @@ public class Permission {
     }
 
     /** @return unikalny identyfikator uprawnienia */
-    public int getPermission_id() { return permission_id; }
+    public int getPermission_id() {
+        return permission_id; 
+    }
 
     /** @return nazwa uprawnienia */
-    public String getName() { return name; }
+    public String getName() {
+        return name; 
+    }
 
     /** @param permission_id unikalny identyfikator uprawnienia */
-    public void setPermission_id(int permission_id) { this.permission_id = permission_id; }
+    public void setPermission_id(int permission_id) {
+        this.permission_id = permission_id;
+    }
 
     /** @param name nazwa uprawnienia */
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

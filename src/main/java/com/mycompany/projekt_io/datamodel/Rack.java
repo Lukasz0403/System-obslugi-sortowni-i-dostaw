@@ -1,4 +1,5 @@
 package com.mycompany.projekt_io.datamodel;
+
 /**
  * Model danych reprezentujący regał magazynowy.
  * <p>

@@ -1,39 +1,41 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.core.database.PackageDAO;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.cell.PropertyValueFactory;
-import com.mycompany.projekt_io.feature.package_.PackageTableService;
-import java.util.List;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.feature.login.AppCloser;
 import com.mycompany.projekt_io.feature.login.AppSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import com.mycompany.projekt_io.feature.package_.PackageTableService;
 
 /**
  * Kontroler okna tabeli paczek.
@@ -46,26 +48,40 @@ import javafx.scene.control.TextFormatter;
  */
 public class PackageTableWindowController implements Initializable {
 
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private Button homeButton;
-    @FXML private Button magButton;
-    @FXML private Button pacButton;
-    @FXML private Button userButton;
-    @FXML private Button manageButtonMain;
-    @FXML private Button addButton, logOut, closeApp;
-    @FXML private TableView<PackageTableService> packageTable;
-    @FXML private TableColumn<PackageTableService, Integer> idColumn;
-    @FXML private TableColumn<PackageTableService, String> shelfColumn;
-    @FXML private TableColumn<PackageTableService, String> sizeColumn;
-    @FXML private TableColumn<PackageTableService, Integer> widthColumn;
-    @FXML private TableColumn<PackageTableService, Integer> heightColumn;
-    @FXML private TableColumn<PackageTableService, Integer> depthColumn;
-    @FXML private TableColumn<PackageTableService, String> senregionColumn;
-    @FXML private TableColumn<PackageTableService, String> recregionColumn;
-    @FXML private TableColumn<PackageTableService, Double> weightColumn;
-    @FXML private TextField searchField;
-
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Button magButton;
+    @FXML
+    private Button manageButtonMain;
+    @FXML
+    private Button logOut;
+    @FXML
+    private Button closeApp;
+    @FXML
+    private TableView<PackageTableService> packageTable;
+    @FXML
+    private TableColumn<PackageTableService, Integer> idColumn;
+    @FXML
+    private TableColumn<PackageTableService, String> shelfColumn;
+    @FXML
+    private TableColumn<PackageTableService, String> sizeColumn;
+    @FXML
+    private TableColumn<PackageTableService, Integer> widthColumn;
+    @FXML
+    private TableColumn<PackageTableService, Integer> heightColumn;
+    @FXML
+    private TableColumn<PackageTableService, Integer> depthColumn;
+    @FXML
+    private TableColumn<PackageTableService, String> senregionColumn;
+    @FXML
+    private TableColumn<PackageTableService, String> recregionColumn;
+    @FXML
+    private TableColumn<PackageTableService, Double> weightColumn;
+    @FXML
+    private TextField searchField;
 
     private final PackageDAO dao = new PackageDAO();
     private PackageTableService selected;
@@ -119,39 +135,39 @@ public class PackageTableWindowController implements Initializable {
         });
 
         Timeline autoRefresh = new Timeline(
-                new KeyFrame(Duration.seconds(10), event -> {
-                    PackageTableService selectedItem = packageTable.getSelectionModel().getSelectedItem();
-                    int selectedId = (selectedItem != null) ? selectedItem.getId() : -1;
+            new KeyFrame(Duration.seconds(10), event -> {
+                PackageTableService selectedItem = packageTable.getSelectionModel().getSelectedItem();
+                int selectedId = (selectedItem != null) ? selectedItem.getId() : -1;
 
-                    List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
-                    Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
-                    for (TableColumn<PackageTableService, ?> col : sortOrder) {
-                        sortTypes.put(col, col.getSortType());
-                    }
+                List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
+                Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
+                for (TableColumn<PackageTableService, ?> col : sortOrder) {
+                    sortTypes.put(col, col.getSortType());
+                }
 
-                    List<Package> updated = dao.getPackages();
-                    List<PackageTableService> updatedData = updated.stream()
-                            .map(PackageTableService::new)
-                            .collect(Collectors.toList());
-                    packageTable.getItems().setAll(updatedData);
+                List<Package> updated = dao.getPackages();
+                List<PackageTableService> updatedData = updated.stream()
+                        .map(PackageTableService::new)
+                        .collect(Collectors.toList());
+                packageTable.getItems().setAll(updatedData);
 
-                    packageTable.getSortOrder().clear();
-                    for (TableColumn<PackageTableService, ?> col : sortOrder) {
-                        col.setSortType(sortTypes.get(col));
-                    }
-                    packageTable.getSortOrder().setAll(sortOrder);
-                    packageTable.sort();
+                packageTable.getSortOrder().clear();
+                for (TableColumn<PackageTableService, ?> col : sortOrder) {
+                    col.setSortType(sortTypes.get(col));
+                }
+                packageTable.getSortOrder().setAll(sortOrder);
+                packageTable.sort();
 
-                    if (selectedId != -1) {
-                        updatedData.stream()
-                                .filter(p -> p.getId() == selectedId)
-                                .findFirst()
-                                .ifPresent(p -> {
-                                    packageTable.getSelectionModel().select(p);
-                                    packageTable.scrollTo(p);
-                                });
-                    }
-                })
+                if (selectedId != -1) {
+                    updatedData.stream()
+                        .filter(p -> p.getId() == selectedId)
+                        .findFirst()
+                        .ifPresent(p -> {
+                            packageTable.getSelectionModel().select(p);
+                            packageTable.scrollTo(p);
+                        });
+                }
+            })
         );
         autoRefresh.setCycleCount(Timeline.INDEFINITE);
         autoRefresh.play();

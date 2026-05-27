@@ -53,70 +53,114 @@ public class Package {
     }
 
     /** @return unikalny identyfikator paczki */
-    public int getPackage_id() { return package_id; }
+    public int getPackage_id() {
+        return package_id; 
+    }
 
     /** @return nadawca paczki */
-    public Sender getPackage_sender() { return package_sender; }
+    public Sender getPackage_sender() {
+        return package_sender; 
+    }
 
     /** @return odbiorca paczki */
-    public Recipient getPackage_recipient() { return package_recipient; }
+    public Recipient getPackage_recipient() {
+        return package_recipient; 
+    }
 
     /** @return region kurierski nadania */
-    public Region getPackage_region() { return package_region; }
+    public Region getPackage_region() {
+        return package_region; 
+    }
 
     /** @return region kurierski docelowy */
-    public Region getPackage_dest_region() { return package_dest_region; }
+    public Region getPackage_dest_region() {
+        return package_dest_region; 
+    }
 
     /** @return gabaryt paczki */
-    public Format getPackage_format() { return package_format; }
+    public Format getPackage_format() {
+        return package_format; 
+    }
 
     /** @return regał przypisany do paczki lub {@code null} jeśli brak */
-    public Rack getPackage_rack() { return package_rack; }
+    public Rack getPackage_rack() { 
+        return package_rack;
+    }
 
     /** @return rzeczywista szerokość paczki w centymetrach */
-    public int getWidth() { return width; }
+    public int getWidth() {
+        return width; 
+    }
 
     /** @return rzeczywista wysokość paczki w centymetrach */
-    public int getHeight() { return height; }
+    public int getHeight() {
+        return height; 
+    }
 
     /** @return rzeczywista głębokość paczki w centymetrach */
-    public int getDepth() { return depth; }
+    public int getDepth() { 
+        return depth; 
+    }
 
     /** @return rzeczywista waga paczki w kilogramach */
-    public int getWeight() { return weight; }
+    public int getWeight() { 
+        return weight; 
+    }
 
     /** @param package_id unikalny identyfikator paczki */
-    public void setPackage_id(int package_id) { this.package_id = package_id; }
+    public void setPackage_id(int package_id) {
+        this.package_id = package_id; 
+    }
 
     /** @param package_sender nadawca paczki */
-    public void setPackage_sender(Sender package_sender) { this.package_sender = package_sender; }
+    public void setPackage_sender(Sender package_sender) { 
+        this.package_sender = package_sender; 
+    }
 
     /** @param package_recipient odbiorca paczki */
-    public void setPackage_recipient(Recipient package_recipient) { this.package_recipient = package_recipient; }
+    public void setPackage_recipient(Recipient package_recipient) { 
+        this.package_recipient = package_recipient;
+    }
 
     /** @param package_region region kurierski nadania */
-    public void setPackage_region(Region package_region) { this.package_region = package_region; }
+    public void setPackage_region(Region package_region) {
+        this.package_region = package_region; 
+    }
 
     /** @param package_dest_region region kurierski docelowy */
-    public void setPackage_dest_region(Region package_dest_region) { this.package_dest_region = package_dest_region; }
+    public void setPackage_dest_region(Region package_dest_region) { 
+        this.package_dest_region = package_dest_region;
+    }
 
     /** @param package_format gabaryt paczki */
-    public void setPackage_format(Format package_format) { this.package_format = package_format; }
+    public void setPackage_format(Format package_format) {
+        this.package_format = package_format; 
+    }
 
     /** @param package_rack regał przypisany do paczki; może być {@code null} */
-    public void setPackage_rack(Rack package_rack) { this.package_rack = package_rack; }
+    public void setPackage_rack(Rack package_rack) { 
+        this.package_rack = package_rack;
+    }
 
     /** @param width rzeczywista szerokość paczki w centymetrach */
-    public void setWidth(int width) { this.width = width; }
+    public void setWidth(int width) {
+        this.width = width; 
+    }
 
     /** @param height rzeczywista wysokość paczki w centymetrach */
-    public void setHeight(int height) { this.height = height; }
+    public void setHeight(int height) {
+        this.height = height; 
+    }
 
     /** @param depth rzeczywista głębokość paczki w centymetrach */
-    public void setDepth(int depth) { this.depth = depth; }
+    public void setDepth(int depth) {
+        this.depth = depth; 
+    }
 
     /** @param weight rzeczywista waga paczki w kilogramach */
-    public void setWeight(int weight) { this.weight = weight; }
+    public void setWeight(int weight) { 
+        this.weight = weight; 
+    }
 
     @Override
     public String toString() {

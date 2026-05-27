@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.users;
 
 import com.mycompany.projekt_io.core.database.UserDAO;
@@ -77,13 +73,11 @@ public class UserManageService {
         if("".equals(this.pass) || this.pass == null) {
             return false;
         } else {
-            
             this.hashedPass = BCrypt.hashpw(this.pass, BCrypt.gensalt(12));
             
             return true;
         }
     }
-    
     
     public boolean addUser() {
         

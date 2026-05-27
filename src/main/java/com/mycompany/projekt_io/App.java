@@ -1,17 +1,13 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.core.database.PackageDAO;
-import com.mycompany.projekt_io.core.database.UserDAO;
-import com.mycompany.projekt_io.datamodel.Package;
-import com.mycompany.projekt_io.datamodel.User;
-import com.mycompany.projekt_io.feature.warehouse.SortingService;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
-import java.util.List;
+
 
 /**
  * JavaFX App
@@ -38,9 +34,7 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
-           
-        launch();
-           
+    public static void main(String[] args) {       
+        launch();           
     }
 }

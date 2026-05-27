@@ -1,49 +1,41 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.feature.login.AppCloser;
-import com.mycompany.projekt_io.feature.login.AppSession;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.io.IOException;
-import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
 
 public class MainWindowController implements Initializable {
-
-    
+   
     @FXML
     private Label timeLabel;
-
     @FXML
     private Label dateLabel;
-
-    @FXML
-    private Button homeButton;
-
     @FXML
     private Button magButton;
-
     @FXML
-    private Button pacButton;
-
+    private Button logOut;
     @FXML
-    private Button addButton, logOut, closeApp;
-    ;
-
+    private Button closeApp;
+    
     // Pola Dashboardu
     @FXML
     private Label userNameLabel;
@@ -54,8 +46,7 @@ public class MainWindowController implements Initializable {
     @FXML
     private Label sessionStartLabel;
     
-    
-        @Override
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         // aktualizacja czasu i daty
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -71,21 +62,19 @@ public class MainWindowController implements Initializable {
 
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        
-        
+            
             // Inicjalizacja danych dashboardu
-            if (AppSession.isLoggedIn()) {
-                userNameLabel.setText(AppSession.getCurrentUser().getLogin());
-                userRoleLabel.setText(AppSession.getCurrentUser().getPermission().getName());
-                userIdLabel.setText("#" + AppSession.getCurrentUser().getLogin());
-                sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            } else {
-                userNameLabel.setText("Unknown");
-                userRoleLabel.setText("Unknown");
-                userIdLabel.setText("-");
-                sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-            }
-        
+        if (AppSession.isLoggedIn()) {
+            userNameLabel.setText(AppSession.getCurrentUser().getLogin());
+            userRoleLabel.setText(AppSession.getCurrentUser().getPermission().getName());
+            userIdLabel.setText("#" + AppSession.getCurrentUser().getLogin());
+            sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        } else {
+            userNameLabel.setText("Unknown");
+            userRoleLabel.setText("Unknown");
+            userIdLabel.setText("-");
+            sessionStartLabel.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        }
         
         //rozmiar min okna
         Platform.runLater(() -> {
@@ -111,27 +100,20 @@ public class MainWindowController implements Initializable {
                 }
             });
         });
-        
     }
     
-    
-   
-
     @FXML
     private void handleHomeButton() {
         loadWindow("/com/mycompany/projekt_io/mainWindow.fxml");
     }
-    
     @FXML
     private void handleMagButton() {
         loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml");
     }
-
     @FXML
     private void handlePacButton() {
         loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml");
     }
-
     @FXML
     private void handleUserButton() {
         loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml");

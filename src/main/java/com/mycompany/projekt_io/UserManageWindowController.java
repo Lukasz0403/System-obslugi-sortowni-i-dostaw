@@ -1,17 +1,13 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.core.database.UserDAO;
-import com.mycompany.projekt_io.core.database.UserDAOInterface;
-import com.mycompany.projekt_io.datamodel.User;
-import com.mycompany.projekt_io.feature.login.AppCloser;
-import com.mycompany.projekt_io.feature.login.AppSession;
-import com.mycompany.projekt_io.feature.users.UserManageService;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -32,13 +28,26 @@ import javafx.util.Duration;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+
+import com.mycompany.projekt_io.core.database.UserDAO;
+import com.mycompany.projekt_io.core.database.UserDAOInterface;
+import com.mycompany.projekt_io.datamodel.User;
+import com.mycompany.projekt_io.feature.login.AppCloser;
+import com.mycompany.projekt_io.feature.login.AppSession;
+import com.mycompany.projekt_io.feature.users.UserManageService;
+
 public class UserManageWindowController implements Initializable {
 
-    @FXML private Label timeLabel;
-    @FXML private Label dateLabel;
-    @FXML private VBox userListContainer;
-    @FXML private Button logOut,closeApp;
-     @FXML private Button addUserButton;
+    @FXML 
+    private Label timeLabel;
+    @FXML 
+    private Label dateLabel;
+    @FXML 
+    private VBox userListContainer;
+    @FXML 
+    private Button logOut,closeApp;
+    @FXML 
+    private Button addUserButton;
 
     private UserDAOInterface userDAO = new UserDAO();
 
@@ -63,7 +72,7 @@ public class UserManageWindowController implements Initializable {
             WindowConstraints.applyMinSize(stage);
         });
         
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
             addUserButton.setVisible(false);
         }
 
@@ -92,18 +101,18 @@ public class UserManageWindowController implements Initializable {
         List<User> users = userDAO.getUsers();
         userListContainer.getChildren().clear();
         boolean alternate = false;
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
             for (User user : users) {
-                if(user.getPermission().getPermission_id() != 1){
+                if (user.getPermission().getPermission_id() != 1) {
                     continue;
                 }
                 userListContainer.getChildren().add(
                 buildUserRow(user.getUser_id(), user.getLogin(), user.getPermission().getName(), alternate));
                 alternate = !alternate;
             }
-        } else if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
+        } else if (AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
             for (User user : users) {
-                if(user.getPermission().getPermission_id() == 2){
+                if (user.getPermission().getPermission_id() == 2) {
                     continue;
                 }
                 userListContainer.getChildren().add(
@@ -118,7 +127,6 @@ public class UserManageWindowController implements Initializable {
                 alternate = !alternate;
             }
         }
-
     }
 
     private HBox buildUserRow(int id, String login, String role, boolean alternate) {
@@ -138,14 +146,22 @@ public class UserManageWindowController implements Initializable {
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         editBtn.setOnAction(e -> handleEditUser(id, login));
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) editBtn.setVisible(false);
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) editBtn.setVisible(false);
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+            editBtn.setVisible(false);
+        }
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) {
+            editBtn.setVisible(false);
+        }
 
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 10px;");
         deleteBtn.setOnAction(e -> handleDeleteUser(id, login));
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 1) deleteBtn.setVisible(false);
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) deleteBtn.setVisible(false);
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 1) {
+            deleteBtn.setVisible(false);
+        }
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 3 && role.equals("kierownik")) { 
+            deleteBtn.setVisible(false);
+        }
 
         HBox actions = new HBox(5, editBtn, deleteBtn);
         actions.setAlignment(Pos.CENTER_LEFT);
@@ -154,7 +170,7 @@ public class UserManageWindowController implements Initializable {
         return row;
     }
     
-        @FXML
+    @FXML
     private void handleAddUser() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/addUserDialog.fxml"));
@@ -220,17 +236,28 @@ public class UserManageWindowController implements Initializable {
         });
     }
 
-    @FXML private void handleHomeButton() { loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"); }
-    @FXML private void handleMagButton() { loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"); }
-    @FXML private void handlePacButton() { loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"); }
-    @FXML private void handleUserButton() { loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"); }
+    @FXML 
+    private void handleHomeButton() { 
+        loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"); 
+    }
+    @FXML 
+    private void handleMagButton() { 
+        loadWindow("/com/mycompany/projekt_io/werehouseMainWindow.fxml"); 
+    }
+    @FXML 
+    private void handlePacButton() { 
+        loadWindow("/com/mycompany/projekt_io/packageTableWindow.fxml"); 
+    }
+    @FXML 
+    private void handleUserButton() { 
+        loadWindow("/com/mycompany/projekt_io/userManageWindow.fxml"); 
+    }
 
     private void loadWindow(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-//            stage.setScene(new Scene(root));
             stage.getScene().setRoot(root);
         } catch (IOException e) { e.printStackTrace(); }
     }

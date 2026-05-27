@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.login;
 
 import com.mycompany.projekt_io.datamodel.User;
@@ -53,5 +49,4 @@ public class AuthorizationService {
     public boolean hasPermission(User user, String requiredPermission) {
         return user != null && user.getPermission().getName().equals(requiredPermission);
     }
-    
 }

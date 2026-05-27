@@ -1,8 +1,9 @@
 package com.mycompany.projekt_io.core.database;
 
+import java.util.List;
+
 import com.mycompany.projekt_io.datamodel.Permission;
 import com.mycompany.projekt_io.datamodel.User;
-import java.util.List;
 
 /**
  * Interfejs definiujący kontrakt dla operacji na danych użytkowników systemu.

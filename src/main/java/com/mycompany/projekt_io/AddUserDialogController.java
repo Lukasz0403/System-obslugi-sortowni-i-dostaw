@@ -1,28 +1,24 @@
 package com.mycompany.projekt_io;
 
-
-import com.mycompany.projekt_io.datamodel.Permission;
-import com.mycompany.projekt_io.feature.users.UserManageService;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import com.mycompany.projekt_io.core.database.UserDAO;
-import com.mycompany.projekt_io.core.database.UserDAOInterface;
-import com.mycompany.projekt_io.feature.login.AppSession;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
-import javafx.scene.control.Alert;
 
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import com.mycompany.projekt_io.core.database.UserDAO;
+import com.mycompany.projekt_io.core.database.UserDAOInterface;
+import com.mycompany.projekt_io.datamodel.Permission;
+import com.mycompany.projekt_io.feature.login.AppSession;
+import com.mycompany.projekt_io.feature.users.UserManageService;
 
 /**
  * Kontroler okna dialogowego dodawania nowego użytkownika systemu.
@@ -40,10 +36,14 @@ import javafx.scene.control.Alert;
  */
 public class AddUserDialogController implements Initializable {
 
-    @FXML private TextField loginField;
-    @FXML private PasswordField passwordField;
-    @FXML private ChoiceBox<Permission> permissionChoiceBox;
-    @FXML private Label errorLabel;
+    @FXML 
+    private TextField loginField;
+    @FXML 
+    private PasswordField passwordField;
+    @FXML 
+    private ChoiceBox<Permission> permissionChoiceBox;
+    @FXML 
+    private Label errorLabel;
 
     private UserDAOInterface userDAO = new UserDAO();
     private Runnable onUserAdded;
@@ -81,7 +81,7 @@ public class AddUserDialogController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         List<Permission> permissions = new ArrayList<>();
-        if(AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
+        if (AppSession.getCurrentUser().getPermission().getPermission_id() == 3) {
             permissions.add(userDAO.getPermissions().get(0));
         } else {
             permissions = userDAO.getPermissions();
@@ -122,8 +122,8 @@ public class AddUserDialogController implements Initializable {
             
             UserManageService u = new UserManageService(login, password, selected);
             
-            if(!u.addUser()) {
-                errorLabel.setText("Error adding user..");
+            if (!u.addUser()) {
+                errorLabel.setText("Error adding user.");
             } else {
                 Alert confirm = new Alert(Alert.AlertType.INFORMATION);
                 confirm.setTitle("Add User");
@@ -135,7 +135,6 @@ public class AddUserDialogController implements Initializable {
         }
     }
     
-
     @FXML
     private void handleCancel() {
         closeDialog();

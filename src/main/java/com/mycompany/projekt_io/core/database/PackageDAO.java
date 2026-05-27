@@ -1,8 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.core.database;
+
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Package;
@@ -11,13 +16,6 @@ import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Zone;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Implementacja metod DAO dla bazy danych z paczkami.
@@ -32,7 +30,6 @@ import java.util.List;
  */
 public class PackageDAO implements PackageDAOInterface {
 
-    
     /**
      * Pobiera listę wszystkich paczek z bazy danych wraz z pełnymi danymi
      * powiązanych obiektów.
@@ -73,8 +70,6 @@ public class PackageDAO implements PackageDAOInterface {
             
             ResultSet rs = s.executeQuery(sql);
             
-
-            
             while (rs.next()) {
                  
                 Sender sender = new Sender(rs.getInt("sender_id"), 
@@ -104,7 +99,7 @@ public class PackageDAO implements PackageDAOInterface {
                                             rs.getInt("max_weight"),
                                             rs.getInt("slot_coverage"));
 
-                //Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   
+                //Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone_id")));   ???
                 
                 Rack rack = null;
 
@@ -119,10 +114,7 @@ public class PackageDAO implements PackageDAOInterface {
                 rs.getInt("height"),  
                 rs.getInt("depth"),   
                 rs.getInt("weight") );
-                
-                
-                 
-                 
+                                 
                 packages.add(pack);              
              }
             
@@ -132,7 +124,6 @@ public class PackageDAO implements PackageDAOInterface {
         return packages;
     }
 
-    
     /**
      * Pobiera pojedynczą paczkę z bazy danych na podstawie jej identyfikatora.
      * <p>
@@ -149,8 +140,7 @@ public class PackageDAO implements PackageDAOInterface {
      */
     @Override
     public Package getPackage(int id) {
-        
-        
+         
         Package pack = null;
         
         try {
@@ -210,8 +200,7 @@ public class PackageDAO implements PackageDAOInterface {
                         rs.getInt("depth"), 
                         rs.getInt("weight"));   
             }     
-        
-            
+          
         } catch (SQLException ex) {
         }
         
@@ -242,8 +231,6 @@ public class PackageDAO implements PackageDAOInterface {
             Statement s = conn.createStatement();
             
             ResultSet rs = s.executeQuery(sql);
-            
-
             
             while (rs.next()) {
 
@@ -288,8 +275,6 @@ public class PackageDAO implements PackageDAOInterface {
             
             ResultSet rs = s.executeQuery(sql);
             
-
-            
             while (rs.next()) {
 
                 Sender sender = new Sender(rs.getInt("sender_id"), 
@@ -333,9 +318,7 @@ public class PackageDAO implements PackageDAOInterface {
             Statement s = conn.createStatement();
             
             ResultSet rs = s.executeQuery(sql);
-            
 
-            
             while (rs.next()) {
 
                 Recipient recipient = new Recipient(rs.getInt("recipient_id"), 
@@ -355,7 +338,6 @@ public class PackageDAO implements PackageDAOInterface {
         
         return recipients;
     }
-
     
     /**
      * Pobiera listę wszystkich regionów kurierskich z bazy danych.
@@ -380,9 +362,7 @@ public class PackageDAO implements PackageDAOInterface {
             Statement s = conn.createStatement();
             
             ResultSet rs = s.executeQuery(sql);
-            
-
-            
+                  
             while (rs.next()) {
 
                 Region region = new Region(rs.getInt("region_id"), rs.getString("region_name"));
@@ -396,7 +376,6 @@ public class PackageDAO implements PackageDAOInterface {
         
         return regions;
     }
-
     
     /**
      * Pobiera listę wszystkich regałów magazynowych z bazy danych.
@@ -416,19 +395,15 @@ public class PackageDAO implements PackageDAOInterface {
             
             Connection conn = ConnectDatabasePackage.getConnection();
             
-            String sql = "SELECT * FROM racks";
-                    
+            String sql = "SELECT * FROM racks";                 
             
             Statement s = conn.createStatement();
             
             ResultSet rs = s.executeQuery(sql);
-            
-
-            
+           
             while (rs.next()) {
 
-                Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone")));   
-                 
+                Rack rack = new Rack(rs.getInt("rack_id"), new Zone(rs.getInt("zone")));       
                  
                 shelves.add(rack);              
              }
@@ -439,7 +414,6 @@ public class PackageDAO implements PackageDAOInterface {
         return shelves;
     }
 
-    
     /**
      * Pobiera listę wszystkich stref magazynowych z bazy danych.
      *
@@ -463,13 +437,10 @@ public class PackageDAO implements PackageDAOInterface {
             Statement s = conn.createStatement();
             
             ResultSet rs = s.executeQuery(sql);
-            
-
-            
+              
             while (rs.next()) {
 
                 Zone zone = new Zone(rs.getInt("zone_id"));   
-                 
                  
                 zones.add(zone);              
              }
@@ -479,9 +450,7 @@ public class PackageDAO implements PackageDAOInterface {
         
         return zones;
     }
-
-
-    
+ 
     /**
      * Dodaje nową paczkę do bazy danych.
      * <p>
@@ -498,8 +467,8 @@ public class PackageDAO implements PackageDAOInterface {
      * @auhtor Radosław Kruczek
      */
     @Override
-public Boolean addPackage(Package p) {
-    String sql = "INSERT INTO packages("
+    public Boolean addPackage(Package p) {
+        String sql = "INSERT INTO packages("
             + "package_sender, "
             + "package_recipient, "
             + "package_region, "
@@ -513,37 +482,36 @@ public Boolean addPackage(Package p) {
             + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     try (Connection conn = ConnectDatabasePackage.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-
-       
-        ps.setInt(1, p.getPackage_sender().getSender_id());
-        ps.setInt(2, p.getPackage_recipient().getRecipient_id());
-        ps.setInt(3, p.getPackage_region().getRegion_id());
-        ps.setInt(4, p.getPackage_dest_region().getRegion_id());
-        ps.setString(5, p.getPackage_format().getFormat_id());
-
-       
-        if (p.getPackage_rack() != null) {
-            ps.setInt(6, p.getPackage_rack().getRack_id());
-        } else {
-            ps.setNull(6, java.sql.Types.INTEGER);
-        }
-
+        PreparedStatement ps = conn.prepareStatement(sql)) {
         
-        ps.setInt(7, p.getWidth());
-        ps.setInt(8, p.getHeight());
-        ps.setInt(9, p.getDepth());
-        ps.setInt(10, p.getWeight());
+            ps.setInt(1, p.getPackage_sender().getSender_id());
+            ps.setInt(2, p.getPackage_recipient().getRecipient_id());
+            ps.setInt(3, p.getPackage_region().getRegion_id());
+            ps.setInt(4, p.getPackage_dest_region().getRegion_id());
+            ps.setString(5, p.getPackage_format().getFormat_id());
 
-        int rows = ps.executeUpdate();
 
-        return rows > 0;
+            if (p.getPackage_rack() != null) {
+                ps.setInt(6, p.getPackage_rack().getRack_id());
+            } else {
+                ps.setNull(6, java.sql.Types.INTEGER);
+            }
 
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        return false;
+
+            ps.setInt(7, p.getWidth());
+            ps.setInt(8, p.getHeight());
+            ps.setInt(9, p.getDepth());
+            ps.setInt(10, p.getWeight());
+
+            int rows = ps.executeUpdate();
+
+            return rows > 0;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
-}
 
     /**
      * Aktualizuje dane istniejącej paczki w bazie danych.
@@ -721,7 +689,6 @@ public Boolean addPackage(Package p) {
         return count;
     }
 
-
     /**
      * Zwraca identyfikator ostatnio dodanej paczki na wskazanym regale.
      * <p>
@@ -751,7 +718,6 @@ public Boolean addPackage(Package p) {
         return id;
     }
 
-
     /**
      * Zwraca łączną liczbę wszystkich paczek w systemie magazynowym.
      *
@@ -768,12 +734,13 @@ public Boolean addPackage(Package p) {
             String sql = "SELECT COUNT(*) FROM packages";
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery(sql);
-            if (rs.next()) count = rs.getInt(1);
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
         } catch (SQLException ex) {
         }
         return count;
     }
-
 
     /**
      * Zwraca liczbę paczek przypisanych do regałów w danej strefie magazynowej.
@@ -801,7 +768,6 @@ public Boolean addPackage(Package p) {
         }
         return count;
     }
-
 
     /**
      * Zwraca identyfikator najbardziej obciążonego regału w magazynie.
@@ -933,5 +899,4 @@ public Boolean addPackage(Package p) {
             return false;
         }
     }
-
 }

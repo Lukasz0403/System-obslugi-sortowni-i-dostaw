@@ -36,40 +36,64 @@ public class Format {
     }
 
     /** @return identyfikator gabarytu ("A", "B" lub "C") */
-    public String getFormat_id() { return format_id; }
+    public String getFormat_id() { 
+        return format_id; 
+    }
 
     /** @return maksymalna szerokość paczki w centymetrach */
-    public int getMax_format_width() { return max_format_width; }
+    public int getMax_format_width() { 
+        return max_format_width; 
+    }
 
     /** @return maksymalna wysokość paczki w centymetrach */
-    public int getMax_format_height() { return max_format_height; }
+    public int getMax_format_height() {
+        return max_format_height; 
+    }
 
     /** @return maksymalna głębokość paczki w centymetrach */
-    public int getMax_format_depth() { return max_format_depth; }
+    public int getMax_format_depth() {
+        return max_format_depth; 
+    }
 
     /** @return maksymalna waga paczki w kilogramach */
-    public int getMax_wage() { return max_wage; }
+    public int getMax_wage() { 
+        return max_wage; 
+    }
 
     /** @return liczba slotów magazynowych zajmowanych przez paczkę */
-    public int getSlot_coverage() { return slot_coverage; }
+    public int getSlot_coverage() { 
+        return slot_coverage; 
+    }
 
     /** @param format_id identyfikator gabarytu */
-    public void setFormat_id(String format_id) { this.format_id = format_id; }
+    public void setFormat_id(String format_id) {
+        this.format_id = format_id; 
+    }
 
     /** @param max_format_width maksymalna szerokość w centymetrach */
-    public void setMax_format_width(int max_format_width) { this.max_format_width = max_format_width; }
+    public void setMax_format_width(int max_format_width) { 
+        this.max_format_width = max_format_width; 
+    }
 
     /** @param max_format_height maksymalna wysokość w centymetrach */
-    public void setMax_format_height(int max_format_height) { this.max_format_height = max_format_height; }
+    public void setMax_format_height(int max_format_height) { 
+        this.max_format_height = max_format_height; 
+    }
 
     /** @param max_format_depth maksymalna głębokość w centymetrach */
-    public void setMax_format_depth(int max_format_depth) { this.max_format_depth = max_format_depth; }
+    public void setMax_format_depth(int max_format_depth) { 
+        this.max_format_depth = max_format_depth; 
+    }
 
     /** @param max_wage maksymalna waga w kilogramach */
-    public void setMax_wage(int max_wage) { this.max_wage = max_wage; }
+    public void setMax_wage(int max_wage) {
+        this.max_wage = max_wage; 
+    }
 
     /** @param slot_coverage liczba zajmowanych slotów magazynowych */
-    public void setSlot_coverage(int slot_coverage) { this.slot_coverage = slot_coverage; }
+    public void setSlot_coverage(int slot_coverage) { 
+        this.slot_coverage = slot_coverage; 
+    }
 
     @Override
     public String toString() {

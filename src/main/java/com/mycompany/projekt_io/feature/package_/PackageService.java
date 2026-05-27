@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.package_;
+
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Package;
@@ -10,7 +7,6 @@ import com.mycompany.projekt_io.datamodel.Recipient;
 import com.mycompany.projekt_io.datamodel.Region;
 import com.mycompany.projekt_io.datamodel.Sender;
 import com.mycompany.projekt_io.datamodel.Rack;
-
 
 /**
  * Serwis odpowiedzialny za zarządzanie paczkami w systemie.
@@ -22,7 +18,6 @@ import com.mycompany.projekt_io.datamodel.Rack;
  * 
  * @author Mateusz Gojny
  */
-
 public class PackageService implements PackageServiceInterface {
 
     private final PackageDAO dao ;
@@ -71,7 +66,6 @@ public class PackageService implements PackageServiceInterface {
      * @return {@code true} jeśli paczka została pomyślnie dodana do bazy,
      * {@code false} w przypadku błędu
      */
-
     public boolean addPackage(
             String size,
             String sendRegionName,
@@ -235,7 +229,6 @@ public class PackageService implements PackageServiceInterface {
                 (int) depth, 
                 (int) weight
         );
-
         return dao.addPackage(pack);
     }
     
@@ -463,7 +456,6 @@ public class PackageService implements PackageServiceInterface {
         }
     }
     
-    
     /**
      * Automatycznie przypisuje gabaryt paczki na podstawie jej wymiarów.
      *
@@ -485,7 +477,6 @@ public class PackageService implements PackageServiceInterface {
         if (width <= 40 && height <= 40 && depth <= 60 && weight <= 20) {
             return "C";
         }
-
         return null; // za duża
     }
 }

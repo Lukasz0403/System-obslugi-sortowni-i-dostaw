@@ -1,17 +1,19 @@
 package com.mycompany.projekt_io;
 
-import com.mycompany.projekt_io.core.database.UserDAO;
-import com.mycompany.projekt_io.core.database.UserDAOInterface;
-import com.mycompany.projekt_io.datamodel.Permission;
-import com.mycompany.projekt_io.feature.users.UserManageService;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import com.mycompany.projekt_io.core.database.UserDAO;
+import com.mycompany.projekt_io.core.database.UserDAOInterface;
+import com.mycompany.projekt_io.datamodel.Permission;
+import com.mycompany.projekt_io.feature.users.UserManageService;
 
 /**
  * Kontroler okna dialogowego edycji danych istniejącego użytkownika.
@@ -24,19 +26,30 @@ import javafx.util.StringConverter;
  */
 public class EditUserDialogController implements Initializable {
 
-    @FXML private TextField loginField;
-    @FXML private PasswordField passwordField;
-    @FXML private CheckBox keepCurrentPasswordCheckbox; // Musi być w FXML!
-    @FXML private ChoiceBox<Permission> permissionChoiceBox;
-    @FXML private Label errorLabel;
+    @FXML 
+    private TextField loginField;
+    @FXML 
+    private PasswordField passwordField;
+    @FXML 
+    private CheckBox keepCurrentPasswordCheckbox; // Musi być w FXML!
+    @FXML 
+    private ChoiceBox<Permission> permissionChoiceBox;
+    @FXML 
+    private Label errorLabel;
 
-    private UserDAOInterface userDAO = new UserDAO();
+    private final  UserDAOInterface userDAO = new UserDAO();
     private int userId;
     private Runnable onUserUpdated;
 
-    public void setId(int id) { this.userId = id; }
-    public void setUser(String login) { loginField.setText(login); }
-    public void setOnUserUpdated(Runnable callback) { this.onUserUpdated = callback; }
+    public void setId(int id) {
+        this.userId = id; 
+    }
+    public void setUser(String login) {
+        loginField.setText(login);
+    }
+    public void setOnUserUpdated(Runnable callback) {
+        this.onUserUpdated = callback;
+    }
 
     /**
      * Inicjalizuje kontroler po załadowaniu widoku FXML.
@@ -56,7 +69,9 @@ public class EditUserDialogController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         List<Permission> permissions = userDAO.getPermissions();
         permissionChoiceBox.getItems().addAll(permissions);
-        if (!permissions.isEmpty()) permissionChoiceBox.setValue(permissions.get(0));
+        if (!permissions.isEmpty()) {
+            permissionChoiceBox.setValue(permissions.get(0));
+        }
 
         permissionChoiceBox.setConverter(new StringConverter<Permission>() {
             @Override public String toString(Permission p) { return p != null ? p.getName() : ""; }
@@ -75,7 +90,9 @@ public class EditUserDialogController implements Initializable {
     private void handleKeepPasswordAction() {
         boolean keep = keepCurrentPasswordCheckbox.isSelected();
         passwordField.setDisable(keep);
-        if (keep) passwordField.clear();
+        if (keep) {
+            passwordField.clear();
+        }
     }
 
     /**
@@ -97,10 +114,9 @@ public class EditUserDialogController implements Initializable {
         }
 
         // Jeśli zaznaczono "Keep password", wysyłamy cokolwiek (np. "OLD_PWD"), 
-        if(keepOld) {
+        if (keepOld) {
             u = new UserManageService(userId, login, null, selected);
         } else {
-            String passwordToSend = password;
             u = new UserManageService(userId, login, password, selected);
         } 
 
@@ -108,7 +124,9 @@ public class EditUserDialogController implements Initializable {
             boolean success = u.changeUser();
 
             if (success) {
-                if (onUserUpdated != null) onUserUpdated.run();
+                if (onUserUpdated != null) {
+                    onUserUpdated.run();
+                }
                 closeDialog();
             } else {
                 errorLabel.setText("SAVE ERROR (Check for duplicates)");
@@ -120,11 +138,13 @@ public class EditUserDialogController implements Initializable {
         }
     }
 
-    @FXML private void handleCancel() { closeDialog(); }
+    @FXML 
+    private void handleCancel() {
+        closeDialog();
+    }
 
     private void closeDialog() {
         Stage stage = (Stage) loginField.getScene().getWindow();
         stage.close();
     }
-   
 }

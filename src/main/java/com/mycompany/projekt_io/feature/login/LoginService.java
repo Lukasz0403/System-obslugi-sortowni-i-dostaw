@@ -1,7 +1,3 @@
-    /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.login;
 
 import com.mycompany.projekt_io.core.database.ConnectDatabaseUser;
@@ -68,13 +64,11 @@ public class LoginService {
         }
     }
     
-    
     public boolean isDatabaseAvailable() {
-    try {
-        return ConnectDatabaseUser.getConnection() != null;
-    } catch (Exception e) {
-        return false;
-    }
-}
-    
+        try {
+            return ConnectDatabaseUser.getConnection() != null;
+        } catch (Exception e) {
+            return false;
+        }
+    } 
 }

@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.core.database;
 
-import com.mycompany.projekt_io.datamodel.Format;
 import java.util.List;
+
+import com.mycompany.projekt_io.datamodel.Format;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.Rack;
 import com.mycompany.projekt_io.datamodel.Recipient;
@@ -46,5 +43,3 @@ public interface PackageDAOInterface {
     boolean updateRecipient(Recipient r);
     boolean deletePackage(int packageId);
 }
-
-

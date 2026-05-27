@@ -1,13 +1,14 @@
 package com.mycompany.projekt_io.feature.warehouse;
 
-import com.mycompany.projekt_io.core.database.PackageDAO;
-import com.mycompany.projekt_io.datamodel.Package;
-import com.mycompany.projekt_io.datamodel.Rack;
-import com.mycompany.projekt_io.datamodel.Region;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.mycompany.projekt_io.core.database.PackageDAO;
+import com.mycompany.projekt_io.datamodel.Package;
+import com.mycompany.projekt_io.datamodel.Rack;
+import com.mycompany.projekt_io.datamodel.Region;
 
 /**
  * Serwis odpowiedzialny za automatyczne przydzielanie regałów magazynowych do
@@ -30,11 +31,9 @@ import java.util.Map;
  * {@value #OVERLOAD_THRESHOLD} * 100% pojemności.
  * </p>
  *
- * @author Łukasz
+ * @author Łukasz Motyka
  */
 public class SortingService implements SortingServiceInterface {
-
-    private final PackageDAO packageDAO;
 
     /**
      * Maksymalna liczba slotów na jeden regał. Zmienna używana jest zarówno przez algorym sortujący,
@@ -51,12 +50,14 @@ public class SortingService implements SortingServiceInterface {
      * Próg zajętości strefy (0.0 - 1.0) po przekroczeniu którego wysyłane jest
      * powiadomienie.
      */
-    private static final double OVERLOAD_THRESHOLD = 0.9;
+    private static final double OVERLOAD_THRESHOLD = 0.9; 
+    
+    private final PackageDAO packageDAO;
 
-    private Map<Integer, Integer> regionToRackMapping = new HashMap<>();
-    private Map<Integer, Integer> rackOccupancyMap = new HashMap<>();
-    private List<Rack> mainRacks = new ArrayList<>();
-    private List<Rack> backupRacks = new ArrayList<>();
+    private final Map<Integer, Integer> regionToRackMapping = new HashMap<>();
+    private final Map<Integer, Integer> rackOccupancyMap = new HashMap<>();
+    private final List<Rack> mainRacks = new ArrayList<>();
+    private final List<Rack> backupRacks = new ArrayList<>();
     private final List<WarehouseObserver> observers = new ArrayList<>();
 
     /**
@@ -87,7 +88,6 @@ public class SortingService implements SortingServiceInterface {
         if (allRacks.isEmpty() || allRegions.isEmpty()) {
             return;
         }
-
         setupRacks(allRacks);
         calculateCurrentOccupancy(allPackages);
         mapRegionsToRacks(allRegions);
@@ -241,7 +241,6 @@ public class SortingService implements SortingServiceInterface {
                 return r;
             }
         }
-
         return null;
     }
 

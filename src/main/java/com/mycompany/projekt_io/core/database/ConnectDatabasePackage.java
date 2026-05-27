@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.core.database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,14 +19,11 @@ import java.sql.SQLException;
  */
 public final class ConnectDatabasePackage {
     
-    
     private static Connection conn = null;
 
     static {
         connect();
     }
-
-    
     
     /**
      * Nawiązuje połączenie z bazą danych i przechowuje je w statycznym polu.
@@ -45,15 +39,13 @@ public final class ConnectDatabasePackage {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/package_storage","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/package_storage", "root", "1234");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
     }
-
-    
-    
+ 
     /**
      * Zwraca aktywne połączenie z bazą danych.
      * <p>

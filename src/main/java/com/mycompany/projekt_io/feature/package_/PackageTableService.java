@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.projekt_io.feature.package_;
+
 import com.mycompany.projekt_io.datamodel.Package;
 
 /**
@@ -26,8 +23,7 @@ public class PackageTableService {
     private double weight;
     private int width;   
     private int height;  
-    private int depth; 
-
+    private int depth;
     
     /**
      * Tworzy obiekt wiersza tabeli na podstawie pełnego obiektu paczki.
@@ -141,9 +137,5 @@ public class PackageTableService {
      */
     public int getDepth() {
         return depth;
-    }
-    
-    
-    
-        
+    }       
 }

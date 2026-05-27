@@ -1,25 +1,26 @@
 package com.mycompany.projekt_io.feature.warehouse;
 
-import com.mycompany.projekt_io.core.database.PackageDAO;
-import com.mycompany.projekt_io.datamodel.Package;
-import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.mycompany.projekt_io.feature.warehouse.SortingService.MAX_RACK_CAPACITY;
+import com.mycompany.projekt_io.core.database.PackageDAO;
+import com.mycompany.projekt_io.datamodel.Package;
+
 /**
  *
- * @author Łukasz
+ * @author Łukasz Motyka
  */
 public class WarehouseService {
-
-    private final PackageDAO packageDAO;
 
     public WarehouseService(PackageDAO packageDAO) {
         this.packageDAO = packageDAO;
     }
-
+    
+    private final PackageDAO packageDAO;
+    
     /**
      * Przygotowuje dane do wykresu kołowego dla konkretnego regału.
      * Zwraca mapę, gdzie kluczem jest etykieta (np. "Occupied"), a wartością liczba slotów.
@@ -35,8 +36,7 @@ public class WarehouseService {
             }
         }
 
-         availableSlots = MAX_RACK_CAPACITY - occupiedSlots; 
-
+        availableSlots = MAX_RACK_CAPACITY - occupiedSlots;
         Map<String, Integer> chartData = new HashMap<>();
         chartData.put("Occupied", occupiedSlots);
         chartData.put("Available", availableSlots);
@@ -53,7 +53,6 @@ public class WarehouseService {
 
         for (int i = 0; i < allPackages.size(); i++) {
             Package p = allPackages.get(i);
-            
             if (p.getPackage_rack() != null && p.getPackage_rack().getRack_id() == rackId) {
                 rackPackages.add(p);
             }

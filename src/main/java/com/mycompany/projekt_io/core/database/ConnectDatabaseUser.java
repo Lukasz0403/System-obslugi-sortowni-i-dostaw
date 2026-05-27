@@ -1,9 +1,8 @@
 package com.mycompany.projekt_io.core.database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
-
 
 /**
  * Klasa odpowiedzialna za zarządzanie połączeniem z bazą danych MySQL systemu
@@ -28,7 +27,6 @@ public final class ConnectDatabaseUser {
         connect();
     }
 
-    
     /**
      * Nawiązuje połączenie z bazą danych użytkowników i przechowuje je w
      * statycznym polu.
@@ -44,14 +42,13 @@ public final class ConnectDatabaseUser {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             //conn = DriverManager.getConnection("jdbc:mysql://192.168.0.73/login_credentials","root","1234");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/login_credentials", "root", "1234");
             conn.setAutoCommit(true);
         } catch (ClassNotFoundException | SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    
     /**
      * Zwraca aktywne połączenie z bazą danych użytkowników.
      * <p>
