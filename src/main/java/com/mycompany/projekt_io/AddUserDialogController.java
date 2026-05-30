@@ -118,20 +118,32 @@ public class AddUserDialogController implements Initializable {
             errorLabel.setText("All fields are required.");
             errorLabel.setVisible(true);
             return;
+        }
+
+        // Sprawdzenie czy login jest już zajęty
+        boolean loginExists = userDAO.getUsers().stream()
+                .anyMatch(u -> u.getLogin().equalsIgnoreCase(login));
+
+        if (loginExists) {
+            errorLabel.setText("User with this login already exists.");
+            errorLabel.setVisible(true);
+            return;
+        }
+
+        UserManageService u = new UserManageService(login, password, selected);
+
+        if (!u.addUser()) {
+            errorLabel.setText("Error adding user.");
+            errorLabel.setVisible(true);
         } else {
-            
-            UserManageService u = new UserManageService(login, password, selected);
-            
-            if (!u.addUser()) {
-                errorLabel.setText("Error adding user.");
-            } else {
-                Alert confirm = new Alert(Alert.AlertType.INFORMATION);
-                confirm.setTitle("Add User");
-                confirm.setHeaderText("New user has been added: " + login + ".");
-                confirm.showAndWait();
-                if (onUserAdded != null) onUserAdded.run();
-                closeDialog();
+            Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+            confirm.setTitle("Add User");
+            confirm.setHeaderText("New user has been added: " + login + ".");
+            confirm.showAndWait();
+            if (onUserAdded != null) {
+                onUserAdded.run();
             }
+            closeDialog();
         }
     }
     

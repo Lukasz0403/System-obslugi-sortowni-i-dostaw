@@ -139,21 +139,27 @@ public class PackageTableWindowController implements Initializable {
         });
 
         Timeline autoRefresh = new Timeline(
-            new KeyFrame(Duration.seconds(10), event -> {
-                PackageTableService selectedItem = packageTable.getSelectionModel().getSelectedItem();
-                int selectedId = (selectedItem != null) ? selectedItem.getId() : -1;
+                new KeyFrame(Duration.seconds(10), event -> {
 
-                List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
-                Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
-                for (TableColumn<PackageTableService, ?> col : sortOrder) {
-                    sortTypes.put(col, col.getSortType());
-                }
+                    
+                    if (searchField.getText() != null && !searchField.getText().isEmpty()) {
+                        return;
+                    }
 
-                List<Package> updated = dao.getPackages();
-                List<PackageTableService> updatedData = updated.stream()
-                        .map(PackageTableService::new)
-                        .collect(Collectors.toList());
-                packageTable.getItems().setAll(updatedData);
+                    PackageTableService selectedItem = packageTable.getSelectionModel().getSelectedItem();
+                    int selectedId = (selectedItem != null) ? selectedItem.getId() : -1;
+
+                    List<TableColumn<PackageTableService, ?>> sortOrder = new ArrayList<>(packageTable.getSortOrder());
+                    Map<TableColumn<PackageTableService, ?>, TableColumn.SortType> sortTypes = new HashMap<>();
+                    for (TableColumn<PackageTableService, ?> col : sortOrder) {
+                        sortTypes.put(col, col.getSortType());
+                    }
+
+                    List<Package> updated = dao.getPackages();
+                    List<PackageTableService> updatedData = updated.stream()
+                            .map(PackageTableService::new)
+                            .collect(Collectors.toList());
+                    packageTable.getItems().setAll(updatedData);
 
                 packageTable.getSortOrder().clear();
                 for (TableColumn<PackageTableService, ?> col : sortOrder) {
