@@ -139,6 +139,16 @@ public class WarehouseInfoWindowController implements Initializable {
             Stage stage = (Stage) magButton.getScene().getWindow();
             WindowConstraints.applyMinSize(stage);
         });
+        
+        // Obsługa podwójnego kliknięcia w paczkę
+        table2.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                TableItem clickedItem = table2.getSelectionModel().getSelectedItem();
+                if (clickedItem != null) {
+                    goToPackageTableAndSelect(clickedItem.getId());
+                }
+            }
+        });
     }
 
     public void loadRackData(int rackId, WarehouseService service) {
@@ -214,7 +224,32 @@ public class WarehouseInfoWindowController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Przechodzi do okna tabeli paczek i przekazuje ID wybranej paczki do zaznaczenia.
+     * <p>
+     * Ładuje widok FXML tabeli paczek, pobiera jego kontroler i wywołuje metodę
+     * odpowiedzialną za odszukanie i podświetlenie paczki o podanym ID.
+     * </p>
+     *
+     * @param packageId identyfikator wybranej paczki pobrany z tabeli regału
+     */
+    private void goToPackageTableAndSelect(String packageId) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/packageTableWindow.fxml"));
+            Parent root = loader.load();
+            
+            PackageTableWindowController controller = loader.getController();
+            controller.selectSpecificPackage(packageId);
+            
+            Stage stage = (Stage) timeLabel.getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     // -------------------------
     // TABLE CLASS
     public static class TableItem {

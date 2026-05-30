@@ -301,7 +301,6 @@ public class PackageTableWindowController implements Initializable {
             controller.setPackage(fullPackage);
 
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-//            stage.setScene(new Scene(root));
             stage.getScene().setRoot(root);
             stage.show();
 
@@ -320,7 +319,6 @@ public class PackageTableWindowController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
             Stage stage = (Stage) timeLabel.getScene().getWindow();
-//            stage.setScene(new Scene(root));
             stage.getScene().setRoot(root);
             stage.show();
         } catch (IOException e) {
@@ -328,6 +326,34 @@ public class PackageTableWindowController implements Initializable {
         }
     }
 
+    /**
+     * Zaznacza konkretną paczkę w głównej tabeli na podstawie jej identyfikatora.
+     * <p>
+     * Metoda wywoływana zewnętrznie.
+     * Wykorzystuje {@code Platform.runLater}, aby upewnić się, że wyszukiwanie
+     * nastąpi po asynchronicznym załadowaniu danych do tabeli.
+     * </p>
+     *
+     * @param packageIdAsString identyfikator paczki przekazany w formie tekstowej
+     */
+    public void selectSpecificPackage(String packageIdAsString) {
+        Platform.runLater(() -> {
+            try {
+                int idToFind = Integer.parseInt(packageIdAsString);
+                
+                for (PackageTableService item : packageTable.getItems()) {
+                    if (item.getId() == idToFind) {
+                        packageTable.getSelectionModel().select(item);
+                        packageTable.scrollTo(item); 
+                        break;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                
+            }
+        });
+    }
+    
     /**
      * Wyświetla okno dialogowe z ostrzeżeniem.
      *
