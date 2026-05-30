@@ -118,16 +118,20 @@ public class PackageTableWindowController implements Initializable {
         recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
-        List<Package> packages = dao.getPackages();
-        List<PackageTableService> tableData = packages.stream()
-                .map(PackageTableService::new)
-                .collect(Collectors.toList());
-        packageTable.getItems().setAll(tableData);
 
-        idColumn.setSortType(TableColumn.SortType.ASCENDING);
-        packageTable.getSortOrder().clear();
-        packageTable.getSortOrder().add(idColumn);
-        packageTable.sort();
+        
+        Platform.runLater(() -> {
+            List<Package> packages = dao.getPackages();
+            List<PackageTableService> tableData = packages.stream()
+                    .map(PackageTableService::new)
+                    .collect(Collectors.toList());
+            packageTable.getItems().setAll(tableData);
+
+            idColumn.setSortType(TableColumn.SortType.ASCENDING);
+            packageTable.getSortOrder().clear();
+            packageTable.getSortOrder().add(idColumn);
+            packageTable.sort();
+        });
 
         Platform.runLater(() -> {
             Stage stage = (Stage) magButton.getScene().getWindow();

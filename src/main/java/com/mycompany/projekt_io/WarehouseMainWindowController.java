@@ -106,7 +106,7 @@ public class WarehouseMainWindowController implements Initializable {
 
         // TABLE
         setupTable();
-        loadWarehouseSummary();
+        Platform.runLater(() -> loadWarehouseSummary());
 
         // SIDEBAR
         homeButton.setOnAction(e -> loadWindow("/com/mycompany/projekt_io/mainWindow.fxml"));

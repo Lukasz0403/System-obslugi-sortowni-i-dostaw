@@ -52,6 +52,8 @@ public class PackageManageWindowController implements Initializable {
     @FXML 
     private Button closeApp;
     @FXML 
+    private Button labelButton;
+    @FXML 
     private Label dateLabel;
     @FXML 
     private TextField depthField;
@@ -183,6 +185,12 @@ public class PackageManageWindowController implements Initializable {
         heightField.setTextFormatter(new TextFormatter<>(doubleFilter));
         widthField.setTextFormatter(new TextFormatter<>(doubleFilter));
         depthField.setTextFormatter(new TextFormatter<>(doubleFilter));
+        
+        labelButton.setOnAction(e -> {
+            Platform.runLater(() -> {
+                generateLabel();
+            });
+        });
 
         logOut.setOnAction(e -> {
             AppSession.logout();
@@ -239,8 +247,7 @@ public class PackageManageWindowController implements Initializable {
      *
      * @param event zdarzenie akcji przycisku
      */
-    @FXML
-    void generateLabel(ActionEvent event) {
+    void generateLabel() {
         LabelFactory l = new LabelFactory(currentPackage);
         if (!l.printLabel()) {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to generate the label.");

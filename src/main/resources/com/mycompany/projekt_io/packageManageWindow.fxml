@@ -30,7 +30,7 @@
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="logOut" maxWidth="60.0"  text="LOGOUT" style="-fx-font-size: 10px;"/>
+                <Button fx:id="logOut" maxWidth="60.0" style="-fx-font-size: 10px;" text="LOGOUT" />
                 <Region VBox.vgrow="ALWAYS" />
                 <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
                 <Region VBox.vgrow="ALWAYS" />
@@ -101,7 +101,7 @@
 
             <!-- ACTION BUTTONS -->
             <VBox alignment="TOP_CENTER" prefWidth="150.0" spacing="10.0">
-                <Button fx:id="labelButton" maxWidth="Infinity" onAction="#generateLabel" prefHeight="36.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" text="GENERATE LABEL" />
+                <Button fx:id="labelButton" maxWidth="Infinity" prefHeight="36.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" text="GENERATE LABEL" />
                 <Button fx:id="saveButton" maxWidth="Infinity" onAction="#saveChanges" prefHeight="36.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px;" text="SAVE" />
                 <Button fx:id="deleteButton" maxWidth="Infinity" onAction="#handleDeleteButton" prefHeight="36.0" style="-fx-background-color: #d4d2c4; -fx-font-size: 10px;" text="CLEAR" />
                 <Button fx:id="handleRemove" maxWidth="Infinity" onAction="#removePackage" prefHeight="36.0" style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 10px;" text="DELETE PACKAGE" />

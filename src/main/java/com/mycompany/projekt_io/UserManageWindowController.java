@@ -76,7 +76,11 @@ public class UserManageWindowController implements Initializable {
             addUserButton.setVisible(false);
         }
 
-        loadUsers();
+        
+        Platform.runLater(() -> {
+            loadUsers();
+        });
+        
         
         logOut.setOnAction(e -> {
             AppSession.logout();
