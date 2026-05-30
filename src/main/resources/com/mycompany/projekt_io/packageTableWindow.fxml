@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.TextField?>
@@ -20,42 +22,35 @@
 
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-        <!-- SIDEBAR -->
         <VBox prefWidth="83.0" style="-fx-background-color: #52658F;">
-
-            <!-- LOGO -->
             <VBox alignment="CENTER" prefHeight="83.0" spacing="10.0">
-                <Circle fill="#333a56" radius="24.0" />
+                <ImageView fitHeight="60.0" fitWidth="60.0">
+                    <image>
+                        <Image url="@/logo.png" />
+                    </image>
+                </ImageView>
             </VBox>
 
-            <!-- Przyciski -->
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="homeButton" maxWidth="60.0" onAction="#handleHomeButton" text="HOME" />
+                <Button fx:id="homeButton" maxWidth="60.0" prefHeight="40.0" text="HOME" onAction="#handleHomeButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" text="MAG" />
+                <Button fx:id="magButton" maxWidth="60.0" prefHeight="40.0" text="MAG" onAction="#handleMagButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="pacButton" maxWidth="60.0" onAction="#handlePacButton" text="PAC" />
+                <Button fx:id="pacButton" maxWidth="60.0" prefHeight="40.0" text="PAC" onAction="#handlePacButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" text="USER" />
+                <Button fx:id="addButton" maxWidth="60.0" prefHeight="40.0" text="USER" onAction="#handleUserButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
                 <Region VBox.vgrow="ALWAYS" />
+                <Button fx:id="logOut" maxWidth="60.0" prefHeight="40.0" text="LOGOUT" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="logOut" maxWidth="60.0"  text="LOGOUT" style="-fx-font-size: 10px;"/>
-                <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="closeApp" maxWidth="60.0" style="-fx-font-size: 10px;" text="CLOSE" />
+                <Button fx:id="closeApp" maxWidth="60.0" prefHeight="40.0" text="CLOSE" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" />
                 <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
-            <!-- TIME AND DATE -->
             <VBox alignment="CENTER" maxWidth="Infinity" spacing="2.0" style="-fx-padding: 0 15 5 15;">
-                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="HH:mm">
-                    <font><Font size="5.0" /></font>
-                </Label>
-                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 10px;" text="YYYY-MM-DD">
-                    <font><Font size="5.0" /></font>
-                </Label>
+                <Label fx:id="timeLabel" style="-fx-text-fill: white; -fx-font-size: 9.5px; -fx-font-weight: bold;" text="HH:mm" />
+                <Label fx:id="dateLabel" style="-fx-text-fill: white; -fx-font-size: 9.5px; -fx-font-weight: bold;" text="YYYY-MM-DD" />
             </VBox>
-
         </VBox>
 
         <!-- MAIN -->

@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -28,13 +30,18 @@
         
            <!-- LOGO PLACEHOLDER -->
          <VBox alignment="CENTER" mouseTransparent="true" prefHeight="551.0" prefWidth="950.0" spacing="10.0" AnchorPane.bottomAnchor="199.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <Circle fill="#333a56" radius="77.0" />
+         <ImageView fitHeight="164.0" fitWidth="169.0">
+            <image>
+               <Image url="@/logo.png" />
+            </image>
+         </ImageView>
+               <!-- <Circle fill="#333a56" radius="77.0" /> -->
         </VBox>
         
         <!-- TASKBAR -->
         <HBox alignment="CENTER_LEFT" prefHeight="40" style="-fx-background-color: #52658F; -fx-padding: 0 15 0 15;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <Label style="-fx-text-fill: white;" text="V 1.0" />
+                <Label style="-fx-text-fill: white;" text="V 1.1" />
                 <HBox HBox.hgrow="ALWAYS" />
                 <Label fx:id="dateTimeLabel" style="-fx-text-fill: white;" />
             </children>
