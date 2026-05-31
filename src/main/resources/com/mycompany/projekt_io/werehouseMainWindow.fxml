@@ -196,7 +196,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
                 </TableView>
-            <StackedBarChart fx:id="ZoneCapacity" layoutY="50.4" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="266.0" prefWidth="838.0" title="Zajętość Stref" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <StackedBarChart fx:id="ZoneCapacity" layoutY="50.4" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="266.0" prefWidth="838.0" title="Zone occupancy" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <xAxis>
                 <CategoryAxis side="BOTTOM" />
               </xAxis>

@@ -195,18 +195,18 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         XYChart.Series<String, Number> occupiedSeries = new XYChart.Series<>();
-        occupiedSeries.setName("Ilość zajętych slotów");
+        occupiedSeries.setName("Number of occupied slots");
 
         for (int i = 0; i < 5; i++) {
             int zoneTotal = 0;
-            StringBuilder tooltipText = new StringBuilder("Strefa " + (i + 1) + ":\n");
+            StringBuilder tooltipText = new StringBuilder("Zone " + (i + 1) + ":\n");
 
             for (int r = 1; r <= 4; r++) {
                 int rackId = (i * 4) + r;
                 int slots = rackSlots[rackId];
 
-                tooltipText.append("  • Regał ").append(rackId)
-                           .append(":   ").append(slots).append(" / 1050 slotów\n");
+                tooltipText.append("  • Rack ").append(rackId)
+                           .append(":   ").append(slots).append(" / 1050 slots\n");
                 zoneTotal += slots;
             }
 

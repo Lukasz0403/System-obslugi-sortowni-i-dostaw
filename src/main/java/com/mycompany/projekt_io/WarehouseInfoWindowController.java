@@ -166,7 +166,7 @@ public class WarehouseInfoWindowController implements Initializable {
         this.currentRackId = rackId;
         this.warehouseService = service;
         
-        rackIdLabel.setText("REGAŁ: " + rackId);
+        rackIdLabel.setText("RACK: " + rackId);
         
         Map<String, Integer> occupancyData = warehouseService.getRackOccupancyData(rackId);
         int occupied = occupancyData.getOrDefault("Occupied", 0);
@@ -174,8 +174,8 @@ public class WarehouseInfoWindowController implements Initializable {
         int totalSlots = occupied + available;
 
         ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
-            new PieChart.Data("Zajęte (" + occupied + ")", occupied),
-            new PieChart.Data("Wolne (" + available + ")", available)
+            new PieChart.Data("Occupied (" + occupied + ")", occupied),
+            new PieChart.Data("Free (" + available + ")", available)
         );
         shelfPieChart.setData(pieData);
         shelfPieChart.setLegendVisible(true);
