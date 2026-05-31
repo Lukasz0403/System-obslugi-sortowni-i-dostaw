@@ -138,9 +138,9 @@
                 </VBox>
 
                 <!-- TEMPLATE BUTTONS -->
-                <Button fx:id="saveTempButton" maxWidth="Infinity" onAction="#saveTemplate" prefHeight="26.0" style="-fx-font-size: 10px;" text="SAVE TEMPLATE" />
-                <Button fx:id="loadTempButton" maxWidth="Infinity" onAction="#loadTemplate" prefHeight="26.0" style="-fx-font-size: 10px;" text="LOAD TEMPLATE" />
-                <Button fx:id="clearTempButton" maxWidth="Infinity" onAction="#clearTemplate" prefHeight="26.0" style="-fx-font-size: 10px;" text="CLEAR TEMPLATE" />
+                <Button fx:id="saveTempButton" maxWidth="Infinity" onAction="#saveTemplate" prefHeight="30.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px; -fx-background-radius: 6; " text="SAVE TEMPLATE" />
+                <Button fx:id="loadTempButton" maxWidth="Infinity" onAction="#loadTemplate" prefHeight="30.0" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-font-size: 10px; -fx-background-radius: 6; " text="LOAD TEMPLATE" />
+                <Button fx:id="clearTempButton" maxWidth="Infinity" onAction="#clearTemplate" prefHeight="30.0" style="-fx-background-color: #d4d2c4; -fx-font-size: 10px; -fx-background-radius: 6; " text="CLEAR TEMPLATE" />
 
                 <Separator />
 

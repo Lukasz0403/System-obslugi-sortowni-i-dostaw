@@ -84,8 +84,17 @@ public class MainWindowController implements Initializable {
         });
         
             logOut.setOnAction(e -> {
-            AppSession.logout();
-            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Logout");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Are you sure you want to log out?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppSession.logout();
+                    loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+                }
+            });
         });
 
         closeApp.setOnAction(e -> {

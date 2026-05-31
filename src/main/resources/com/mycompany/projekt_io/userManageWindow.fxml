@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!-- imports -->
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
+
 <!-- -->
+
 <AnchorPane id="AnchorPane" prefHeight="750.0" prefWidth="950.0" style="-fx-background-color: #F7F5E6;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projekt_io.UserManageWindowController">
     <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -27,17 +29,17 @@
 
             <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="homeButton" maxWidth="60.0" prefHeight="40.0" text="HOME" onAction="#handleHomeButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
+                <Button fx:id="homeButton" maxWidth="60.0" onAction="#handleHomeButton" prefHeight="40.0" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" text="HOME" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="magButton" maxWidth="60.0" prefHeight="40.0" text="MAG" onAction="#handleMagButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
+                <Button fx:id="magButton" maxWidth="60.0" onAction="#handleMagButton" prefHeight="40.0" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" text="MAG" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="pacButton" maxWidth="60.0" prefHeight="40.0" text="PAC" onAction="#handlePacButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
+                <Button fx:id="pacButton" maxWidth="60.0" onAction="#handlePacButton" prefHeight="40.0" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" text="PAC" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="addButton" maxWidth="60.0" prefHeight="40.0" text="USER" onAction="#handleUserButton" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
+                <Button fx:id="addButton" maxWidth="60.0" onAction="#handleUserButton" prefHeight="40.0" style="-fx-background-color: #333a56; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" text="USER" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="logOut" maxWidth="60.0" prefHeight="40.0" text="LOGOUT" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" />
+                <Button fx:id="logOut" maxWidth="60.0" prefHeight="40.0" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" text="LOGOUT" />
                 <Region VBox.vgrow="ALWAYS" />
-                <Button fx:id="closeApp" maxWidth="60.0" prefHeight="40.0" text="CLOSE" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" />
+                <Button fx:id="closeApp" maxWidth="60.0" prefHeight="40.0" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-size: 10px;" text="CLOSE" />
                 <Region VBox.vgrow="ALWAYS" />
             </VBox>
 
@@ -48,27 +50,26 @@
         </VBox>
 
         <!-- MAIN -->
-        <VBox HBox.hgrow="ALWAYS" spacing="0.0">
+        <VBox spacing="0.0" HBox.hgrow="ALWAYS">
 
             <!-- TOP BAR -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" spacing="10.0" style="-fx-background-color: #e8e6d8; -fx-padding: 0 15 0 15;">
-                <Label text="User Management" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333a56;" />
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333a56;" text="User Management" />
                 <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="refresh" text="Reload Page" onAction="#handleUserButton"
-                        style="-fx-cursor: hand;"/>
-                <Button fx:id="addUserButton" text="+ Add User" onAction="#handleAddUser"
-                        style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand;" />
+                <Button fx:id="refresh" onAction="#handleUserButton" style="-fx-background-color: #d4d2c4; -fx-font-weight: bold; -fx-background-radius: 6; -fx-cursor: hand;" text="Reload Page" />
+                <Button fx:id="addUserButton" onAction="#handleAddUser" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-cursor: hand;" text="+ Add User" />
             </HBox>
 
             <!-- COLUMN HEADERS -->
             <HBox prefHeight="30.0" style="-fx-background-color: #d4d2c4; -fx-padding: 0 15 0 15;">
-                <Label text="Login" prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" />
-                <Label text="Role" prefWidth="120.0" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" />
-                <Label text="Actions" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" />
+                <Label prefWidth="150.0" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" text="Login" />
+                <Label prefWidth="120.0" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" text="Role" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label prefWidth="60.0" style="-fx-font-weight: bold; -fx-text-fill: #333a56;" text="Actions" />
             </HBox>
 
             <!-- USER LIST -->
-            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: #F7F5E6;">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #F7F5E6;" VBox.vgrow="ALWAYS">
                 <content>
                     <VBox fx:id="userListContainer" spacing="0.0" />
                 </content>

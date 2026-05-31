@@ -23,9 +23,9 @@
         <VBox alignment="CENTER" layoutY="188.8" prefHeight="561.0" prefWidth="950.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="189.0">
             <TextField fx:id="usernameField" maxWidth="200.0" promptText="Username" />
             <PasswordField fx:id="passwordField" maxWidth="200.0" promptText="Password" />
-         <Label fx:id="errorLabel" text="Wpisz login i hasło" />
-         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#loginAction" prefHeight="26.0" prefWidth="77.0" text="LOG IN" />
-         <Button fx:id="devButton" mnemonicParsing="false" onAction="#handleDevButton" prefHeight="26.0" prefWidth="74.0" text="DEV" />
+         <Label fx:id="errorLabel" text="Please enter your login and password." />
+         <Button fx:id="logInButton" mnemonicParsing="false" onAction="#loginAction" prefHeight="26.0" prefWidth="77.0" text="LOG IN" style="-fx-background-color: #52658F; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold;" />
+         <Button fx:id="devButton" mnemonicParsing="false" onAction="#handleDevButton" prefHeight="26.0" prefWidth="77.0" text="CLOSE" style="-fx-background-color: #A94442; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold;" />
         </VBox>
         
            <!-- LOGO PLACEHOLDER -->

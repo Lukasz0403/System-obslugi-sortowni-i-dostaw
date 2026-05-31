@@ -118,7 +118,7 @@ public class PackageTableWindowController implements Initializable {
         recregionColumn.setCellValueFactory(new PropertyValueFactory<>("receiverRegion"));
         weightColumn.setCellValueFactory(new PropertyValueFactory<>("weight"));
 
-
+        packageTable.getColumns().forEach(col -> col.setReorderable(false));
         
         Platform.runLater(() -> {
             List<Package> packages = dao.getPackages();
@@ -183,8 +183,17 @@ public class PackageTableWindowController implements Initializable {
         autoRefresh.play();
 
         logOut.setOnAction(e -> {
-            AppSession.logout();
-            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Logout");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Are you sure you want to log out?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppSession.logout();
+                    loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+                }
+            });
         });
 
         closeApp.setOnAction(e -> {

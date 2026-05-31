@@ -88,7 +88,7 @@ public class LoginWindowController implements Initializable {
             Stage stage = (Stage) logInButton.getScene().getWindow();
         });
 
-        devButton.setVisible(false);
+        
     }
 
     /**
@@ -103,15 +103,7 @@ public class LoginWindowController implements Initializable {
      */
     @FXML
     private void handleDevButton(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/mycompany/projekt_io/MainWindow.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) devButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        javafx.application.Platform.exit();
     }
 
     /**
@@ -136,24 +128,21 @@ public class LoginWindowController implements Initializable {
     void loginAction(ActionEvent event) {
         String login = usernameField.getText();
         String plainPassword = passwordField.getText();
-
         if (login.isEmpty() || plainPassword.isEmpty()) {
-            showError("Wprowadź login i hasło.");
+            showError("Please enter your login and password.");
             return;
         }
-
         if (!loginService.isDatabaseAvailable()) {
-            showError("Brak połączenia z bazą danych.");
+            showError("Unable to connect to the database.");
             return;
         }
-
         User user = loginService.authenticate(login, plainPassword);
         if (user != null) {
             AppSession.login(user);
             errorLabel.setVisible(false);
             loadMainWindow();
         } else {
-            showError("Nieprawidłowy login lub hasło.");
+            showError("Invalid login or password.");
             passwordField.clear();
         }
     }

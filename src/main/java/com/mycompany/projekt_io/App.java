@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -22,6 +23,9 @@ public class App extends Application {
         stage.setScene(scene);
         WindowConstraints.applyMinSize(stage);
         stage.setMaximized(true);
+        stage.setTitle("Inventaro");
+        Image icon = new Image(getClass().getResourceAsStream("/logo.png"));
+        stage.getIcons().add(icon);
         stage.show();
     }
 

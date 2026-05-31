@@ -83,8 +83,17 @@ public class UserManageWindowController implements Initializable {
         
         
         logOut.setOnAction(e -> {
-            AppSession.logout();
-            loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Logout");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Are you sure you want to log out?");
+            confirm.initOwner(timeLabel.getScene().getWindow());
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == javafx.scene.control.ButtonType.OK) {
+                    AppSession.logout();
+                    loadWindow("/com/mycompany/projekt_io/loginWindow.fxml");
+                }
+            });
         });
 
         closeApp.setOnAction(e -> {
@@ -223,6 +232,27 @@ public class UserManageWindowController implements Initializable {
     }
 
     private void handleDeleteUser(int id, String login) {
+
+        User userToDelete = userDAO.getUsers().stream()
+                .filter(u -> u.getUser_id() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (userToDelete != null && userToDelete.getPermission().getPermission_id() == 2) {
+            long adminCount = userDAO.getUsers().stream()
+                    .filter(u -> u.getPermission().getPermission_id() == 2)
+                    .count();
+            if (adminCount <= 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Cannot Delete");
+                alert.setHeaderText(null);
+                alert.setContentText("Cannot delete the last administrator. At least one administrator must remain in the system.");
+                alert.initOwner(timeLabel.getScene().getWindow());
+                alert.showAndWait();
+                return;
+            }
+        }
+
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Delete User");
         confirm.setHeaderText("Are you sure you want to delete: " + login + "?");
@@ -231,10 +261,8 @@ public class UserManageWindowController implements Initializable {
 
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                System.out.println("Delete confirmed: " + login);
                 UserManageService u = new UserManageService(id);
                 u.deleteUser();
-                // TODO: delete via UserDAO
                 loadUsers();
             }
         });
