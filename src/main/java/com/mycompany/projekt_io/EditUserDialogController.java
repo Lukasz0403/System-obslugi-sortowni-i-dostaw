@@ -18,52 +18,65 @@ import com.mycompany.projekt_io.feature.users.UserManageService;
 /**
  * Kontroler okna dialogowego edycji danych istniejącego użytkownika.
  * <p>
- * Wyświetla formularz z loginem, nowym hasłem oraz listą wyboru uprawnień.
+ * Wyświetla formularz z loginem, opcjonalnym nowym hasłem oraz listą wyboru
+ * uprawnień. Umożliwia zachowanie aktualnego hasła przez zaznaczenie checkboxa.
  * Okno otwierane jest jako dialog modalny z poziomu widoku zarządzania
- * użytkownikami. Zapis zmian nie jest jeszcze zaimplementowany — metoda
- * {@link #handleSave()} wyświetla stosowny komunikat zastępczy.
+ * użytkownikami. Po pomyślnym zapisie wywoływany jest callback
+ * {@link #onUserUpdated} odświeżający listę użytkowników w widoku nadrzędnym.
  * </p>
+ *
+ * @author Ida Wszoła
  */
 public class EditUserDialogController implements Initializable {
 
-    @FXML 
+    @FXML
     private TextField loginField;
-    @FXML 
+    @FXML
     private PasswordField passwordField;
-    @FXML 
-    private CheckBox keepCurrentPasswordCheckbox; // Musi być w FXML!
-    @FXML 
+    @FXML
+    private CheckBox keepCurrentPasswordCheckbox;
+    @FXML
     private ChoiceBox<Permission> permissionChoiceBox;
-    @FXML 
+    @FXML
     private Label errorLabel;
 
-    private final  UserDAOInterface userDAO = new UserDAO();
+    private final UserDAOInterface userDAO = new UserDAO();
     private int userId;
     private Runnable onUserUpdated;
 
+    /**
+     * Ustawia identyfikator edytowanego użytkownika.
+     *
+     * @param id identyfikator użytkownika w bazie danych
+     */
     public void setId(int id) {
-        this.userId = id; 
+        this.userId = id;
     }
+
+    /**
+     * Wypełnia pole loginu danymi edytowanego użytkownika.
+     *
+     * @param login aktualny login użytkownika
+     */
     public void setUser(String login) {
         loginField.setText(login);
     }
+
+    /**
+     * Rejestruje callback wywoływany po pomyślnym zapisie zmian.
+     *
+     * @param callback akcja odświeżająca listę użytkowników w widoku nadrzędnym
+     */
     public void setOnUserUpdated(Runnable callback) {
         this.onUserUpdated = callback;
     }
 
     /**
-     * Inicjalizuje kontroler po załadowaniu widoku FXML.
-     * <p>
-     * Pobiera listę dostępnych uprawnień z bazy danych, wypełnia nią listę
-     * rozwijaną i ustawia domyślnie pierwsze uprawnienie z listy.
-     * Konfiguruje również konwerter wyświetlający nazwę uprawnienia
-     * zamiast domyślnej reprezentacji obiektu {@link Permission}.
-     * </p>
+     * Inicjalizuje kontroler — pobiera listę uprawnień z bazy, wypełnia listę
+     * rozwijaną i ustawia konwerter wyświetlający nazwy uprawnień.
      *
-     * @param url lokalizacja używana do rozwiązywania względnych ścieżek
-     *            do obiektu głównego lub {@code null} jeśli nieznana
-     * @param rb  zasoby używane do lokalizacji obiektu głównego
-     *            lub {@code null} jeśli nieznane
+     * @param url ścieżka do pliku FXML (nieużywana bezpośrednio)
+     * @param rb zasoby lokalizacyjne (nieużywane bezpośrednio)
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -72,18 +85,25 @@ public class EditUserDialogController implements Initializable {
         if (!permissions.isEmpty()) {
             permissionChoiceBox.setValue(permissions.get(0));
         }
-
         permissionChoiceBox.setConverter(new StringConverter<Permission>() {
-            @Override public String toString(Permission p) { return p != null ? p.getName() : ""; }
-            @Override public Permission fromString(String s) { return null; }
+            @Override
+            public String toString(Permission p) {
+                return p != null ? p.getName() : "";
+            }
+
+            @Override
+            public Permission fromString(String s) {
+                return null;
+            }
         });
     }
 
     /**
-     * Obsługuje kliknięcie przycisku zapisu zmian.
+     * Obsługuje zmianę stanu checkboxa zachowania aktualnego hasła.
      * <p>
-     * Metoda nie jest jeszcze zaimplementowana — wyświetla komunikat
-     * informujący o konieczności kontaktu z administratorem bazy danych.
+     * Gdy checkbox jest zaznaczony — blokuje pole hasła i czyści jego
+     * zawartość. Gdy odznaczony — odblokowuje pole umożliwiając wpisanie nowego
+     * hasła.
      * </p>
      */
     @FXML
@@ -96,8 +116,13 @@ public class EditUserDialogController implements Initializable {
     }
 
     /**
-     * Obsługuje kliknięcie przycisku anulowania — zamyka okno dialogowe
-     * bez zapisywania żadnych zmian.
+     * Obsługuje kliknięcie przycisku zapisu zmian.
+     * <p>
+     * Waliduje kompletność formularza i zapisuje zmiany przez
+     * {@link UserManageService#changeUser()}. Jeśli zaznaczono zachowanie hasła
+     * — serwis aktualizuje tylko login i uprawnienia. Po pomyślnym zapisie
+     * wywołuje callback i zamyka dialog.
+     * </p>
      */
     @FXML
     private void handleSave() {
@@ -113,16 +138,14 @@ public class EditUserDialogController implements Initializable {
             return;
         }
 
-        // Jeśli zaznaczono "Keep password", wysyłamy cokolwiek (np. "OLD_PWD"), 
         if (keepOld) {
             u = new UserManageService(userId, login, null, selected);
         } else {
             u = new UserManageService(userId, login, password, selected);
-        } 
+        }
 
-        try {         
+        try {
             boolean success = u.changeUser();
-
             if (success) {
                 if (onUserUpdated != null) {
                     onUserUpdated.run();
@@ -138,11 +161,17 @@ public class EditUserDialogController implements Initializable {
         }
     }
 
-    @FXML 
+    /**
+     * Obsługuje kliknięcie przycisku anulowania — zamyka dialog bez zapisu.
+     */
+    @FXML
     private void handleCancel() {
         closeDialog();
     }
 
+    /**
+     * Zamyka okno dialogowe.
+     */
     private void closeDialog() {
         Stage stage = (Stage) loginField.getScene().getWindow();
         stage.close();

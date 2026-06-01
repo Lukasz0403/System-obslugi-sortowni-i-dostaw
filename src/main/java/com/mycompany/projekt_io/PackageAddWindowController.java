@@ -50,7 +50,7 @@ import com.mycompany.projekt_io.feature.warehouse.SortingService;
  *   <li>Przekazanie zebranych danych do {@link PackageService} i zapis w bazie</li>
  * </ul>
  *
- * @author Mateusz Gojny
+ * @author Ida Wszoła, Mateusz Gojny
  */
 public class PackageAddWindowController implements Initializable {
 

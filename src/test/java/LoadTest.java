@@ -1,5 +1,4 @@
 
-
 import com.mycompany.projekt_io.core.database.PackageDAO;
 import com.mycompany.projekt_io.core.database.UserDAO;
 import com.mycompany.projekt_io.feature.package_.PackageService;
@@ -7,50 +6,71 @@ import com.mycompany.projekt_io.feature.warehouse.SortingService;
 import com.mycompany.projekt_io.feature.warehouse.SortingServiceInterface;
 import com.mycompany.projekt_io.datamodel.Package;
 import com.mycompany.projekt_io.datamodel.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import java.util.List;
 
+/**
+ * Testy wydajnościowe systemu obsługi sortowni.
+ * <p>
+ * Mierzą czasy wykonania kluczowych operacji na bazie danych przy różnych
+ * poziomach obciążenia. Liczbę operacji dla wszystkich testów kontroluje stała
+ * {@link #LOAD_SIZE}. Testy wymagają aktywnego połączenia z bazą danych i są
+ * wykonywane w określonej kolejności zdefiniowanej przez {@code @Order}.
+ * </p>
+ * 
+ * @author Mateusz Gojny
+ */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoadTest {
 
-    // ── JEDNA ZMIENNA DLA WSZYSTKICH TESTÓW ──────────────────────────────────
+    /**
+     * Liczba operacji wykonywana przez każdy test. Zmiana tej wartości wpływa
+     * na wszystkie testy jednocześnie.
+     */
     private static final int LOAD_SIZE = 1;
-    // ─────────────────────────────────────────────────────────────────────────
 
     private static final PackageDAO packageDAO = new PackageDAO();
     private static final PackageService packageService = new PackageService();
     private static final UserDAO userDAO = new UserDAO();
 
-    // ── POMOCNICZA: dodaje jedną paczkę testową ───────────────────────────────
+    /**
+     * Dodaje testową paczkę do bazy danych z danymi nadawcy i odbiorcy
+     * wygenerowanymi na podstawie podanego indeksu.
+     *
+     * @param index indeks używany do generowania unikalnych danych testowych
+     */
     private void addTestPackage(int index) {
         packageService.addPackageFull(
-            null,
-            "Warszawa", "Kraków",
-            5.0, 15.0, 15.0, 15.0,
-            "Nadawca_" + index, "Warszawa", "Ulica " + index,
-            "00-001", "nadawca" + index + "@test.pl", "111222333",
-            "Odbiorca_" + index, "Kraków", "Aleja " + index,
-            "30-001", "odbiorca" + index + "@test.pl", "444555666"
+                null,
+                "Warszawa", "Kraków",
+                5.0, 15.0, 15.0, 15.0,
+                "Nadawca_" + index, "Warszawa", "Ulica " + index,
+                "00-001", "nadawca" + index + "@test.pl", "111222333",
+                "Odbiorca_" + index, "Kraków", "Aleja " + index,
+                "30-001", "odbiorca" + index + "@test.pl", "444555666"
         );
     }
 
-    // ── POMOCNICZA: dodaje jednego użytkownika testowego ─────────────────────
+    /**
+     * Dodaje testowego użytkownika do bazy danych z loginem opartym na podanym
+     * indeksie i fikcyjnym hashem BCrypt.
+     *
+     * @param index indeks używany do generowania unikalnego loginu
+     */
     private void addTestUser(int index) {
         userDAO.addUser(
-            "testuser_" + index,
-            "$2a$12$dummyhashfortestingpurposesonly" + index,
-            1
+                "testuser_" + index,
+                "$2a$12$dummyhashfortestingpurposesonly" + index,
+                1
         );
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // TESTY JEDNOSTKOWE
-    // ═════════════════════════════════════════════════════════════════════════
-
+    /**
+     * Mierzy czas dodania {@link #LOAD_SIZE} paczek do bazy danych.
+     */
     @Test
     @Order(1)
     public void testAddPackages() {
@@ -67,6 +87,9 @@ public class LoadTest {
         System.out.println("Średnio na paczkę: " + (time / LOAD_SIZE) + " ms");
     }
 
+    /**
+     * Mierzy czas dodania {@link #LOAD_SIZE} użytkowników do bazy danych.
+     */
     @Test
     @Order(2)
     public void testAddUsers() {
@@ -83,6 +106,9 @@ public class LoadTest {
         System.out.println("Średnio na rekord:   " + (time / LOAD_SIZE) + " ms");
     }
 
+    /**
+     * Mierzy czas pobrania pełnej listy paczek z bazy danych.
+     */
     @Test
     @Order(3)
     public void testGetPackages() {
@@ -96,6 +122,9 @@ public class LoadTest {
         System.out.println("Czas:           " + time + " ms");
     }
 
+    /**
+     * Mierzy czas pobrania pełnej listy użytkowników z bazy danych.
+     */
     @Test
     @Order(4)
     public void testGetUsers() {
@@ -109,6 +138,10 @@ public class LoadTest {
         System.out.println("Czas:                 " + time + " ms");
     }
 
+    /**
+     * Mierzy czas {@link #LOAD_SIZE} pojedynczych zapytań o konkretną paczkę po
+     * jej identyfikatorze.
+     */
     @Test
     @Order(5)
     public void testGetSinglePackage() {
@@ -128,14 +161,18 @@ public class LoadTest {
         System.out.println("Średnio na zapytanie: " + (time / Math.max(limit, 1)) + " ms");
     }
 
+    /**
+     * Mierzy czas wykonania algorytmu sortowania na aktualnej zawartości bazy.
+     * Wyświetla liczbę paczek przed sortowaniem oraz liczbę nieprzypisanych.
+     */
     @Test
     @Order(6)
     public void testSortingAlgorithm() {
         System.out.println("\n=== TEST 6: ALGORYTM SORTOWANIA ===");
         List<Package> before = packageDAO.getPackages();
         long unassigned = before.stream()
-            .filter(p -> p.getPackage_rack() == null || p.getPackage_rack().getRack_id() <= 0)
-            .count();
+                .filter(p -> p.getPackage_rack() == null || p.getPackage_rack().getRack_id() <= 0)
+                .count();
 
         long start = System.currentTimeMillis();
 
@@ -148,6 +185,9 @@ public class LoadTest {
         System.out.println("Czas sortowania:          " + time + " ms");
     }
 
+    /**
+     * Mierzy czas aktualizacji danych {@link #LOAD_SIZE} paczek w bazie danych.
+     */
     @Test
     @Order(7)
     public void testUpdatePackages() {
@@ -171,6 +211,9 @@ public class LoadTest {
         System.out.println("Średnio na aktualizację: " + (time / Math.max(limit, 1)) + " ms");
     }
 
+    /**
+     * Mierzy czas usunięcia {@link #LOAD_SIZE} paczek z bazy danych.
+     */
     @Test
     @Order(8)
     public void testDeletePackages() {
@@ -190,6 +233,10 @@ public class LoadTest {
         System.out.println("Średnio na usunięcie: " + (time / Math.max(limit, 1)) + " ms");
     }
 
+    /**
+     * Usuwa wszystkich użytkowników testowych z bazy danych — czyli tych
+     * których login zaczyna się od "testuser_".
+     */
     @Test
     @Order(9)
     public void testDeleteUsers() {
@@ -211,10 +258,15 @@ public class LoadTest {
         System.out.println("Czas:                  " + time + " ms");
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
-    // TEST KOMPLEKSOWY — wywołuje wszystkie operacje na przemiennie
-    // ═════════════════════════════════════════════════════════════════════════
-
+    /**
+     * Test kompleksowy wykonujący wszystkie operacje na przemiennie przez
+     * {@link #LOAD_SIZE} iteracji.
+     * <p>
+     * Co 10 iteracji pobiera listę paczek, co 20 dodaje użytkownika, co 25
+     * uruchamia algorytm sortowania, co 30 usuwa najstarszą paczkę. Na końcu
+     * wyświetla podsumowanie z łącznym czasem i średnim czasem na iterację.
+     * </p>
+     */
     @Test
     @Order(10)
     public void testFullLoadCycle() {
@@ -223,29 +275,24 @@ public class LoadTest {
 
         for (int i = 0; i < LOAD_SIZE; i++) {
 
-            // 1. Dodaj paczkę
             addTestPackage(i + 10000);
 
-            // 2. Co 10 iteracji pobierz całą listę
             if (i % 10 == 0) {
                 packageDAO.getPackages();
                 System.out.println("  iteracja " + i + " — pobrano listę paczek");
             }
 
-            // 3. Co 20 iteracji dodaj użytkownika
             if (i % 20 == 0) {
                 addTestUser(i + 10000);
                 System.out.println("  iteracja " + i + " — dodano użytkownika");
             }
 
-            // 4. Co 25 iteracji uruchom sortowanie
             if (i % 25 == 0) {
                 SortingServiceInterface sorting = new SortingService(packageDAO);
                 sorting.assignShelvesToPackages();
                 System.out.println("  iteracja " + i + " — uruchomiono sortowanie");
             }
 
-            // 5. Co 30 iteracji usuń najstarszą paczkę
             if (i % 30 == 0) {
                 List<Package> current = packageDAO.getPackages();
                 if (!current.isEmpty()) {

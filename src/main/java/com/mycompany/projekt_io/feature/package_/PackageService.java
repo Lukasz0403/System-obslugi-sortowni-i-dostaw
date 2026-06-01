@@ -22,11 +22,20 @@ public class PackageService implements PackageServiceInterface {
 
     private final PackageDAO dao ;
 
+    /**
+     * Konstruktor instancji serwisu paczke
+     * 
+     *  
+     */
     public PackageService() {
         this.dao = new PackageDAO();
     }
 
-    // konstruktor dla testów — przyjmuje mocka
+    /**
+     * Konstruktor przeznaczony dla testów mocka
+     * 
+     *
+     */
     public PackageService(PackageDAO dao) {
         this.dao = dao;
     }
@@ -35,15 +44,7 @@ public class PackageService implements PackageServiceInterface {
      * Dodaje nową paczkę do bazy danych 
      * <p>
      * Metoda przeznaczona do szybkiego dodawania paczek bez pełnych danych
-     * adresowych. Gabaryt ({@code size}) jest przekazywany jawnie. Paczka nie
-     * ma przypisanego regału ({@co  public PackageService() {
-        this.dao = new PackageDAO();
-    }
-
-    // konstruktor dla testów — przyjmuje mocka
-    public PackageService(PackageDAO dao) {
-        this.dao = dao;
-    }de rack = null}).
+     * adresowych. 
      * </p>
      *
      * @param size identyfikator gabarytu paczki ("A", "B" lub "C")
@@ -477,6 +478,6 @@ public class PackageService implements PackageServiceInterface {
         if (width <= 40 && height <= 40 && depth <= 60 && weight <= 20) {
             return "C";
         }
-        return null; // za duża
+        return null; 
     }
 }

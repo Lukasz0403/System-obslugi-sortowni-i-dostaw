@@ -4,7 +4,6 @@ package com.mycompany.projekt_io.datamodel;
  * Model danych reprezentujący uprawnienie użytkownika w systemie.
  * <p>
  * Określa poziom dostępu użytkownika do funkcji aplikacji.
- * Przykładowe wartości nazwy uprawnienia to "administrator" lub "pracownik".
  * </p>
  *
  * @author Radosław Kruczek
@@ -18,7 +17,7 @@ public class Permission {
      * Tworzy obiekt uprawnienia.
      *
      * @param permission_id unikalny identyfikator uprawnienia
-     * @param name          nazwa uprawnienia (np. "administrator", "pracownik")
+     * @param name nazwa uprawnienia (np. "administrator", "pracownik")
      */
     public Permission(int permission_id, String name) {
         this.permission_id = permission_id;

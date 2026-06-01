@@ -38,7 +38,7 @@ import com.mycompany.projekt_io.datamodel.User;
  * okna.
  * </p>
  *
- * @author Łukasz
+ * @author Łukasz Motyka, Ida Wszoła, Mateusz Gojny
  */
 public class LoginWindowController implements Initializable {
 
@@ -92,12 +92,7 @@ public class LoginWindowController implements Initializable {
     }
 
     /**
-     * Obsługuje przycisk developerski umożliwiający pominięcie logowania.
-     * <p>
-     * Ładuje bezpośrednio główne okno aplikacji ({@code MainWindow.fxml}) bez
-     * weryfikacji danych uwierzytelniających. Przeznaczony wyłącznie do użytku
-     * podczas prac developerskich.
-     * </p>
+     * Obsługuje przycisk wyjścia z aplikacji.
      *
      * @param event zdarzenie akcji wywołane kliknięciem przycisku
      */
@@ -112,7 +107,7 @@ public class LoginWindowController implements Initializable {
      * Pobiera login i hasło z pól formularza, a następnie:
      * </p>
      * <ol>
-     * <li>Sprawdza, czy oba pola są wypełnione — jeśli nie, wyświetla komunikat
+     * <li>Sprawdza, czy oba pola są wypełnione jeśli nie, wyświetla komunikat
      * błędu</li>
      * <li>Przekazuje dane do
      * {@link LoginService#authenticate(String, String)}</li>

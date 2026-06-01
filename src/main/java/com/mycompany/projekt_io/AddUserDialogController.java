@@ -33,6 +33,8 @@ import com.mycompany.projekt_io.feature.users.UserManageService;
  * Właściwy zapis do bazy danych nie jest jeszcze zaimplementowany —
  * metoda {@link #handleAddUser()} wyświetla komunikat zastępczy (TODO).
  * </p>
+ * 
+ * @author Ida Wszoła
  */
 public class AddUserDialogController implements Initializable {
 

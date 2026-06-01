@@ -5,16 +5,7 @@ package com.mycompany.projekt_io.feature.warehouse;
  * w systemie magazynowym.
  * <p>
  * Umożliwia podmianę algorytmu sortowania bez modyfikacji klas korzystających z
- * serwisu. Przykładowe implementacje mogą różnić się strategią przydziału
- * regałów, np.:
- * </p>
- * <ul>
- * <li>{@link SortingService} — przydzielanie na podstawie regionu
- * docelowego</li>
- * <li>Implementacja FIFO — przydzielanie po kolei do pierwszego wolnego
- * regału</li>
- * <li>Implementacja wagowa — priorytetyzacja według wagi paczki</li>
- * </ul>
+ * serwisu. 
  */
 public interface SortingServiceInterface {
 
