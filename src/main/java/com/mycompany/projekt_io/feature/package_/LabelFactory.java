@@ -45,7 +45,6 @@ public class LabelFactory {
     /**
      * Generuje etykietę wysyłkową w formacie PDF i zapisuje ją na pulpicie
      * użytkownika.
-     * <p>
      * Proces generowania przebiega następująco:
      * <ol>
      * <li>Generowany jest kod QR zawierający identyfikator paczki.</li>
@@ -60,7 +59,6 @@ public class LabelFactory {
      * </ol>
      * W przypadku błędu wejścia/wyjścia lub błędu generowania kodu QR metoda
      * zwraca {@code false}.
-     * </p>
      *
      * @return {@code true} jeśli etykieta została pomyślnie wygenerowana i
      * zapisana, {@code false} jeśli wystąpił błąd {@link IOException} lub

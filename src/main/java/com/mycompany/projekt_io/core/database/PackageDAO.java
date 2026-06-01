@@ -45,7 +45,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return lista obiektów {@link Package} reprezentujących wszystkie paczki
      * w bazie danych; pusta lista jeśli brak paczek lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Package> getPackages() {
@@ -136,7 +135,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return obiekt {@link Package} z danymi paczki lub {@code null} jeśli
      * paczka nie istnieje lub wystąpił błąd bazy danych
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public Package getPackage(int id) {
@@ -214,7 +212,6 @@ public class PackageDAO implements PackageDAOInterface {
      * zdefiniowane w tabeli {@code package_formats}; pusta lista jeśli brak
      * formatów lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Format> getFormats() {
@@ -257,7 +254,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return lista obiektów {@link Sender} z tabeli {@code senders}; pusta
      * lista jeśli brak nadawców lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Sender> getSenders() {
@@ -301,7 +297,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return lista obiektów {@link Recipient} z tabeli {@code recipients};
      * pusta lista jeśli brak odbiorców lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Recipient> getRecipient() {
@@ -345,7 +340,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return lista obiektów {@link Region} z tabeli {@code courier_regions};
      *         pusta lista jeśli brak regionów lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Region> getRegions() {
@@ -384,7 +378,6 @@ public class PackageDAO implements PackageDAOInterface {
      *         każdy z przypisaną strefą {@link Zone};
      *         pusta lista jeśli brak regałów lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Rack> getRacks() {
@@ -420,7 +413,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return lista obiektów {@link Zone} z tabeli {@code zones};
      *         pusta lista jeśli brak stref lub wystąpił błąd
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public List<Zone> getZones() {
@@ -464,7 +456,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return {@code true} jeśli paczka została pomyślnie dodana, {@code false}
      * jeśli wystąpił błąd bazy danych
      * 
-     * @auhtor Radosław Kruczek
      */
     @Override
     public Boolean addPackage(Package p) {
@@ -526,7 +517,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return {@code true} jeśli aktualizacja powiodła się, {@code false} jeśli
      * wystąpił błąd bazy danych
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public Boolean changePackage(Package p) {
@@ -588,7 +578,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return wygenerowany identyfikator nadawcy ({@code sender_id})
      *         lub {@code -1} jeśli zapis się nie powiódł
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public int addSender(Sender s) {
@@ -632,7 +621,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return wygenerowany identyfikator odbiorcy ({@code recipient_id}) lub
      * {@code -1} jeśli zapis się nie powiódł
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public int addRecipient(Recipient r) {
@@ -671,7 +659,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return liczba paczek przypisanych do regału o podanym ID; {@code 0}
      * jeśli regał jest pusty lub wystąpił błąd
      * 
-     * @author Ida Wszoła
      */
     @Override
     public int getPackageCountForShelf(int rackId) {
@@ -700,7 +687,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return identyfikator ostatniej paczki na regale lub {@code -1} jeśli
      * regał jest pusty lub wystąpił błąd
      * 
-     * @author Ida Wszoła
      */
     @Override
     public int getLastPackageIdForShelf(int rackId) {
@@ -724,7 +710,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return całkowita liczba rekordów w tabeli {@code packages}; {@code 0}
      * jeśli brak paczek lub wystąpił błąd
      * 
-     * @author Ida Wszoła
      */
     @Override
     public int getTotalPackageCount() {
@@ -749,7 +734,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return liczba paczek w strefie o podanym ID; {@code 0} jeśli strefa jest
      * pusta lub wystąpił błąd
      * 
-     * @author Ida Wszoła
      */
     @Override
     public int getPackageCountForZone(int zoneId) {
@@ -779,7 +763,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return identyfikator najbardzej obciążonego regału lub {@code -1}
      *         jeśli żadna paczka nie ma przypisanego regału bądź wystąpił błąd
      * 
-     * @author Ida Wszoła
      */
     @Override
     public int getMostLoadedShelfId() {
@@ -806,7 +789,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return {@code true} jeśli aktualizacja powiodła się, {@code false} jeśli
      * wystąpił błąd bazy 
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public boolean updateSender(Sender s) {
@@ -842,7 +824,6 @@ public class PackageDAO implements PackageDAOInterface {
      * @return {@code true} jeśli aktualizacja powiodła się,
      *         {@code false} jeśli wystąpił błąd bazy danych
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public boolean updateRecipient(Recipient r) {
@@ -878,7 +859,6 @@ public class PackageDAO implements PackageDAOInterface {
      * {@code false} jeśli paczka o podanym ID nie istnieje lub wystąpił błąd
      * bazy danych
      * 
-     * @author Mateusz Gojny
      */
     @Override
     public boolean deletePackage(int packageId) {

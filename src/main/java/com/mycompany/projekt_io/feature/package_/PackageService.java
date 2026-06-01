@@ -130,7 +130,7 @@ public class PackageService implements PackageServiceInterface {
      * Nadawca i odbiorca są najpierw zapisywani jako nowe rekordy w bazie
      * danych, a ich wygenerowane ID są następnie przypisywane do paczki.
      * Gabaryt jest przypisywany automatycznie na podstawie wymiarów paczki przy
-     * użyciu metody {@link #assignFormat(double, double, double)}. Przed
+     * użyciu metody {@link #assignFormat(double, double, double, double)}. Przed
      * dodaniem paczki sprawdzane są minimalne dopuszczalne wymiary (min. 2 x 10
      * x 10 cm) oraz maksymalne (gabaryt C: 40 x 40 x 60 cm). Paczka nie ma
      * przypisanego regału ({@code rack = null}).
