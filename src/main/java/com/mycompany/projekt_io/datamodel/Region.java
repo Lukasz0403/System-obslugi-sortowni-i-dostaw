@@ -3,22 +3,29 @@ package com.mycompany.projekt_io.datamodel;
 /**
  * Model danych reprezentujący region kurierski.
  * <p>
- * Każda paczka posiada przypisany region nadania oraz region docelowy.
- * Region identyfikowany jest trzyliterowym kodem (np. "WAW", "KRK")
- * odpowiadającym miastu obsługiwanemu przez dany oddział kurierski.
+ * Każda paczka posiada przypisany region nadania oraz region docelowy. Region
+ * identyfikowany jest trzyliterowym kodem (np. "WAW", "KRK") odpowiadającym
+ * miastu obsługiwanemu przez dany oddział kurierski.
  * </p>
  *
  * @author Radosław Kruczek
  */
 public class Region {
 
+    /**
+     * Unikalny identyfikator regionu.
+     */
     int region_id;
+
+    /**
+     * Trzyliterowy kod regionu (np. "WAW", "GDA").
+     */
     String region_name;
 
     /**
      * Tworzy obiekt regionu kurierskiego.
      *
-     * @param region_id   unikalny identyfikator regionu
+     * @param region_id unikalny identyfikator regionu
      * @param region_name trzyliterowy kod regionu (np. "WAW", "GDA")
      */
     public Region(int region_id, String region_name) {
@@ -26,24 +33,40 @@ public class Region {
         this.region_name = region_name;
     }
 
-    /** @return unikalny identyfikator regionu */
-    public int getRegion_id() { 
-        return region_id; 
+    /**
+     * Zwraca unikalny identyfikator regionu.
+     *
+     * @return unikalny identyfikator regionu
+     */
+    public int getRegion_id() {
+        return region_id;
     }
 
-    /** @return trzyliterowy kod regionu kurierskiego */
+    /**
+     * Zwraca trzyliterowy kod regionu kurierskiego.
+     *
+     * @return trzyliterowy kod regionu kurierskiego
+     */
     public String getRegion_name() {
-        return region_name; 
+        return region_name;
     }
 
-    /** @param region_id unikalny identyfikator regionu */
+    /**
+     * Ustawia unikalny identyfikator regionu.
+     *
+     * @param region_id unikalny identyfikator regionu
+     */
     public void setRegion_id(int region_id) {
-        this.region_id = region_id; 
+        this.region_id = region_id;
     }
 
-    /** @param region_name trzyliterowy kod regionu */
-    public void setRegion_name(String region_name) { 
-        this.region_name = region_name; 
+    /**
+     * Ustawia trzyliterowy kod regionu.
+     *
+     * @param region_name trzyliterowy kod regionu
+     */
+    public void setRegion_name(String region_name) {
+        this.region_name = region_name;
     }
 
     @Override

@@ -6,6 +6,8 @@ package com.mycompany.projekt_io.feature.warehouse;
  * <p>
  * Umożliwia podmianę algorytmu sortowania bez modyfikacji klas korzystających z
  * serwisu. 
+ * 
+ * @author Łukasz Motyka
  */
 public interface SortingServiceInterface {
 

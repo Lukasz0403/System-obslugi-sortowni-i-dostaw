@@ -120,7 +120,7 @@ public class EditUserDialogController implements Initializable {
      * <p>
      * Waliduje kompletność formularza i zapisuje zmiany przez
      * {@link UserManageService#changeUser()}. Jeśli zaznaczono zachowanie hasła
-     * — serwis aktualizuje tylko login i uprawnienia. Po pomyślnym zapisie
+     * serwis aktualizuje tylko login i uprawnienia. Po pomyślnym zapisie
      * wywołuje callback i zamyka dialog.
      * </p>
      */
@@ -162,7 +162,7 @@ public class EditUserDialogController implements Initializable {
     }
 
     /**
-     * Obsługuje kliknięcie przycisku anulowania — zamyka dialog bez zapisu.
+     * Obsługuje kliknięcie przycisku anulowania, zamyka dialog bez zapisu.
      */
     @FXML
     private void handleCancel() {

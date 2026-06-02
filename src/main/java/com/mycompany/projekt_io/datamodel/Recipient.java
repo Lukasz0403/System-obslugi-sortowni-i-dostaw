@@ -11,9 +11,40 @@ package com.mycompany.projekt_io.datamodel;
  */
 public class Recipient {
 
+    /**
+     * Unikalny identyfikator odbiorcy.
+     */
     int recipient_id;
-    String recipient_name, recipient_city, recipient_street,
-            recipient_postcode, recipient_email, recipient_phone;
+
+    /**
+     * Imię i nazwisko lub nazwa firmy odbiorcy.
+     */
+    String recipient_name;
+
+    /**
+     * Miasto zamieszkania lub siedziby odbiorcy.
+     */
+    String recipient_city;
+
+    /**
+     * Ulica oraz numer domu/lokalu odbiorcy.
+     */
+    String recipient_street;
+
+    /**
+     * Kod pocztowy odbiorcy (w formacie XX-XXX).
+     */
+    String recipient_postcode;
+
+    /**
+     * Adres e-mail odbiorcy.
+     */
+    String recipient_email;
+
+    /**
+     * Numer telefonu kontaktowego odbiorcy.
+     */
+    String recipient_phone;
 
     /**
      * Tworzy obiekt odbiorcy paczki.
@@ -39,98 +70,126 @@ public class Recipient {
     }
 
     /**
-     * @return unikalny identyfikator odbiorcy
+     * Zwraca unikalny identyfikator odbiorcy.
+     *
+     * * @return unikalny identyfikator odbiorcy
      */
     public int getRecipient_id() {
         return recipient_id;
     }
 
     /**
-     * @return imię i nazwisko lub nazwa firmy odbiorcy
+     * Zwraca imię i nazwisko lub nazwę firmy odbiorcy.
+     *
+     * * @return imię i nazwisko lub nazwa firmy odbiorcy
      */
     public String getRecipient_name() {
         return recipient_name;
     }
 
     /**
-     * @return miasto odbiorcy
+     * Zwraca miasto odbiorcy.
+     *
+     * * @return miasto odbiorcy
      */
     public String getRecipient_city() {
         return recipient_city;
     }
 
     /**
-     * @return ulica i numer domu odbiorcy
+     * Zwraca ulicę i numer domu odbiorcy.
+     *
+     * * @return ulica i numer domu odbiorcy
      */
     public String getRecipient_street() {
         return recipient_street;
     }
 
     /**
-     * @return kod pocztowy odbiorcy
+     * Zwraca kod pocztowy odbiorcy.
+     *
+     * * @return kod pocztowy odbiorcy
      */
     public String getRecipient_postcode() {
         return recipient_postcode;
     }
 
     /**
-     * @return adres e-mail odbiorcy
+     * Zwraca adres e-mail odbiorcy.
+     *
+     * * @return adres e-mail odbiorcy
      */
     public String getRecipient_email() {
         return recipient_email;
     }
 
     /**
-     * @return numer telefonu odbiorcy
+     * Zwraca numer telefonu odbiorcy.
+     *
+     * * @return numer telefonu odbiorcy
      */
     public String getRecipient_phone() {
         return recipient_phone;
     }
 
     /**
-     * @param recipient_id unikalny identyfikator odbiorcy
+     * Ustawia unikalny identyfikator odbiorcy.
+     *
+     * * @param recipient_id unikalny identyfikator odbiorcy
      */
     public void setRecipient_id(int recipient_id) {
         this.recipient_id = recipient_id;
     }
 
     /**
-     * @param recipient_name imię i nazwisko lub nazwa firmy
+     * Ustawia imię i nazwisko lub nazwę firmy odbiorcy.
+     *
+     * * @param recipient_name imię i nazwisko lub nazwa firmy
      */
     public void setRecipient_name(String recipient_name) {
         this.recipient_name = recipient_name;
     }
 
     /**
-     * @param recipient_city miasto odbiorcy
+     * Ustawia miasto odbiorcy.
+     *
+     * * @param recipient_city miasto odbiorcy
      */
     public void setRecipient_city(String recipient_city) {
         this.recipient_city = recipient_city;
     }
 
     /**
-     * @param recipient_street ulica i numer domu
+     * Ustawia ulicę i numer domu odbiorcy.
+     *
+     * * @param recipient_street ulica i numer domu
      */
     public void setRecipient_street(String recipient_street) {
         this.recipient_street = recipient_street;
     }
 
     /**
-     * @param recipient_postcode kod pocztowy (format XX-XXX)
+     * Ustawia kod pocztowy odbiorcy.
+     *
+     * * @param recipient_postcode kod pocztowy (format XX-XXX)
      */
     public void setRecipient_postcode(String recipient_postcode) {
         this.recipient_postcode = recipient_postcode;
     }
 
     /**
-     * @param recipient_email adres e-mail
+     * Ustawia adres e-mail odbiorcy.
+     *
+     * * @param recipient_email adres e-mail
      */
     public void setRecipient_email(String recipient_email) {
         this.recipient_email = recipient_email;
     }
 
     /**
-     * @param recipient_phone numer telefonu
+     * Ustawia numer telefonu odbiorcy.
+     *
+     * * @param recipient_phone numer telefonu
      */
     public void setRecipient_phone(String recipient_phone) {
         this.recipient_phone = recipient_phone;

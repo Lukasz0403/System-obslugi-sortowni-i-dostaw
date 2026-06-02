@@ -99,7 +99,7 @@ public class WarehouseMainWindowController implements Initializable {
     private PackageDAO packageDAO = new PackageDAO();
 
     /**
-     * Inicjalizuje kontroler — uruchamia zegar, konfiguruje obsługę regałów,
+     * Inicjalizuje kontroler uruchamia zegar, konfiguruje obsługę regałów,
      * tabelę statystyk, przyciski nawigacyjne oraz algorytm sortowania z
      * obserwatorem zajętości stref.
      *
@@ -452,6 +452,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca łączną liczbę paczek aktualnie znajdujących się w magazynie.
+         *
          * @return łączna liczba paczek w magazynie
          */
         public String getTotalPackages() {
@@ -459,6 +461,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę paczek przypisanych do strefy numer 1.
+         *
          * @return liczba paczek w strefie 1
          */
         public String getZone1() {
@@ -466,6 +470,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę paczek przypisanych do strefy numer 2.
+         *
          * @return liczba paczek w strefie 2
          */
         public String getZone2() {
@@ -473,6 +479,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę paczek przypisanych do strefy numer 3.
+         *
          * @return liczba paczek w strefie 3
          */
         public String getZone3() {
@@ -480,6 +488,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę paczek przypisanych do strefy numer 4.
+         *
          * @return liczba paczek w strefie 4
          */
         public String getZone4() {
@@ -487,6 +497,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę paczek przypisanych do strefy numer 5.
+         *
          * @return liczba paczek w strefie 5
          */
         public String getZone5() {
@@ -494,6 +506,8 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca liczbę regałów, na których nie znajdują się żadne paczki.
+         *
          * @return liczba pustych regałów
          */
         public String getEmptyShelves() {
@@ -501,6 +515,9 @@ public class WarehouseMainWindowController implements Initializable {
         }
 
         /**
+         * Zwraca identyfikator regału o najwyższym poziomie obciążenia lub
+         * zajętości.
+         *
          * @return identyfikator najbardziej obciążonego regału
          */
         public String getBusiestShelf() {

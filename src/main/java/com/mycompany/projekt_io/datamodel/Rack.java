@@ -11,7 +11,14 @@ package com.mycompany.projekt_io.datamodel;
  */
 public class Rack {
 
+    /**
+     * Unikalny identyfikator regału.
+     */
     int rack_id;
+
+    /**
+     * Strefa magazynowa, do której przypisany jest regał.
+     */
     Zone zone;
 
     /**
@@ -26,28 +33,36 @@ public class Rack {
     }
 
     /**
-     * @return unikalny identyfikator regału
+     * Zwraca unikalny identyfikator regału.
+     *
+     * * @return unikalny identyfikator regału
      */
     public int getRack_id() {
         return rack_id;
     }
 
     /**
-     * @return strefa magazynowa, do której należy regał
+     * Zwraca strefu magazynową, do której należy regał.
+     *
+     * * @return strefa magazynowa, do której należy regał
      */
     public Zone getZone() {
         return zone;
     }
 
     /**
-     * @param rack_id unikalny identyfikator regału
+     * Ustawia unikalny identyfikator regału.
+     *
+     * * @param rack_id unikalny identyfikator regału
      */
     public void setRack_id(int rack_id) {
         this.rack_id = rack_id;
     }
 
     /**
-     * @param zone strefa magazynowa regału
+     * Ustawia strefę magazynową regału.
+     *
+     * * @param zone strefa magazynowa regału
      */
     public void setZone(Zone zone) {
         this.zone = zone;

@@ -30,8 +30,6 @@ import com.mycompany.projekt_io.feature.users.UserManageService;
  * odświeżyć listę użytkowników.
  * </p>
  * <p>
- * Właściwy zapis do bazy danych nie jest jeszcze zaimplementowany —
- * metoda {@link #handleAddUser()} wyświetla komunikat zastępczy (TODO).
  * </p>
  * 
  * @author Ida Wszoła
@@ -54,8 +52,7 @@ public class AddUserDialogController implements Initializable {
      * Rejestruje callback wywoływany po pomyślnym dodaniu nowego użytkownika.
      * <p>
      * Powinien być ustawiony przez kontroler nadrzędny zaraz po załadowaniu
-     * okna dialogowego. Typowe zastosowanie to odświeżenie listy użytkowników
-     * w widoku zarządzania.
+     * okna dialogowego. 
      * </p>
      *
      * @param callback akcja wykonywana po dodaniu użytkownika;
@@ -105,9 +102,8 @@ public class AddUserDialogController implements Initializable {
     /**
      * Obsługuje kliknięcie przycisku dodania użytkownika.
      * <p>
-     * Waliduje kompletność formularza — sprawdza, czy login, hasło
-     * i uprawnienie zostały podane. Właściwy zapis do bazy danych
-     * nie jest jeszcze zaimplementowany (oznaczony jako TODO).
+     * Waliduje kompletność formularza sprawdza, czy login, hasło
+     * i uprawnienie zostały podane. Dodatkowo sprawdza czy użytkownik nie istnieje już w bazie
      * </p>
      */
     @FXML
@@ -149,6 +145,9 @@ public class AddUserDialogController implements Initializable {
         }
     }
     
+    /**
+     * Zamyka okno dialogowe po naciśnięciu przycisku.
+     */
     @FXML
     private void handleCancel() {
         closeDialog();

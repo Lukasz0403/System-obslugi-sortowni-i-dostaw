@@ -12,6 +12,9 @@ package com.mycompany.projekt_io.datamodel;
  */
 public class Zone {
 
+    /**
+     * Unikalny identyfikator strefy magazynowej.
+     */
     int zone_id;
 
     /**
@@ -24,6 +27,8 @@ public class Zone {
     }
 
     /**
+     * Zwraca unikalny identyfikator strefy magazynowej.
+     *
      * @return unikalny identyfikator strefy magazynowej
      */
     public int getZone_id() {
@@ -31,6 +36,8 @@ public class Zone {
     }
 
     /**
+     * Ustawia unikalny identyfikator strefy magazynowej.
+     *
      * @param zone_id unikalny identyfikator strefy magazynowej
      */
     public void setZone_id(int zone_id) {

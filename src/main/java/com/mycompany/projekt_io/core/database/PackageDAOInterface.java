@@ -18,7 +18,7 @@ import com.mycompany.projekt_io.datamodel.Zone;
  * Implementowany przez {@link PackageDAO}.
  * </p>
  *
- * @author Radosław
+ * @author Radosław Kruczek
  */
 public interface PackageDAOInterface {
     

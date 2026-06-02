@@ -240,7 +240,7 @@ public class PackageTableWindowController implements Initializable {
                             .collect(Collectors.toList());
                     packageTable.getItems().setAll(filtered);
                 } catch (NumberFormatException e) {
-                    // Jeśli wpisano nie-liczbę — pokaż wszystkie
+                    // Jeśli wpisano nie-liczbę pokaż wszystkie
                     List<Package> all = dao.getPackages();
                     List<PackageTableService> allData = all.stream()
                             .map(PackageTableService::new)

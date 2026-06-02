@@ -282,7 +282,7 @@ public class WarehouseInfoWindowController implements Initializable {
      * Model danych wiersza tabeli paczek w widoku szczegółów regału.
      * <p>
      * Przechowuje uproszczone dane paczki do wyświetlenia w komponencie
-     * {@code TableView} — identyfikator, gabaryt, regiony nadania i docelowy
+     * {@code TableView} identyfikator, gabaryt, regiony nadania i docelowy
      * oraz nazwy nadawcy i odbiorcy.
      * </p>
      */
@@ -316,6 +316,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca unikalny identyfikator paczki.
+         *
          * @return identyfikator paczki
          */
         public String getId() {
@@ -323,6 +325,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca identyfikator gabarytu paczki.
+         *
          * @return identyfikator gabarytu paczki
          */
         public String getFormat() {
@@ -330,6 +334,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca kod regionu nadania paczki.
+         *
          * @return kod regionu nadania
          */
         public String getOrigin() {
@@ -337,6 +343,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca kod regionu docelowego dla paczki.
+         *
          * @return kod regionu docelowego
          */
         public String getDestination() {
@@ -344,6 +352,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca nazwę lub imię i nazwisko nadawcy paczki.
+         *
          * @return nazwa nadawcy
          */
         public String getSender() {
@@ -351,6 +361,8 @@ public class WarehouseInfoWindowController implements Initializable {
         }
 
         /**
+         * Zwraca nazwę lub imię i nazwisko odbiorcy paczki.
+         *
          * @return nazwa odbiorcy
          */
         public String getRecipient() {

@@ -254,7 +254,7 @@ public class PackageManageWindowController implements Initializable {
      * Generuje etykietę wysyłkową PDF dla bieżącej paczki.
      * Plik zapisywany jest na pulpicie użytkownika.
      *
-     * @param event zdarzenie akcji przycisku
+     * 
      */
     void generateLabel() {
         LabelFactory l = new LabelFactory(currentPackage);

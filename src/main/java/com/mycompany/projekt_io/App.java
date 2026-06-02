@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 /**
  * Główna klasa aplikacji systemu obsługi sortowni kurierskiej.
  * <p>
- * Punkt wejścia aplikacji JavaFX — inicjalizuje scenę z oknem logowania,
+ * Punkt wejścia aplikacji JavaFX inicjalizuje scenę z oknem logowania,
  * ustawia minimalne wymiary okna, tytuł oraz ikonę aplikacji.
  * </p>
  *
