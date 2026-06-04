@@ -5,7 +5,7 @@ package com.mycompany.projekt_io.datamodel;
  * <p>
  * Definiuje maksymalne dopuszczalne wymiary i wagę dla danego gabarytu oraz
  * liczbę slotów magazynowych zajmowanych przez paczkę tego formatu. System
- * obsługuje trzy gabaryty: A, B i C.
+ * obsługuje three gabaryty: A, B i C.
  * </p>
  *
  * @author Radosław Kruczek
@@ -63,18 +63,18 @@ public class Format {
     }
 
     /**
-     * * Zreaca unikalny identyfikator gabarytu.
+     * Zwraca ID gabarytu.
      *
-     * * @return identyfikator gabarytu ("A", "B" lub "C")
+     * @return identyfikator gabarytu ("A", "B" lub "C")
      */
     public String getFormat_id() {
         return format_id;
     }
 
     /**
-     * * Zwraca maksymalną szerokość gabarytu.
+     * Zwraca maksymalną szerokość gabarytu.
      *
-     * * @return maksymalna szerokość paczki w centymetrach
+     * @return maksymalna szerokość paczki w centymetrach
      */
     public int getMax_format_width() {
         return max_format_width;
@@ -83,88 +83,88 @@ public class Format {
     /**
      * Zwraca maksymalną wysokość gabarytu.
      *
-     * * @return maksymalna wysokość paczki w centymetrach
+     * @return maksymalna wysokość paczki w centymetrach
      */
     public int getMax_format_height() {
         return max_format_height;
     }
 
     /**
-     * * Zwraca maksymalną głębokość gabarytu.
+     * Zwraca maksymalną głębokość gabarytu.
      *
-     * * @return maksymalna głębokość paczki w centymetrach
+     * @return maksymalna głębokość paczki w centymetrach
      */
     public int getMax_format_depth() {
         return max_format_depth;
     }
 
     /**
-     * * Zwraca maksymalną dopuszczalną wagę paczki.
+     * Zwraca maksymalną wagę.
      *
-     * * @return maksymalna waga paczki w kilogramach
+     * @return maksymalna waga paczki w kilogramach
      */
     public int getMax_wage() {
         return max_wage;
     }
 
     /**
-     * * Zwraca wartość dotyczącą pokrycia slotów przez dany gabaryt.
+     * Zwraca wartość dotyczącą pokrycia slotów przez dany gabaryt.
      *
-     * * @return liczba slotów magazynowych zajmowanych przez paczkę
+     * @return liczba slotów magazynowych zajmowanych przez paczkę
      */
     public int getSlot_coverage() {
         return slot_coverage;
     }
 
     /**
-     * * Ustawia identyfikator gabarytu.
+     * Ustawia ID gabarytu.
      *
-     * * @param format_id identyfikator gabarytu
+     * @param format_id identyfikator gabarytu
      */
     public void setFormat_id(String format_id) {
         this.format_id = format_id;
     }
 
     /**
-     * * Ustawia maksymalną dopuszczalną szerokość.
+     * Ustawia maksymalną szerokość.
      *
-     * * @param max_format_width maksymalna szerokość w centymetrach
+     * @param max_format_width maksymalna szerokość w centymetrach
      */
     public void setMax_format_width(int max_format_width) {
         this.max_format_width = max_format_width;
     }
 
     /**
-     * * Ustawia maksymalną dopuszczalną wysokość.
+     * Ustawia maksymalną wysokość.
      *
-     * * @param max_format_height maksymalna wysokość w centymetrach
+     * @param max_format_height maksymalna wysokość w centymetrach
      */
     public void setMax_format_height(int max_format_height) {
         this.max_format_height = max_format_height;
     }
 
     /**
-     * * Ustawia maksymalną dopuszczalną głębokość.
+     * Ustawia maksymalną głębokość.
      *
-     * * @param max_format_depth maksymalna głębokość w centymetrach
+     * @param max_format_depth maksymalna głębokość w centymetrach
      */
     public void setMax_format_depth(int max_format_depth) {
         this.max_format_depth = max_format_depth;
     }
 
     /**
-     * * Ustawia maksymalną dopuszczalną wagę.
+     * Ustawia maksymalną wagę.
      *
-     * * @param max_wage maksymalna waga w kilogramach
+     * @param max_wage maksymalna waga w kilogramach
      */
     public void setMax_wage(int max_wage) {
         this.max_wage = max_wage;
     }
 
     /**
-     * * Ustawia liczbę zajmowanych slotów magazynowych.
+     * Ustawia liczbę zajmowanych slotów magazynowych.
      *
-     * * @param slot_coverage liczba zajmowanych slotów magazynowych
+     * @param slot_coverage liczba zajmowanych slotów magazynowych
      */
     public void setSlot_coverage(int slot_coverage) {
         this.slot_coverage = slot_coverage;

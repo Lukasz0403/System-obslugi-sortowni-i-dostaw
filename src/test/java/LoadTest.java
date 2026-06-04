@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 
 /**
  * Testy wydajnościowe systemu obsługi sortowni.
@@ -23,6 +24,7 @@ import java.util.List;
  * 
  * @author Mateusz Gojny
  */
+@Disabled("Wymaga aktywnego połączenia z bazą MySQL - uruchamiać ręcznie")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoadTest {
 
