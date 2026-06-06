@@ -54,10 +54,25 @@ public class SortingService implements SortingServiceInterface {
     
     private final PackageDAO packageDAO;
 
+    /**
+     * HashMap odpowiadający za mapowanie regionów kurierskich do regałów
+     */
     private final Map<Integer, Integer> regionToRackMapping = new HashMap<>();
+    /**
+     * Mapa zajętości magazynu
+     */
     private final Map<Integer, Integer> rackOccupancyMap = new HashMap<>();
+    /**
+     * Lista głównych regałów
+     */
     private final List<Rack> mainRacks = new ArrayList<>();
+    /**
+     * Lista zapasowych regałów
+     */
     private final List<Rack> backupRacks = new ArrayList<>();
+    /**
+     * Lista obserwatorów
+     */
     private final List<WarehouseObserver> observers = new ArrayList<>();
 
     /**

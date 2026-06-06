@@ -16,8 +16,18 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class UserManageService {
 
+    /**
+     * ID wybranego użytkownika, domyślnie ID ustawiane na 0
+     */
     int user_id = 0;
+    
+    /**
+     * Dane użytkwonika
+     */
     String login, pass, hashedPass;
+    /**
+     * Uprawnienia użytkownika
+     */
     Permission perm;
 
     /**

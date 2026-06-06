@@ -28,7 +28,14 @@ import org.jsoup.nodes.Document;
  */
 public class LabelFactory {
     
+    /**
+     * Obiekt paczki dla której tworzona jest etykieta
+     */
     Package p;
+    
+    /**
+     * Obiekt kodu QR
+     */
     QRCodeFactory q;
 
     /**
