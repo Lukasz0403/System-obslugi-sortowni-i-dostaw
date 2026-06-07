@@ -92,7 +92,7 @@ public class TemplateService implements TemplateServiceInterface {
     }
 
     /**
-     * Usuwa zapisany szablon — wszystkie pola są kasowane z Preferences.
+     * Usuwa zapisany szablon wszystkie pola są kasowane z Preferences.
      */
     public void clearTemplate() {
         prefs.remove(KEY_NAME);

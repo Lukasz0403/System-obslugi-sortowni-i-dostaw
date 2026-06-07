@@ -149,6 +149,8 @@
                 <configuration>
                     <failOnError>false</failOnError>
                     <failOnWarnings>false</failOnWarnings>
+                    <doctitle>System obsługi sortownii i dostaw - Dokumentacja API</doctitle>
+                    <windowtitle>Inventaro JavaDoc</windowtitle>
                     <show>private</show>
                 </configuration>
             </plugin>

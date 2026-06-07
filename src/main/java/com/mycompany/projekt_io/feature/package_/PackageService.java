@@ -186,7 +186,7 @@ public class PackageService implements PackageServiceInterface {
             return false;
         }
 
-        // AUTOMATYCZNE PRZYPISANIE GABARYTU
+        
          size = assignFormat(width, height, depth,weight);
         if (size == null) {
             System.out.println("Paczka zbyt duża! Maksymalny gabaryt to C (40x40x60 cm)");
@@ -327,9 +327,9 @@ public class PackageService implements PackageServiceInterface {
                 destRegion,
                 format,
                 rack,
-                (int) width, // ← NOWE
-                (int) height, // ← NOWE
-                (int) depth, // ← NOWE
+                (int) width, 
+                (int) height, 
+                (int) depth, 
                 (int) weight
         );
 
